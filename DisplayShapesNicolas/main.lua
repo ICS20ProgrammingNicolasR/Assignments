@@ -10,13 +10,12 @@ local rhombus=display.newPolygon(700, 500, {100, 100, 500, 100, 400, -50, 0, -50
 local trapezoid=display.newPolygon(700, 200, {-200,300,200,300,100,0,-400,0})
 local triangle=display .newPolygon(200, 600, {-200, 300, 200, 300, 150,0})
 local pentagon=display.newPolygon(300,200, {-200, 300, 200, 300, 50, 0, -150, -100, -300, 0})
-local rhombustext=display.newText("parellelogram",700,600, Arial, 50)
+local rhombustext=display.newText("parellelogram\n".. "(click the triangle to continue)",700,600, Arial, 50)
 local trapezoidtext=display.newText("trapezoid",700,375,Arial,50)
 local pentagontext=display.newText("pentagon", 300,430,Arial,50)
 local areaoftriangle=10*15
 local triangletext=display.newText("The area of this triangle that \n"..
-	"has a height of 10 cm and a base of 15 is 75cm²(you can move this shape by \n"..
-	"just pressing and holding",500,400,Arial,25)
+	"has a height of 10 cm and a base of 15 is 75cm²",500,400,Arial,25)
 --set the x/y values
 triangle.x=200
 triangle.y=600
@@ -55,10 +54,12 @@ Runtime:addEventListener("enterFrame", fadeintriangle)
 local function dragtriangle(touch)
 	
 	if(touch.phase=="began")then
-		alreadytouchedtriangle=true
+		alreadytouchedtriangle = true
+		alreadytouchedrhombus = false
 	end
 	if ((touch.phase=="moved")and(alreadytouchedtriangle==true))then
 		triangle.x=touch.x
+		triangle.y=touch.y
 	end
 	if(touch.phase=="ended")then
 		local function fadeouttriangle(event)
