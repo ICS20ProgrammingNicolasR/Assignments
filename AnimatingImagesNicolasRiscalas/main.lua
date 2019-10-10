@@ -23,13 +23,13 @@ local greenface=display.newImageRect("Images/laughinggreenface.png", 200,200)
 greenface.x=display.contentWidth/2
 greenface.y=display.contentHeight/5
 
-local leaperd=display.newImageRect("Images/leopard.png",200,200)
-leaperd.x=display.contentWidth/4.8
-leaperd.y=display.contentHeight/5
-
 local yoshi=display.newImageRect("Images/yoshi.png",200,200)
 yoshi.x=display.contentWidth/1.2
 yoshi.y=display.contentHeight/5
+
+local leaperd=display.newImageRect("Images/leopard.png",200,200)
+leaperd.x=display.contentWidth/4.8
+leaperd.y=display.contentHeight/5
 
 local walls=display.newImageRect("Images/wall.jpg",0,1536)
 walls.x=2048
@@ -63,18 +63,27 @@ Runtime:addEventListener("enterFrame", paraboliccurve)
 Runtime:addEventListener("enterFrame", greenfacecurve)
 local function moveyoshi(event)
 	-- body
-	yoshi.x=yoshi.x-5
+	yoshi.x=yoshi.x-1.5
 end
 local function finnishstop2(event)
-	yoshi.x=display.contentCenterX
+	yoshi.x=yoshi.x+1.5
+
 end
 local function stop2(event)
-	if (yoshi.x<display.contentWidth/1.2)then
-		moveyoshi()
-	else
+	if (yoshi.x<512)then
 		finnishstop2()
+	else
+		moveyoshi()
 	end
 end
-timer.performWithDelay(1000,stop2)
 Runtime:addEventListener("enterFrame", stop2)
 Runtime:addEventListener("enterFrame", moveyoshi)
+local function growleapard(event)
+	leaperd:scale(1.01,1.01)
+end
+Runtime:addEventListener("enterFrame", growleapard)
+
+local function lolimagerotate(event)
+	transition.to( lolimage, { rotation = lolimage.rotation-100, onComplete = lolimagerotate } )
+end
+Runtime:addEventListener("enterFrame", lolimagerotate)
