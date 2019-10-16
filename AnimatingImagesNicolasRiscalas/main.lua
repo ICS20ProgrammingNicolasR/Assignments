@@ -3,6 +3,7 @@
 -- nic riscalas
 --ics20
 --this programing makes images bounce off the walls of the table and spin and move diagonnally
+--oct/10/2019
 -----------------------------------------------------------------------------------------
 -----------------------------------------------------------------------------------------
 --GLOBAL VARIABLES
@@ -31,21 +32,25 @@ local leaperd=display.newImageRect("Images/leopard.png",200,200)
 leaperd.x=display.contentWidth/4.8
 leaperd.y=display.contentHeight/5
 
-local walls=display.newImageRect("Images/wall.jpg",0,1536)
-walls.x=2048
-walls.y=768
+local welcometext=display.newText("Hello welcome to my program!", 200, 200,"arial", 60)
+welcometext.x=display.contentCenterX
+displaytext=display.contentHeight/2
+
 -------------------------------------------------------------------------------------------
 --LOCAL FUNCTIONS
 -------------------------------------------------------------------------------------------
+--set my scroll speed
 local function greenfacecurve(event)
 	-- body
 	scrollSpeed=scrollSpeed-0.5
 end
+--make the green face curve
 local function paraboliccurve(event)
 	-- body
 	greenface.x = greenface.x+5
 	greenface.y=greenface.y-scrollSpeed
 end
+--stop the curve
 local function finnishstop(event)
 	-- body
 	greenface.x=greenface.x-5
@@ -61,13 +66,13 @@ end
 Runtime:addEventListener("enterFrame", stop)
 Runtime:addEventListener("enterFrame", paraboliccurve)
 Runtime:addEventListener("enterFrame", greenfacecurve)
+--move the yoshi
 local function moveyoshi(event)
-	-- body
 	yoshi.x=yoshi.x-1.5
 end
+--stop the movement
 local function finnishstop2(event)
 	yoshi.x=yoshi.x+1.5
-
 end
 local function stop2(event)
 	if (yoshi.x<512)then
@@ -78,12 +83,18 @@ local function stop2(event)
 end
 Runtime:addEventListener("enterFrame", stop2)
 Runtime:addEventListener("enterFrame", moveyoshi)
+--grow the leaperd
 local function growleapard(event)
 	leaperd:scale(1.01,1.01)
 end
 Runtime:addEventListener("enterFrame", growleapard)
-
+--make the lol image rotate
 local function lolimagerotate(event)
 	transition.to( lolimage, { rotation = lolimage.rotation-100, onComplete = lolimagerotate } )
 end
 Runtime:addEventListener("enterFrame", lolimagerotate)
+--------------------------------------------------------------------------------------------------------------------------------------
+--TEXTCOLOUR
+--------------------------------------------------------------------------------------------------------------------------------------
+--set the text colour
+welcometext:setTextColor(0,1,1)
