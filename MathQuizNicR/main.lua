@@ -42,6 +42,7 @@ local lives=4
 local randomNumber3 
 local randomNumber4 
 local randomNumber5
+local newimage
 --variables for timer
 local totalseconds=10
 local secondsleft=10
@@ -68,7 +69,7 @@ local correctsoundchannel
 
 local function AskQuestion()
 	--generate a random number between 1-4
-	randomOperator=math.random(7,7)
+	randomOperator=math.random(1,7)
 	-- generate 2 random numbers between a max. and a min. number
 	randomNumber1=math.random(0,10)
 	randomNumber2=math.random(0,10)
@@ -99,19 +100,26 @@ local function AskQuestion()
 		questionObject.text=randomNumber5 .. " / "..randomNumber4.." = "
 	elseif(randomOperator==5)then
 		-- defines a factorial function
-		function fact (n)
- 		 if (randomNumber1 < 0) then
-  		  correctAnswer= 1
-  		else
-   		 correctAnswer=  (randomNumber1 * fact(randomNumber1-1))
- 		 end
+		randomNumber2=math.random(1,5)
+		if(randomNumber2==1)then
+			correctAnswer=randomNumber2
+		elseif(randomNumber2==2)then
+			correctAnswer=randomNumber2*(randomNumber2-1)
+		elseif(randomNumber2==3)then
+			correctAnswer=randomNumber2*(randomNumber2-1)*(randomNumber2-2)
+		elseif(randomNumber2==4)then
+			correctAnswer=randomNumber2*(randomNumber2-1)*(randomNumber2-2)*(randomNumber2-3)
+		elseif(randomNumber2==5)then
+			correctAnswer=randomNumber2*(randomNumber2-1)*(randomNumber2-2)*(randomNumber2-3)*(randomNumber2-4)
 		end
-		questionObject.text=randomNumber1.." ! "..randomNumber2.." = "
+		questionObject.text=randomNumber2.." ! "
 	elseif(randomOperator==6)then
+		randomNumber1=math.random(1,10)
 		randomNumber6=randomNumber1*randomNumber1
 		correctAnswer=randomNumber6/randomNumber1
 		questionObject.text=" √ "..randomNumber6.." = "
 	elseif(randomOperator==7)then
+		randomNumber1=math.random(1,10)
 		randomNumber7=randomNumber1*randomNumber1*randomNumber1
 		correctAnswer=randomNumber7/(randomNumber1*randomNumber1)
 		questionObject.text=" ∛ "..randomNumber7.." = "
@@ -153,9 +161,6 @@ local function NumericFieldListener(event)
 				pointsText.isVisible=false
 				textObject.isVisible=false
 				youwonimage.isVisible=true
-				local newimage =display.newImageRect("Images/you won.jpg",2048/2,1536/2)
-				newimage.anchorX=0
-				newimage.anchorY=0
 			end			
 		else
 			if (lives==4)then
@@ -175,17 +180,19 @@ local function NumericFieldListener(event)
 			secondsleft=totalseconds
 			correctObject.isVisible=false
 			lives=lives-1
-			if(lives==0)then			
-				questionObject.isVisible=false
-				correctObject.isVisible=false
-				numericField.isVisible=false
-				textObject.isVisible=false
-				pointsText.isVisible=false
-				youlostImage.isVisible=true
-				local badimage=display.newImageRect("Images/you lost.jpg",2048/2,1536/2)
-				badimage.anchorX=0
-				badimage.anchorY=0
-				timer.performWithDelay(1000)
+			if(lives==0)then
+				if(clockText.isVisible==true)then			
+					questionObject.isVisible=false
+					correctObject.isVisible=false
+					numericField.isVisible=false
+					textObject.isVisible=false
+					pointsText.isVisible=false
+					youlostImage.isVisible=true
+					local badimage=display.newImageRect("Images/you lost.jpg",2048/2,1536/2)
+					badimage.anchorX=0
+					badimage.anchorY=0
+					timer.performWithDelay(1000)
+				end
 			end
 		end 
 		--clear text field 
@@ -220,9 +227,6 @@ local function Updatetime()
 			textObject.isVisible=false
 			pointsText.isVisible=false
 			youlostImage.isVisible=true
-			badimage=display.newImageRect("Images/you lost.jpg",2048/2,1536/2)
-			badimage.anchorX=0
-			badimage.anchorY=0
 			timer.performWithDelay(1000)
 		end
 		AskQuestion()
@@ -241,19 +245,19 @@ StartTimer()
 
 --create the lives
 heart1=display.newImageRect("Images/tommy.png", 100, 100)
-heart1.x=display.contentWidth*9/10
+heart1.x=display.contentWidth*9/11
 heart1.y=display.contentHeight*1/7
 
 heart2=display.newImageRect("Images/tommy.png", 100, 100)
-heart2.x=display.contentWidth*8/10
+heart2.x=display.contentWidth*8/11
 heart2.y=display.contentHeight*1/7
 
 heart3=display.newImageRect("Images/tommy.png", 100, 100)
-heart3.x=display.contentWidth*7/10
+heart3.x=display.contentWidth*7/11
 heart3.y=display.contentHeight*1/7
 
 heart4=display.newImageRect("Images/tommy.png", 100, 100)
-heart4.x=display.contentWidth*6/10
+heart4.x=display.contentWidth*10/11
 heart4.y=display.contentHeight*1/7
 -- display a question and sets the colour 
 questionObject=display.newText("", display.contentWidth/4,display.contentHeight/2,nil,50)
@@ -279,6 +283,14 @@ pointsText = display.newText("Points ="..points, display.contentWidth/3,display.
 clockText=display.newText("seconds left = 10", display.contentWidth/3, display.contentHeight/5, nil, 50)
 clockText:setTextColor(255/255, 2/255, 198/255)
 clockText.isVisible=true
+youwonimage = display.newImageRect("Images/you won.jpg",2048/2,1536/2)
+youwonimage.isVisible=false
+youwonimage.anchorX=0
+youwonimage.anchorY=0
+youlostimage=display.newImageRect("Images/you lost.jpg",2048/2,1536/2)
+youlostimage.anchorX=0
+youlostimage.anchorY=0
+youlostimage.isVisible=false
 --------------------------------------------------------------------------------------------------
 --function calls
 --------------------------------------------------------------------------------------------------
