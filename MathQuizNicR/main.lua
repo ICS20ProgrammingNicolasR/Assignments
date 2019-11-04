@@ -70,6 +70,7 @@ local correctsoundchannel
 local function AskQuestion()
 	--generate a random number between 1-4
 	randomOperator=math.random(1,7)
+
 	-- generate 2 random numbers between a max. and a min. number
 	randomNumber1=math.random(0,10)
 	randomNumber2=math.random(0,10)
