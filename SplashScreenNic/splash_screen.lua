@@ -1,0 +1,6 @@
+--------------------------------------------------------------------------------------
+--
+--splash_Sreen.lua
+--Created by Nic Riscalas
+--Date Nov, 04, 2019
+--Description:This is the splash sceen of my CPT
