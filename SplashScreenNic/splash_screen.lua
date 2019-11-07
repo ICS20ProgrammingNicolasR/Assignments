@@ -30,17 +30,27 @@ local scene = composer.newScene( sceneName )
 -----------------------------------------------------------------------------------------
  
 -- The local variables for this scene
+local bkg
 local frenchdoor1
 local frenchdoor2
 local scrollXSpeed = 2
 local scrollYSpeed = -3
-local jungleSounds = audio.loadSound("Sounds/animals144.mp3")
-local jungleSoundsChannel
-
+local doorsound = audio.loadSound("sounds/door sounds.mp3")
+local doorsoundChannel
+local scale=0.0000001
 --------------------------------------------------------------------------------------------
 -- LOCAL FUNCTIONS
 --------------------------------------------------------------------------------------------
-
+local function changescale(event)
+    scale=scale+0.002
+    if (scale>0.1010001)then
+        bkg = display.setDefault("background", 255, 233, 0)
+    end
+end
+local function opendoors(event)
+    frenchdoor1.width=frenchdoor1.width-scale
+    frenchdoor2.width=frenchdoor2.width-scale
+end
 -----------------------------------------------------------------------------------------
 -- GLOBAL SCENE FUNCTIONS
 -----------------------------------------------------------------------------------------
@@ -52,35 +62,29 @@ function scene:create( event )
     local sceneGroup = self.view
 
     -- set the background to be black
-    display.setDefault("background", 0, 0, 0)
+   bkg = display.setDefault("background", 255,223,1)
 
     -- Insert the frenchdoor1 image
     frenchdoor1 = display.newImageRect("Images/CompanyLogoNicR.png", 2048/2, 1536/2)
     -- anchor Y
     frenchdoor1.anchorY=0
+    frenchdoor1.anchorX=0
     --set the width to be half of the contentWidth
-    frenchdoor1.width=display.contentWidth
+    frenchdoor1.width=display.contentWidth/2
     -- Insert objects into the scene group in order to ONLY be associated with this scene
     sceneGroup:insert( frenchdoor1 )
-
-end -- function scene:create( event )
-
--- The function called when the screen doesn't exist
-function scene:create2( event )
-
-    -- Creating a group that associates objects with the scene
-    local sceneGroup = self.view
     -- Insert the frenchdoor2 image
-    frenchdoor2 = display.newImageRect("Images/CompanyLogoNicR2.png", 2048/2, 1536/2)
-    --set x and Y
-    frenchdoor2.x=500
+    frenchdoor2 = display.newImageRect("Images/CompanyLogoNicR2.png", 0,1536/2)
+    -- anchor the Y to be 0
+    frenchdoor2.anchorY=0
+    frenchdoor2.anchorX=1
+    --set the initial x and y
+    frenchdoor2.x=2045/2
     --set the width to be half of the contentWidth
-    frenchdoor2.width=display.contentWidth
+    frenchdoor2.width=display.contentWidth/2
     -- Insert objects into the scene group in order to ONLY be associated with this scene
     sceneGroup:insert( frenchdoor2 )
-    	frenchdoor2.isVisible=true
 end -- function scene:create( event )
-
 --------------------------------------------------------------------------------------------
 
 -- The function called when the scene is issued to appear on screen
@@ -102,7 +106,7 @@ function scene:show( event )
 
     elseif ( phase == "did" ) then
         -- start the splash screen music
-        jungleSoundsChannel = audio.play(jungleSounds )
+        doorsoundchannel = audio.play(doorsound )
 
         -- Go to the main menu screen after the given time.
         timer.performWithDelay ( 3000, gotoMainMenu)          
@@ -159,11 +163,12 @@ end -- function scene:destroy( event )
 -----------------------------------------------------------------------------------------
 
 -- Adding Event Listeners
+Runtime:addEventListener("enterFrame", opendoors)
+Runtime:addEventListener("enterFrame", changescale)
 scene:addEventListener( "create", scene )
 scene:addEventListener( "show", scene )
 scene:addEventListener( "hide", scene )
 scene:addEventListener( "destroy", scene )
-
 -----------------------------------------------------------------------------------------
 
 return scene
