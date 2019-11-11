@@ -5,15 +5,6 @@
 --Date Nov, 04, 2019
 --Description:This is the splash sceen of my CPT
 
------------------------------------------------------------------------------------------
---
--- splash_screen.lua
--- Created by: Your Name
--- Date: Month Day, Year
--- Description: This is the splash screen of the game. It displays the 
--- company logo that...
------------------------------------------------------------------------------------------
-
 -- Use Composer Library
 local composer = require( "composer" )
 
@@ -38,11 +29,17 @@ local scrollYSpeed = -3
 local doorsound = audio.loadSound("sounds/door sounds.mp3")
 local doorsoundChannel
 local scale=0.0000001
+local bakerkidssound1 = audio.loadSound("sounds/baker kids voice 1.mp3")
+local bakerkidssound2 = audio.loadSound("sounds/baker kids voice 2.mp3")
+local bakerkidssound3 = audio.loadSound("sounds/baker kids voice 3.mp3")
+local bakerkidssound1channel
+local bakerkidssound2channel
+local bakerkidssound3channel
 --------------------------------------------------------------------------------------------
 -- LOCAL FUNCTIONS
 --------------------------------------------------------------------------------------------
 local function changescale(event)
-    scale=scale+0.002
+    scale=scale+0.01
     if (scale>0.1010001)then
         bkg = display.setDefault("background", 255, 233, 0)
     end
@@ -107,6 +104,9 @@ function scene:show( event )
     elseif ( phase == "did" ) then
         -- start the splash screen music
         doorsoundchannel = audio.play(doorsound )
+        bakerkidssound1channel = audio.play(bakerkidssound1 )
+        bakerkidssound2channel = audio.play(bakerkidssound2 )
+        bakerkidssound3channel = audio.play(bakerkidssound3 )
 
         -- Go to the main menu screen after the given time.
         timer.performWithDelay ( 3000, gotoMainMenu)          
