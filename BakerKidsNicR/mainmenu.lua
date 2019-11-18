@@ -69,5 +69,3 @@ function scene:create( event )
     --Insert the BACKGROUND image and position it to the center of the screen
     bkg_image = display.newImage("Images/backgroundImage.")
 end
-
-return scene
