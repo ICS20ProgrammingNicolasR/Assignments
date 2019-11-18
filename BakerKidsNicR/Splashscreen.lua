@@ -30,8 +30,6 @@ local doorsound = audio.loadSound("sounds/door sounds.mp3")
 local doorsoundChannel
 local scale=0.0000001
 local bakerkidssound1 = audio.loadSound("sounds/baker kids voice 1.mp3")
-local bakerkidssound2 = audio.loadSound("sounds/baker kids voice 2.mp3")
-local bakerkidssound3 = audio.loadSound("sounds/baker kids voice 3.mp3")
 local bakerkidssound1channel
 local bakerkidssound2channel
 local bakerkidssound3channel
@@ -40,9 +38,6 @@ local bakerkidssound3channel
 --------------------------------------------------------------------------------------------
 local function changescale(event)
     scale=scale+0.01
-    if (scale>0.1010001)then
-        bkg = display.setDefault("background", 255, 233, 0)
-    end
 end
 local function opendoors(event)
     frenchdoor1.width=frenchdoor1.width-scale
@@ -64,8 +59,11 @@ function scene:create( event )
     local sceneGroup = self.view
 
     -- set the background to be black
-   bkg = display.setDefault("background", 255,223,1)
-
+   bkg = display.newImageRect("Images/goldenrays.jpg", 2048/2, 1536/2)
+    bkg:toBack()
+    --anchor the background
+    bkg.anchorX=0
+    bkg.anchorY=0
     -- Insert the frenchdoor1 image
     frenchdoor1 = display.newImageRect("Images/CompanyLogoNicR.png", 2048/2, 1536/2)
     -- anchor Y
@@ -113,7 +111,7 @@ function scene:show( event )
         bakerkidssound2channel = audio.play(bakerkidssound2 )
         bakerkidssound3channel = audio.play(bakerkidssound3 )  
      -- Go to the main menu screen after the given time.
-        timer.performWithDelay ( 5450, gotoMainMenu)   
+        timer.performWithDelay ( 5900, gotoMainMenu)   
     end
 
 end --function scene:show( event )

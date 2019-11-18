@@ -27,3 +27,4 @@ sceneName = "mainmenu"
 
 -- Creating Scene Object
 local scene = composer.newScene( sceneName )
+return scene
