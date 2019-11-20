@@ -33,7 +33,7 @@ local scene = composer.newScene( sceneName )
 -- LOCAL VARIABLES
 -----------------------------------------------------------------------------------------
 
-local bkg
+local bkg_image
 local playButton
 local creditsButton
 local instructionsButton
@@ -78,13 +78,11 @@ function scene:create( event )
     bkg.y = display.contentCenterY
     bkg.width = display.contentWidth
     bkg.height = display.contentHeight
-
-
     -- Associating display objects with this scene 
-    sceneGroup:insert( bkg )
+    sceneGroup:insert( bkg_image )
 
     -- Send the background image to the back layer so all other objects can be on top
-    bkg:toBack()
+    bkg_image:toBack()
 
     -----------------------------------------------------------------------------------------
     -- BUTTON WIDGETS
@@ -99,8 +97,8 @@ function scene:create( event )
             
 
             -- Insert the images here
-            defaultFile = "Images/PlayButtonUnPressedNicR.png",
-            overFile = "Images/PlayButtonPressedNicR.png",
+            defaultFile = "Images/Start Button Unpressed.png",
+            overFile = "Images/Start Button Pressed.png",
 
             -- When the button is released, call the Level1 screen transition function
             onRelease = Level1ScreenTransition          
@@ -132,7 +130,6 @@ function scene:create( event )
             -- Insert the images here
             defaultFile = "Images/InstructionsButtonUnpressedMoryah.png",
             overFile = "Images/InstructionsButtonPressedMoryah.png",
-
             -- When the button is released, call the Instructions transition function
             onRelease = InstructionsTransition
         } )
