@@ -79,10 +79,10 @@ function scene:create( event )
     bkg.width = display.contentWidth
     bkg.height = display.contentHeight
     -- Associating display objects with this scene 
-    sceneGroup:insert( bkg_image )
+    sceneGroup:insert( bkg )
 
     -- Send the background image to the back layer so all other objects can be on top
-    bkg_image:toBack()
+    bkg:toBack()
 
     -----------------------------------------------------------------------------------------
     -- BUTTON WIDGETS
@@ -97,8 +97,8 @@ function scene:create( event )
             
 
             -- Insert the images here
-            defaultFile = "Images/Start Button Unpressed.png",
-            overFile = "Images/Start Button Pressed.png",
+            defaultFile = "Images/PlayButtonUnpressedNicR.png",
+            overFile = "Images/PlayButtonPressedNicR.png",
 
             -- When the button is released, call the Level1 screen transition function
             onRelease = Level1ScreenTransition          
@@ -114,8 +114,8 @@ function scene:create( event )
             y = display.contentHeight*9/10,
 
             -- Insert the images here
-            defaultFile = "Images/Credits Button Unpressed.png",
-            overFile = "Images/Credits Button Pressed.png",
+            defaultFile = "Images/CreditsButtonUnpressedMoryah@2x.png",
+            overFile = "Images/CreditsButtonPressedMoryah@2x.png",
 
             -- When the button is released, call the Credits transition function
             onRelease = CreditsTransition
@@ -141,7 +141,7 @@ function scene:create( event )
     sceneGroup:insert( creditsButton )
     sceneGroup:insert( instructionsButton )    
     playButton:scale(0.9,0.8)
-    creditsButton:scale(0.7,1)
+    creditsButton:scale(0.6,0.6)
     instructionsButton:scale(0.6,0.6)
 
 end -- function scene:create( event )   

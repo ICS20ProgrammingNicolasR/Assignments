@@ -3,8 +3,7 @@
 --
 -- instructions
 -- Created by: Nic R
--- Special thanks to Wal Wal for helping in the design of this framework.
--- Date: Month Day, Year
+-- Date: Nov, 20, 2019
 -- Description: This is the credits page, displaying a back button to the main menu.
 -----------------------------------------------------------------------------------------
 
