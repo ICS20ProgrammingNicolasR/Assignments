@@ -111,7 +111,7 @@ function scene:show( event )
         bakerkidssound2channel = audio.play(bakerkidssound2 )
         bakerkidssound3channel = audio.play(bakerkidssound3 )  
      -- Go to the main menu screen after the given time.
-        timer.performWithDelay ( 5900, gotoMainMenu)   
+        timer.performWithDelay ( 5000, gotoMainMenu)   
     end
 
 end --function scene:show( event )

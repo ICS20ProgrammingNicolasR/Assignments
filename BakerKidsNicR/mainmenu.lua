@@ -33,13 +33,31 @@ local scene = composer.newScene( sceneName )
 -- LOCAL VARIABLES
 -----------------------------------------------------------------------------------------
 
-local bkg_image
+local bkg
 local playButton
 local creditsButton
 local instructionsButton
+local volumeButton
+local volumeButton3
+----------------------------------------------------------------------------------------
+--LOCAL SOUNDS
+----------------------------------------------------------------------------------------
+local backgroundsound = audio.loadSound("Sounds/bkgmusic.mp3")
+local backgroundsoundchannel
 -----------------------------------------------------------------------------------------
 -- LOCAL FUNCTIONS
 -----------------------------------------------------------------------------------------
+
+local function playMusic( )
+    -- Play playMusic
+    audio.resume(backgroundsoundchannel)
+    volumeButton = display.newImageRect("images/volume button.png", 200,200)
+    volumeButton.x=display.contentWidth*6/12
+    volumeButton.y=display.contentHeight*1/10
+    volumeButton3.isVisible=false
+    volumeButton.isVisible=false
+    volumeButton4()
+end
 
 -- Creating Transition Function to Credits Page
 local function CreditsTransition( )       
@@ -57,7 +75,26 @@ end
 local function InstructionsTransition( )
     composer.gotoScene( "instructions", {effect = "zoomOutInRotate", time = 1000})
 end
-
+local function pauseMusic()
+    -- Pause the pauseMusic
+    audio.pause(backgroundsoundchannel)
+    volumeButton2 = display.newImageRect("images/volume button.png", 200,200)
+    volumeButton2.x=display.contentWidth*6/12
+    volumeButton2.y=display.contentHeight*1/10
+    volumeButton.isVisible=false
+    volumeButton2.isVisible=false
+    volumeButton3()
+end
+local function pauseMusic2()
+    -- Pause the pauseMusic
+    audio.pause(backgroundsoundchannel)
+    volumeButton2 = display.newImageRect("images/volume button.png", 200,200)
+    volumeButton2.x=display.contentWidth*6/12
+    volumeButton2.y=display.contentHeight*1/10
+    volumeButton.isVisible=false
+    volumeButton2.isVisible=false
+    volumeButton5()
+end
 -----------------------------------------------------------------------------------------
 -- GLOBAL SCENE FUNCTIONS
 -----------------------------------------------------------------------------------------
@@ -79,10 +116,10 @@ function scene:create( event )
     bkg.width = display.contentWidth
     bkg.height = display.contentHeight
     -- Associating display objects with this scene 
-    sceneGroup:insert( bkg_image )
+    sceneGroup:insert( bkg )
 
     -- Send the background image to the back layer so all other objects can be on top
-    bkg_image:toBack()
+    bkg:toBack()
 
     -----------------------------------------------------------------------------------------
     -- BUTTON WIDGETS
@@ -97,8 +134,8 @@ function scene:create( event )
             
 
             -- Insert the images here
-            defaultFile = "Images/Start Button Unpressed.png",
-            overFile = "Images/Start Button Pressed.png",
+            defaultFile = "Images/PlayButtonUnpressedNicR.png",
+            overFile = "Images/PlayButtonPressedNicR.png",
 
             -- When the button is released, call the Level1 screen transition function
             onRelease = Level1ScreenTransition          
@@ -114,8 +151,8 @@ function scene:create( event )
             y = display.contentHeight*9/10,
 
             -- Insert the images here
-            defaultFile = "Images/Credits Button Unpressed.png",
-            overFile = "Images/Credits Button Pressed.png",
+            defaultFile = "Images/CreditsButtonUnpressedMoryah@2x.png",
+            overFile = "Images/CreditsButtonPressedMoryah@2x.png",
 
             -- When the button is released, call the Credits transition function
             onRelease = CreditsTransition
@@ -135,6 +172,67 @@ function scene:create( event )
         } )
 
     -----------------------------------------------------------------------------------------
+    volumeButton= widget.newButton( 
+        {
+            -- Set its position on the screen relative to the screen size
+            x = display.contentWidth*6/12,
+            y = display.contentHeight*1/10,
+
+            -- Insert the images here
+            defaultFile = "Images/volume button2.png",
+            overFile = "Images/volume button.png",
+            -- When the button is released, call the Instructions transition function
+            onRelease = pauseMusic
+        } )
+function volumeButton3( )
+            volumeButton3= widget.newButton( 
+        {
+            -- Set its position on the screen relative to the screen size
+            x = display.contentWidth*6/12,
+            y = display.contentHeight*1/10,
+
+            -- Insert the images here
+            defaultFile = "Images/volume button.png",
+            overFile = "Images/volume button2.png",
+            -- When the button is released, call the Instructions transition function
+            onRelease = playMusic
+        } )
+     volumeButton3:scale(0.2, 0.2)
+     sceneGroup:insert(volumeButton3)
+end
+  function volumeButton5( )
+            volumeButton3= widget.newButton( 
+        {
+            -- Set its position on the screen relative to the screen size
+            x = display.contentWidth*6/12,
+            y = display.contentHeight*1/10,
+
+            -- Insert the images here
+            defaultFile = "Images/volume button.png",
+            overFile = "Images/volume button2.png",
+            -- When the button is released, call the Instructions transition function
+            onRelease = playMusic
+        } )
+     volumeButton3:scale(0.2, 0.2)
+     sceneGroup:insert(volumeButton3)
+end  
+function volumeButton4( )
+        volumeButton= widget.newButton( 
+        {
+            -- Set its position on the screen relative to the screen size
+            x = display.contentWidth*6/12,
+            y = display.contentHeight*1/10,
+
+            -- Insert the images here
+            defaultFile = "Images/volume button2.png",
+            overFile = "Images/volume button.png",
+            -- When the button is released, call the Instructions transition function
+            onRelease = pauseMusic2
+        } )  
+        volumeButton:scale(0.2, 0.2)
+        sceneGroup:insert(volumeButton)
+end
+
 
     -- Associating button widgets with this scene
     sceneGroup:insert( playButton )
@@ -143,7 +241,7 @@ function scene:create( event )
     playButton:scale(0.9,0.8)
     creditsButton:scale(0.7,1)
     instructionsButton:scale(0.6,0.6)
-
+    volumeButton:scale(0.2, 0.2)
 end -- function scene:create( event )   
 
 
@@ -166,10 +264,7 @@ function scene:show( event )
     if ( phase == "will" ) then
        
     -----------------------------------------------------------------------------------------
-
-    -- Called when the scene is now on screen.
-    -- Insert code here to make the scene come alive.
-    -- Example: start timers, begin animation, play audio, etc.
+    backgroundsoundchannel=audio.play(backgroundsound,-1, 5000)
     elseif ( phase == "did" ) then       
         
 
