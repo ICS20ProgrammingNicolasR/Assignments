@@ -54,17 +54,17 @@ function scene:create( event )
     -----------------------------------------------------------------------------------------
 
     -- Insert the background image and set it to the center of the screen
-   -- bkg_image = display.newImageRect("Images/Instructions Screen.png", display.contentWidth, display.contentHeight)
-    --bkg_image.x = display.contentCenterX
-    --bkg_image.y = display.contentCenterY
-    --bkg_image.width = display.contentWidth
-    --bkg_image.height = display.contentHeight
+    bkg = display.newImageRect("Images/InstructionsScreenMoryah@2x.png", display.contentWidth, display.contentHeight)
+    bkg.x = display.contentCenterX
+    bkg.y = display.contentCenterY
+    bkg.width = display.contentWidth
+    bkg.height = display.contentHeight
 
     -- Associating display objects with this scene 
-    --sceneGroup:insert( bkg_image )
+    sceneGroup:insert( bkg )
 
     -- Send the background image to the back layer so all other objects can be on top
-    --bkg_image:toBack()
+    bkg:toBack()
 
     -----------------------------------------------------------------------------------------
     -- BUTTON WIDGETS
