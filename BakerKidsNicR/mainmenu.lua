@@ -184,7 +184,9 @@ function scene:create( event )
     -- Associating button widgets with this scene
     sceneGroup:insert( playButton )
     sceneGroup:insert( creditsButton )
-    sceneGroup:insert( instructionsButton )    
+    sceneGroup:insert( instructionsButton )
+    sceneGroup:insert( muteVolumeButton )
+    sceneGroup:insert( volumeButton )    
 end -- function scene:create( event )   
 
 
@@ -212,11 +214,11 @@ function scene:show( event )
         volumeButton:addEventListener("touch", pauseMusic ) 
         muteVolumeButton:addEventListener("touch", playMusic )
         if (soundOn == true) then     
-            backgroundsoundchannel = audio.play(backgroundsound,-1, 5000)
+            backgroundsoundchannel = audio.play(backgroundsound,-1)
             muteVolumeButton.isVisible = false
             volumeButton.isVisible = true
         else
-            backgroundsoundchannel = audio.play(backgroundsound,-1, 5000) 
+            backgroundsoundchannel = audio.play(backgroundsound,-1) 
             audio.pause(backgroundsoundchannel)      
             muteVolumeButton.isVisible = true
             volumeButton.isVisible = false
@@ -243,7 +245,7 @@ function scene:hide( event )
         -- Called when the scene is on screen (but is about to go off screen).
         -- Insert code here to "pause" the scene.
         -- Example: stop timers, stop animation, stop audio, etc.
-
+        
     -----------------------------------------------------------------------------------------
 
     elseif ( phase == "did" ) then
