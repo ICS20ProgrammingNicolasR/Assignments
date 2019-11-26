@@ -9,13 +9,20 @@
 local composer = require( "composer" )
 
 -- Name the Scene
-sceneName = "Splashscreen"
+sceneName = "splashscreen"
 
 -----------------------------------------------------------------------------------------
 
 -- Create Scene Object
 local scene = composer.newScene( sceneName )
 
+----------------------------------------------------------------------------------------
+-- LOCAL SOUNDS
+-----------------------------------------------------------------------------------------
+local doorsound = audio.loadSound("Sounds/door sounds.mp3")
+local doorsoundChannel
+local bakerkidssound1 = audio.loadSound("Sounds/baker kids voice 1.mp3")
+local bakerkidssound1channel
 ----------------------------------------------------------------------------------------
 -- LOCAL VARIABLES
 -----------------------------------------------------------------------------------------
@@ -26,13 +33,8 @@ local frenchdoor1
 local frenchdoor2
 local scrollXSpeed = 2
 local scrollYSpeed = -3
-local doorsound = audio.loadSound("sounds/door sounds.mp3")
-local doorsoundChannel
 local scale=0.0000001
-local bakerkidssound1 = audio.loadSound("sounds/baker kids voice 1.mp3")
-local bakerkidssound1channel
-local bakerkidssound2channel
-local bakerkidssound3channel
+
 --------------------------------------------------------------------------------------------
 -- LOCAL FUNCTIONS
 --------------------------------------------------------------------------------------------
@@ -59,11 +61,12 @@ function scene:create( event )
     local sceneGroup = self.view
 
     -- set the background to be black
-   bkg = display.newImageRect("Images/goldenrays.jpg", 2048/2, 1536/2)
-    bkg:toBack()
+    bkg = display.newImageRect("Images/goldenrays.jpg", 2048/2, 1536/2)
     --anchor the background
     bkg.anchorX=0
     bkg.anchorY=0
+    sceneGroup:insert(bkg)
+
     -- Insert the frenchdoor1 image
     frenchdoor1 = display.newImageRect("Images/CompanyLogoNicR.png", 2048/2, 1536/2)
     -- anchor Y
@@ -73,6 +76,7 @@ function scene:create( event )
     frenchdoor1.width=display.contentWidth/2
     -- Insert objects into the scene group in order to ONLY be associated with this scene
     sceneGroup:insert( frenchdoor1 )
+
     -- Insert the frenchdoor2 image
     frenchdoor2 = display.newImageRect("Images/CompanyLogoNicR2.png", 0,1536/2)
     -- anchor the Y to be 0
@@ -84,6 +88,7 @@ function scene:create( event )
     frenchdoor2.width=display.contentWidth/2
     -- Insert objects into the scene group in order to ONLY be associated with this scene
     sceneGroup:insert( frenchdoor2 )
+
 end -- function scene:create( event )
 --------------------------------------------------------------------------------------------
 
@@ -110,7 +115,12 @@ function scene:show( event )
         bakerkidssound1channel = audio.play(bakerkidssound1 )
         bakerkidssound2channel = audio.play(bakerkidssound2 )
         bakerkidssound3channel = audio.play(bakerkidssound3 )  
-     -- Go to the main menu screen after the given time.
+        
+        -- Adding Event Listeners
+        Runtime:addEventListener("enterFrame", opendoors)
+        Runtime:addEventListener("enterFrame", changescale)
+
+        -- Go to the main menu screen after the given time.
         timer.performWithDelay ( 5000, gotoMainMenu)   
     end
 
@@ -136,6 +146,9 @@ function scene:hide( event )
 
     -- Called immediately after scene goes off screen.
     elseif ( phase == "did" ) then
+        -- Adding Event Listeners
+        Runtime:removeEventListener("enterFrame", opendoors)
+        Runtime:removeEventListener("enterFrame", changescale)
      
     end
 
@@ -161,9 +174,7 @@ end -- function scene:destroy( event )
 -- EVENT LISTENERS
 -----------------------------------------------------------------------------------------
 
--- Adding Event Listeners
-Runtime:addEventListener("enterFrame", opendoors)
-Runtime:addEventListener("enterFrame", changescale)
+
 scene:addEventListener( "create", scene )
 scene:addEventListener( "show", scene )
 scene:addEventListener( "hide", scene )
