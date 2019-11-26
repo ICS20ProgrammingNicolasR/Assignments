@@ -184,11 +184,7 @@ function scene:create( event )
     -- Associating button widgets with this scene
     sceneGroup:insert( playButton )
     sceneGroup:insert( creditsButton )
-    sceneGroup:insert( instructionsButton )  
-    sceneGroup:insert( volumeButton )
-    sceneGroup:insert( muteVolumeButton )  
-
-    
+    sceneGroup:insert( instructionsButton )    
 end -- function scene:create( event )   
 
 
