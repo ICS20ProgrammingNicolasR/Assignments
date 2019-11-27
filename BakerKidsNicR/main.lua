@@ -1,4 +1,4 @@
--- Title: splashScreenforCPT
+-- Title: main.lua
 -- Name: Nic riscalas
 -- Course: ICS2O/3C
 -- This program This calls the splash screen of the app to load itself.
@@ -15,4 +15,4 @@ local composer = require( "composer" )
 -----------------------------------------------------------------------------------------
 
 -- Go to the intro screen
-composer.gotoScene( "mainmenu" )
+composer.gotoScene( "splashscreen" )

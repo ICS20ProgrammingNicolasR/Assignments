@@ -33,7 +33,6 @@ local scene = composer.newScene( sceneName )
 -- GLOBAL VARIABLES
 -----------------------------------------------------------------------------------------
 soundOn = true
-
 -----------------------------------------------------------------------------------------
 -- LOCAL VARIABLES
 -----------------------------------------------------------------------------------------
@@ -48,35 +47,35 @@ local muteVolumeButton
 ----------------------------------------------------------------------------------------
 --LOCAL SOUNDS
 ----------------------------------------------------------------------------------------
-local backgroundsound = audio.loadSound("Sounds/bkgmusic.mp3")
-local backgroundsoundchannel
+mainMenuSound = audio.loadSound("Sounds/bkgmusic.mp3")
+mainMenuSoundChannel = audio.play(mainMenuSound,{loops=-1})
 -----------------------------------------------------------------------------------------
 -- LOCAL FUNCTIONS
 -----------------------------------------------------------------------------------------
 
-local function playMusic( touch )
- if(touch.phase=="ended") then
-    -- Play playMusic
-    audio.resume(backgroundsoundchannel)
-    muteVolumeButton.isVisible = false
-    volumeButton.isVisible = true
-    soundOn = true
-end
+ local function playMusic( touch )
+    if(touch.phase == "ended") then
+        -- Play playMusic
+        audio.resume(mainMenuSoundChannel)
+        muteVolumeButton.isVisible = false
+        volumeButton.isVisible = true
+        soundOn = true
+    end
 end
 
 
-local function pauseMusic(touch)
- if(touch.phase=="ended")then
-    -- Pause the pauseMusic
-    audio.pause(backgroundsoundchannel)  
-    muteVolumeButton.isVisible = true
-    volumeButton.isVisible = false
-    soundOn = false  
-end
+ local function pauseMusic(touch)
+    if(touch.phase == "ended")then
+        -- Pause the pauseMusic
+        audio.pause(mainMenuSoundChannel)  
+        muteVolumeButton.isVisible = true
+        volumeButton.isVisible = false
+        soundOn = false  
+    end
 end
 
 -- Creating Transition Function to Credits Page
-local function CreditsTransition( )       
+local function CreditsTransition( )   
     composer.gotoScene( "credits_screen", {effect = "zoomOutInRotate", time = 500})
 end 
 
@@ -213,13 +212,13 @@ function scene:show( event )
     elseif ( phase == "did" ) then 
         volumeButton:addEventListener("touch", pauseMusic ) 
         muteVolumeButton:addEventListener("touch", playMusic )
+
         if (soundOn == true) then     
-            backgroundsoundchannel = audio.play(backgroundsound,-1)
+            audio.resume(mainMenuSoundChannel)
             muteVolumeButton.isVisible = false
             volumeButton.isVisible = true
         else
-            backgroundsoundchannel = audio.play(backgroundsound,-1) 
-            audio.pause(backgroundsoundchannel)      
+            audio.pause(mainMenuSoundChannel)      
             muteVolumeButton.isVisible = true
             volumeButton.isVisible = false
         end
@@ -250,6 +249,7 @@ function scene:hide( event )
 
     elseif ( phase == "did" ) then
         -- Called immediately after scene goes off screen.
+
         volumeButton:removeEventListener("touch", pauseMusic ) 
         muteVolumeButton:removeEventListener("touch", playMusic )
     end
