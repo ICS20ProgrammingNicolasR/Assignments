@@ -76,7 +76,7 @@ end
 
 -- Creating Transition Function to Credits Page
 local function CreditsTransition( )   
-    composer.gotoScene( "credits_screen", {effect = "zoomOutInRotate", time = 500})
+    composer.gotoScene( "credits_screen", {effect = "zoomOutInRotate", time = 1000})
 end 
 
 -----------------------------------------------------------------------------------------
