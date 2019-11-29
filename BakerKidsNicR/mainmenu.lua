@@ -19,7 +19,7 @@ local composer = require( "composer" )
 -- Use Widget Library
 local widget = require( "widget" )
 
------------------------------------------------------------------------------------------
+-----------------------------------------------------------------------------------------   
 
 -- Naming Scene
 sceneName = "mainmenu"
@@ -32,13 +32,16 @@ local scene = composer.newScene( sceneName )
 -----------------------------------------------------------------------------------------
 -- LOCAL VARIABLES
 -----------------------------------------------------------------------------------------
-
 local bkg
 local playButton
 local creditsButton
 local instructionsButton
+-------------------------------------------------------------------------------------------
+--LOCAL VARIABLES
+-------------------------------------------------------------------------------------------
 local volumeButton
 local volumeButton3
+
 ----------------------------------------------------------------------------------------
 --LOCAL SOUNDS
 ----------------------------------------------------------------------------------------
@@ -48,14 +51,18 @@ local backgroundsoundchannel
 -- LOCAL FUNCTIONS
 -----------------------------------------------------------------------------------------
 
-local function playMusic( )
+if (soundbkg.isVisible==false)then
+    pauseMusic()
+end
+function playMusic( )
     -- Play playMusic
-    audio.resume(backgroundsoundchannel)
+    audio.setVolume(1)
     volumeButton = display.newImageRect("images/volume button.png", 200,200)
     volumeButton.x=display.contentWidth*6/12
     volumeButton.y=display.contentHeight*1/10
     volumeButton3.isVisible=false
     volumeButton.isVisible=false
+    soundbkg.isVisible=true    
     volumeButton4()
 end
 
@@ -75,25 +82,27 @@ end
 local function InstructionsTransition( )
     composer.gotoScene( "instructions", {effect = "zoomOutInRotate", time = 1000})
 end
-local function pauseMusic()
+function pauseMusic()
     -- Pause the pauseMusic
-    audio.pause(backgroundsoundchannel)
+    audio.setVolume(0)
     volumeButton2 = display.newImageRect("images/volume button.png", 200,200)
     volumeButton2.x=display.contentWidth*6/12
     volumeButton2.y=display.contentHeight*1/10
     volumeButton.isVisible=false
     volumeButton2.isVisible=false
     volumeButton3()
+    soundbkg.isVisible=false
 end
-local function pauseMusic2()
+function pauseMusic2()
     -- Pause the pauseMusic
-    audio.pause(backgroundsoundchannel)
+    audio.setVolume(0)
     volumeButton2 = display.newImageRect("images/volume button.png", 200,200)
     volumeButton2.x=display.contentWidth*6/12
     volumeButton2.y=display.contentHeight*1/10
     volumeButton.isVisible=false
     volumeButton2.isVisible=false
     volumeButton5()
+    soundbkg.isVisible=false
 end
 -----------------------------------------------------------------------------------------
 -- GLOBAL SCENE FUNCTIONS
@@ -237,7 +246,8 @@ end
     -- Associating button widgets with this scene
     sceneGroup:insert( playButton )
     sceneGroup:insert( creditsButton )
-    sceneGroup:insert( instructionsButton )    
+    sceneGroup:insert( instructionsButton )  
+    sceneGroup:insert(volumeButton)  
     playButton:scale(0.9,0.8)
     creditsButton:scale(0.6,0.6)
     instructionsButton:scale(0.6,0.6)
@@ -262,11 +272,8 @@ function scene:show( event )
 
     -- Called when the scene is still off screen (but is about to come on screen).   
     if ( phase == "will" ) then
-       
-    -----------------------------------------------------------------------------------------
     backgroundsoundchannel=audio.play(backgroundsound,-1, 5000)
     elseif ( phase == "did" ) then       
-        
 
     end
 
