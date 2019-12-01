@@ -83,7 +83,7 @@ end
 
 -- Creating Transition to Level1 Screen
 local function Level1ScreenTransition( )
-    pauseMusic()
+    mainMenuSound = audio.stop()
     composer.gotoScene( "level1_screen", {effect = "slideLeft", time = 1000})
 end    
 -------------------------------------------------------------------------------------------
