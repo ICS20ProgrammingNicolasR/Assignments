@@ -33,7 +33,8 @@ local bkg
 -----------------------------------------------------------------------------------------
 -- LOCAL SOUNDS
 -----------------------------------------------------------------------------------------
-local level1Sound = audio.loadSound("Sounds/level1screenmusic")
+local level1Sound = audio.loadSound("Sounds/level1screenmusic.mp3")
+local level1SoundChannel = audio.play(level1Sound,{loops = -1})
 -----------------------------------------------------------------------------------------
 -- GLOBAL SCENE FUNCTIONS
 -----------------------------------------------------------------------------------------

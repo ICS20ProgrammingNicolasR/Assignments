@@ -48,7 +48,7 @@ local muteVolumeButton
 --LOCAL SOUNDS
 ----------------------------------------------------------------------------------------
 mainMenuSound = audio.loadSound("Sounds/bkgmusic.mp3")
-mainMenuSoundChannel = audio.play(mainMenuSound,{loops=-1})
+mainMenuSoundChannel = audio.play(mainMenuSound,{loops = -1})
 -----------------------------------------------------------------------------------------
 -- LOCAL FUNCTIONS
 -----------------------------------------------------------------------------------------
@@ -83,6 +83,7 @@ end
 
 -- Creating Transition to Level1 Screen
 local function Level1ScreenTransition( )
+    pauseMusic()
     composer.gotoScene( "level1_screen", {effect = "slideLeft", time = 1000})
 end    
 -------------------------------------------------------------------------------------------
