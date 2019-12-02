@@ -230,7 +230,6 @@ local function Updatetime()
 			youlostImage.isVisible=true
 			timer.performWithDelay(1000)
 		end
-		AskQuestion()
 	end
 end
 
@@ -245,19 +244,19 @@ StartTimer()
 ------------------------------------------------------------------------------------------------
 
 --create the lives
-heart1=display.newImageRect("Images/tommy.png", 100, 100)
+heart1=display.newImageRect("Images/heart.png", 100, 100)
 heart1.x=display.contentWidth*9/11
 heart1.y=display.contentHeight*1/7
 
-heart2=display.newImageRect("Images/tommy.png", 100, 100)
+heart2=display.newImageRect("Images/heart.png", 100, 100)
 heart2.x=display.contentWidth*8/11
 heart2.y=display.contentHeight*1/7
 
-heart3=display.newImageRect("Images/tommy.png", 100, 100)
+heart3=display.newImageRect("Images/heart.png", 100, 100)
 heart3.x=display.contentWidth*7/11
 heart3.y=display.contentHeight*1/7
 
-heart4=display.newImageRect("Images/tommy.png", 100, 100)
+heart4=display.newImageRect("Images/heart.png", 100, 100)
 heart4.x=display.contentWidth*10/11
 heart4.y=display.contentHeight*1/7
 -- display a question and sets the colour 
