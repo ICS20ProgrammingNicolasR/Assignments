@@ -58,16 +58,16 @@ local EggsTimer
 local MilkTimer
 local SaltTimer
 local SugarTimer
-local answerBakingPowder1 = "g"
-local answerBakingPowder2 = "r"
-local answerBakingSoda1 = "g"
-local answerBakingSoda2 = "a"
-local answerButter = "r"
-local answerEggs = "g"
-local answerFlour = "r"
-local answerMilk = "k"
-local answerSalt = "t"
-local answerSugar = "r"
+local ANSWERBAKINGPOWDER1 = "g"
+local ANSWERBAKINGPOWDER2 = "r"
+local ANSWERBAKINGSODA1 = "g"
+local ANSWERBAKINGSODA2 = "a"
+local ANSWERBUTTER = "r"
+local ANSWEREGGS = "g"
+local ANSWERFLOUR = "r"
+local ANSWERMILK = "k"
+local ANSWERSALT = "t"
+local ANSWERSUGAR = "r"
 local userAnswerBakingPowder1
 local userAnswerBakingPowder2
 local userAnswerBakingSoda1
@@ -81,6 +81,8 @@ local userAnswerSugar
 local totalseconds = 60
 local lives = 3
 local secondsleft = 60
+local alreadyClicked = false
+local timerClicked = false
 -----------------------------------------------------------------------------------------
 -- LOCAL SOUNDS
 -----------------------------------------------------------------------------------------
@@ -94,46 +96,60 @@ local incorrectSoundChannel
 -- LOCAL FUNCTIONS
 -----------------------------------------------------------------------------------------
 local function BakingPowder( touch )
-        BakingPowder1.x=BakingPowder1.x+2
-        BakingPowder1.y = BakingPowder1.y+1.5
-        BakingPowder1:scale(1.0015,1.0015)
-        BakingPowder1TextField.x = BakingPowder1TextField.x + 2.09
-        BakingPowder1TextField.y = BakingPowder1TextField.y + 1.5
-        BakingPowder1TextField:scale(1.0015,1.0015)
-        BakingPowder2.x=BakingPowder2.x+2.18
-        BakingPowder2.y = BakingPowder2.y + 1.5
-        BakingPowder2:scale(1.0015,1.0015)
-        BakingPowder2TextField.x = BakingPowder2TextField.x + 2.28
-        BakingPowder2TextField.y = BakingPowder2TextField.y + 1.5
-        BakingPowder2TextField:scale(1.0015,1.0015)
-        if(BakingPowder1.x == display.contentCenterX)then
+    if (alreadyClicked == false) or (timerClicked == true) then        
+        BakingPowder1:removeEventListener("touch", BakingPowder)
+        BakingPowder2:removeEventListener("touch", BakingPowder)
+        BakingPowder1.x=BakingPowder1.x+3
+        BakingPowder1.y = BakingPowder1.y+2.5
+        BakingPowder1:scale(1.002,1.002)
+        BakingPowder1TextField.x = BakingPowder1TextField.x + 3.15
+        BakingPowder1TextField.y = BakingPowder1TextField.y + 2.5
+        BakingPowder1TextField:scale(1.002,1.002)
+        BakingPowder2.x=BakingPowder2.x+3.27
+        BakingPowder2.y = BakingPowder2.y + 2.5
+        BakingPowder2:scale(1.002,1.002)
+        BakingPowder2TextField.x = BakingPowder2TextField.x + 3.4
+        BakingPowder2TextField.y = BakingPowder2TextField.y + 2.5
+        BakingPowder2TextField:scale(1.002,1.002)
+        alreadyClicked = true
+
+        if (BakingPowder1.x >= display.contentCenterX) then
            BakingPowder1TextField:resizeFontToFitHeight()
            BakingPowder2TextField:resizeFontToFitHeight()
            timer.cancel(bakingpowdertimer)
+           timerClicked = false           
         else
-        bakingpowdertimer = timer.performWithDelay(30,BakingPowder)   
+            bakingpowdertimer = timer.performWithDelay(-0.3,BakingPowder)
+            timerClicked = true   
         end
+    end
 end
+
 local function BakingSoda( touch )
-        BakingSoda1.x = BakingSoda1.x+2
-        BakingSoda1.y = BakingSoda1.y+2
-        BakingSoda1:scale(1.0015,1.0015)
-        BakingSoda1TextField.x = BakingSoda1TextField.x +2.06
-        BakingSoda1TextField.y = BakingSoda1TextField.y + 2
-        BakingSoda2.x = BakingSoda2.x+2.1
-        BakingSoda2.y = BakingSoda2.y + 2
-        BakingSoda2:scale(1.0015,1.0015)
-        BakingSoda2TextField.x = BakingSoda2TextField.x + 2.15
-        BakingSoda2TextField.y = BakingSoda2TextField.y + 2
+    if (alreadyClicked == false) and (timerClicked == false) then
+        BakingSoda1:removeEventListener("touch", BakingSoda)
+        BakingSoda2:removeEventListener("touch", BakingSoda)
+        BakingSoda1.x = BakingSoda1.x+3
+        BakingSoda1.y = BakingSoda1.y+3
+        BakingSoda1:scale(1.002,1.002)
+        BakingSoda1TextField.x = BakingSoda1TextField.x +3.06
+        BakingSoda1TextField.y = BakingSoda1TextField.y + 3
+        BakingSoda2.x = BakingSoda2.x+3.1
+        BakingSoda2.y = BakingSoda2.y + 3
+        BakingSoda2:scale(1.002,1.002)
+        BakingSoda2TextField.x = BakingSoda2TextField.x + 3.15
+        BakingSoda2TextField.y = BakingSoda2TextField.y + 3
         BakingSoda2TextField:scale(1.0015,1.0015)
         BakingSoda1TextField:scale(1.0015,1.0015)
-        if(BakingSoda1.x == display.contentCenterX)then
+
+        if (BakingSoda1.x >= display.contentCenterX)then
             BakingSoda1TextField:resizeFontToFitHeight()
             BakingSoda2TextField:resizeFontToFitHeight()
             timer.cancel(BakingSodaTimer)
         else
-        BakingSodaTimer = timer.performWithDelay(30, BakingSoda) 
+            BakingSodaTimer = timer.performWithDelay(-0.1, BakingSoda) 
         end
+    end
 end
 local function Butter1( touch )
         Butter.x=Butter.x-1
@@ -234,14 +250,14 @@ local function incorrectcorrectObjectinvisible(  )
 end
 local function BakingPowder1Q( event )
     -- ask the question
-    if (event.phase=="began")then
+    if (event.phase=="began") then
 
         --clear text field 
-        event.target.text=""
+        BakingPowder1TextField.text=""
     elseif(event.phase=="submitted")then
         userAnswerBakingPowder1 = tostring(event.target.text)
-        if (userAnswerBakingPowder1 == answerBakingPowder1)then
-            correctObject.isVisible = false
+        if (userAnswerBakingPowder1 == ANSWERBAKINGPOWDER1)then
+            correctObject.isVisible = true
             correctSoundChannel = audio.play(correctSound)
             timer.performWithDelay(2000,incorrectcorrectObjectinvisible)
             incorrectTextObject.isVisible = false
@@ -258,7 +274,7 @@ local function BakingPowder1Q( event )
             incorrectTextObject.isVisible = true
             incorrectSoundChannel = audio.play(incorrectSound)
             incorrectTextObject.text = ("That is incorrect.You Lose a life")
-            timer.performWithDelay(200,incorrectcorrectObjectinvisible)
+            timer.performWithDelay(2000,incorrectcorrectObjectinvisible)
             correctObject.isVisible = false
             lives = lives-1
         end
@@ -269,11 +285,48 @@ local function BakingPowder2Q( event )
     if (event.phase=="began")then
 
         --clear text field 
-        event.target.text=""
+       BakingPowder2TextField.text=""
     elseif(event.phase=="submitted")then
-        userAnswerBakingPowder1 = tostring(event.target.text)
-        if (userAnswerBakingPowder2 == answerBakingPowder2)then
+        userAnswerBakingPowder2 = tostring(event.target.text)
+        if (userAnswerBakingPowder2 == ANSWERBAKINGPOWDER2)then
+            correctObject.isVisible = true
+            correctSoundChannel = audio.play(correctSound)
+            timer.performWithDelay(2000,incorrectcorrectObjectinvisible)
+            incorrectTextObject.isVisible = false
+            alreadyClicked = false
+            BakingPowder1TextField.text = ""
+            BakingPowder2TextField.text = ""
+        else
+            if(lives==3)then
+                heart3.isVisible=false
+            elseif(lives==2) then
+                heart2.isVisible=false
+            elseif(lives==1)then
+                heart1.isVisible=false
+            end
+            incorrectTextObject.isVisible = true
+            incorrectSoundChannel = audio.play(incorrectSound)
+            incorrectTextObject.text = ("That is incorrect.You Lose a life")
+            timer.performWithDelay(200,incorrectcorrectObjectinvisible)
             correctObject.isVisible = false
+            lives = lives-1
+            alreadyClicked = false
+            BakingPowder1TextField.text = ""
+            BakingPowder2TextField.text = ""
+        end
+    end
+end
+
+local function BakingSoda1Q( event )
+    -- ask the question
+    if (event.phase=="began")then
+
+        --clear text field 
+       BakingSodaTextField.text=""
+    elseif(event.phase=="submitted")then
+        userAnswerBakingSoda1 = tostring(event.target.text)
+        if (userAnswerBakingSoda1 == ANSWERBAKINGSODA1)then
+            correctObject.isVisible = true
             correctSoundChannel = audio.play(correctSound)
             timer.performWithDelay(2000,incorrectcorrectObjectinvisible)
             incorrectTextObject.isVisible = false
@@ -287,8 +340,38 @@ local function BakingPowder2Q( event )
             end
             incorrectTextObject.isVisible = true
             incorrectSoundChannel = audio.play(incorrectSound)
-            incorrectTextObject.text = ("That is incorrect.You Lose a life")
-            timer.performWithDelay(200,incorrectcorrectObjectinvisible)
+            incorrectTextObject.text = ("That is incorrect.You Lose a life. Try again")
+            timer.performWithDelay(2000,incorrectcorrectObjectinvisible)
+            correctObject.isVisible = false
+            lives = lives-1
+        end
+    end
+end
+local function BakingSoda2Q( event )
+    -- ask the question
+    if (event.phase=="began")then
+
+        --clear text field 
+       BakingSodaTextField.text=""
+    elseif(event.phase=="submitted")then
+        userAnswerBakingSoda2 = tostring(event.target.text)
+        if (userAnswerBakingSoda2 == ANSWERBAKINGSODA2)then
+            correctObject.isVisible = true
+            correctSoundChannel = audio.play(correctSound)
+            timer.performWithDelay(2000,incorrectcorrectObjectinvisible)
+            incorrectTextObject.isVisible = false
+        else
+            if(lives==3)then
+                heart3.isVisible=false
+            elseif(lives==2) then
+                heart2.isVisible=false
+            elseif(lives==1)then
+                heart1.isVisible=false
+            end
+            incorrectTextObject.isVisible = true
+            incorrectSoundChannel = audio.play(incorrectSound)
+            incorrectTextObject.text = ("That is incorrect.You Lose a life. Try again")
+            timer.performWithDelay(2000,incorrectcorrectObjectinvisible)
             correctObject.isVisible = false
             lives = lives-1
         end
@@ -305,6 +388,7 @@ local function Updatetime()
         incorrectTextObject.isVisible=true
         incorrectTextObject.text=("You ran out of time :(.You lose a life")
         lives=lives-1
+        timer.performWithDelay(5000, incorrectcorrectObjectinvisible)
         if(lives==2)then
             heart3.isVisible=false
         elseif(lives==1) then
@@ -406,7 +490,7 @@ function scene:create( event )
     correctObject = display.newText("Hey dude that's correct!", display.contentCenterX,display.contentCenterY, Arial, 70)
     correctObject:setTextColor(0,0,0)
     correctObject.isVisible = false
-    incorrectTextObject = display.newText("Sorry but that's wrong.", display.contentCenterX, display.contentCenterY, Arial, 70)
+    incorrectTextObject = display.newText("Sorry but that's wrong.", display.contentCenterX, display.contentCenterY, Arial, 40)
     incorrectTextObject:setTextColor(0,0,0)
     incorrectTextObject.isVisible = false
         --create the lives
@@ -447,7 +531,8 @@ function scene:show( event )
     -----------------------------------------------------------------------------------------
 
     elseif ( phase == "did" ) then
-        BakingPowder1bkg:addEventListener("touch", BakingPowder)
+        BakingPowder1:addEventListener("touch", BakingPowder)
+        BakingPowder2:addEventListener("touch", BakingPowder)
         BakingSoda1:addEventListener("touch", BakingSoda)
         BakingSoda2:addEventListener("touch", BakingSoda)
         Butter:addEventListener("touch", Butter1)
@@ -458,6 +543,9 @@ function scene:show( event )
         Salt:addEventListener("touch", Salt1)
         Sugar:addEventListener("touch", Sugar1)
         BakingPowder1TextField:addEventListener("userInput", BakingPowder1Q)
+        BakingPowder2TextField:addEventListener("userInput", BakingPowder2Q)
+        BakingSoda1TextField:addEventListener("userInput", BakingSoda1Q)
+        BakingSoda2TextField:addEventListener("userInput", BakingSoda2Q)
     end
 
 end --function scene:show( event )
