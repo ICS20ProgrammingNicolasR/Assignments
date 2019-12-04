@@ -87,7 +87,7 @@ local EggsV = false
 local FlourV = false
 local MilkV = false
 local SaltV = false
-local SugarV = false
+local SugarV = true
 -----------------------------------------------------------------------------------------
 -- LOCAL SOUNDS
 -----------------------------------------------------------------------------------------
@@ -100,9 +100,7 @@ local incorrectSoundChannel
 -----------------------------------------------------------------------------------------
 -- LOCAL FUNCTIONS
 -----------------------------------------------------------------------------------------
-local function BakingPowder( touch )       
-    BakingPowder1:removeEventListener("touch", BakingPowder)
-    BakingPowder2:removeEventListener("touch", BakingPowder)
+local function BakingPowder( event )       
     BakingPowder1.x=BakingPowder1.x+3
     BakingPowder1.y = BakingPowder1.y+2.5
     BakingPowder1:scale(1.002,1.002)
@@ -120,35 +118,29 @@ local function BakingPowder( touch )
        BakingPowder2TextField:resizeFontToFitHeight()
        timer.cancel(bakingpowdertimer)       
     else
-        bakingpowdertimer = timer.performWithDelay(-0.3,BakingPowder)  
+        bakingpowdertimer = timer.performWithDelay(-0.1,BakingPowder)  
     end
 end
 
-local function BakingSoda( touch )
-    if (BakingSodaV == true)then
-        BakingSoda1:removeEventListener("touch", BakingSoda)
-        BakingSoda2:removeEventListener("touch", BakingSoda)
-        BakingSoda1.x = BakingSoda1.x+3
-        BakingSoda1.y = BakingSoda1.y+3
-        BakingSoda1:scale(1.002,1.002)
-        BakingSoda1TextField.x = BakingSoda1TextField.x +3.06
-        BakingSoda1TextField.y = BakingSoda1TextField.y + 3
-        BakingSoda2.x = BakingSoda2.x+3.1
-        BakingSoda2.y = BakingSoda2.y + 3
-        BakingSoda2:scale(1.002,1.002)
-        BakingSoda2TextField.x = BakingSoda2TextField.x + 3.15
-        BakingSoda2TextField.y = BakingSoda2TextField.y + 3
-        BakingSoda2TextField:scale(1.0015,1.0015)
-        BakingSoda1TextField:scale(1.0015,1.0015)
-
-        if (BakingSoda1.x >= display.contentCenterX)then
-            BakingSoda1TextField:resizeFontToFitHeight()
-            BakingSoda2TextField:resizeFontToFitHeight()
-            timer.cancel(BakingSodaTimer)
-        else
-            BakingSodaTimer = timer.performWithDelay(-0.1, BakingSoda) 
-        end
-    end
+local function BakingSoda( event )
+    BakingSoda1.x = BakingSoda1.x+3
+    BakingSoda1.y = BakingSoda1.y+3
+    BakingSoda1:scale(1.002,1.002)
+    BakingSoda1TextField.x = BakingSoda1TextField.x +3.06
+    BakingSoda1TextField.y = BakingSoda1TextField.y + 3
+    BakingSoda2.x = BakingSoda2.x+3.1
+    BakingSoda2.y = BakingSoda2.y + 3
+    BakingSoda2:scale(1.002,1.002)
+    BakingSoda2TextField.x = BakingSoda2TextField.x + 3.15
+    BakingSoda2TextField.y = BakingSoda2TextField.y + 3
+    BakingSoda2TextField:scale(1.0015,1.0015)
+    BakingSoda1TextField:scale(1.0015,1.0015)
+    if (BakingSoda1.x >= display.contentCenterX)then
+        BakingSoda1TextField:resizeFontToFitHeight()
+        BakingSoda2TextField:resizeFontToFitHeight()
+        timer.cancel(BakingSodaTimer)
+    else
+        BakingSodaTimer = timer.performWithDelay(-0.01, BakingSoda)         end
 end
 local function Butter1( touch )
     if (ButterV == true)then
@@ -226,6 +218,7 @@ local function Milk1( touch )
 end
 local function Salt1( touch )
     if (SaltV == true)then
+        Salt:removeEventListener("touch", Salt1)
         Salt.x=Salt.x+2
         Salt.y = Salt.y + 1.5
         Salt:scale(1.0015,1.0015)
@@ -261,6 +254,124 @@ local function incorrectcorrectObjectinvisible(  )
     -- hide the correct and incorrect objects
     incorrectTextObject.isVisible = false
     correctObject.isVisible = false
+end
+local function DissapearBakingPowder( event )
+    BakingPowder1.text = "Baking   Powder"      
+    BakingPowder1.x=BakingPowder1.x+3
+    BakingPowder1.y = BakingPowder1.y+2.5
+    BakingPowder1:scale(1.002,1.002)
+    BakingPowder1TextField.x = BakingPowder1TextField.x + 3.15
+    BakingPowder1TextField.y = BakingPowder1TextField.y + 2.5
+    BakingPowder1TextField:scale(1.002,1.002)
+    BakingPowder2.x=BakingPowder2.x+3.27
+    BakingPowder2.y = BakingPowder2.y + 2.5
+    BakingPowder2:scale(1.002,1.002)
+    BakingPowder2TextField.x = BakingPowder2TextField.x + 3.4
+    BakingPowder2TextField.y = BakingPowder2TextField.y + 2.5
+    BakingPowder2TextField:scale(1.002,1.002)
+    BakingPowder1.alpha = BakingPowder1.alpha - 0.1
+    BakingPowder2.isVisible = false
+    BakingPowder1TextField.isVisible = false
+    BakingPowder2TextField.isVisible = false
+    bakingpowdertimer = timer.performWithDelay(100,DissapearBakingPowder)
+end
+
+local function DissapearBakingSoda( event )
+    BakingSoda1.text = "Baking    Soda"
+    BakingSoda1.x = BakingSoda1.x+3
+    BakingSoda1.y = BakingSoda1.y+3
+    BakingSoda1:scale(1.002,1.002)
+    BakingSoda1TextField.x = BakingSoda1TextField.x +3.06
+    BakingSoda1TextField.y = BakingSoda1TextField.y + 3
+    BakingSoda2.x = BakingSoda2.x+3.1
+    BakingSoda2.y = BakingSoda2.y + 3
+    BakingSoda2:scale(1.002,1.002)
+    BakingSoda2TextField.x = BakingSoda2TextField.x + 3.15
+    BakingSoda2TextField.y = BakingSoda2TextField.y + 3
+    BakingSoda2TextField:scale(1.0015,1.0015)
+    BakingSoda1TextField:scale(1.0015,1.0015)
+    BakingSoda1.alpha = BakingSoda1.alpha - 0.01
+    BakingSoda2.isVisible = false
+    BakingSoda1TextField.isVisible = false
+    BakingSoda2TextField.isVisible = false
+    BakingSodaTimer = timer.performWithDelay(20, DissapearBakingSoda) 
+end
+local function DissapearButter( event )
+    Butter.x=Butter.x+1
+    Butter.y = Butter.y + 2
+    Butter.text = "Butter"
+    Butter:scale(1.005,1.005)
+    ButterTextField.x = ButterTextField.x - 0.5
+    ButterTextField.y = ButterTextField.y + 2
+    ButterTextField:scale(1.005,1.005)
+    ButterTextField.isVisible = false
+    Butter.alpha = Butter.alpha - 0.005
+    ButterTimer = timer.performWithDelay(20, DissapearButter)
+end
+local function DissapearEggs( event )
+    Eggs1.text = "Eggs"
+    Eggs1.x=Eggs1.x+2.5
+    Eggs1.y = Eggs1.y+2.5
+    Eggs1:scale(1.002,1.002)
+    Eggs1TextField.x = Eggs1TextField.x - 0.9
+    Eggs1TextField.y = Eggs1TextField.y +1
+    Eggs1TextField:scale(1.002,1.002)
+    Eggs2.x = Eggs2.x-0.9
+    Eggs2.y = Eggs2.y + 1
+    Eggs2:scale(1.002,1.002)
+    Eggs2.isVisible = false
+    Eggs1.alpha = Eggs1.alpha - 0.005
+    Eggs2.isVisible = false
+    Eggs1TextField.isVisible = false
+    EggsTimer = timer.performWithDelay(20,DissapearEggs)
+end
+local function DissapearFlour( event )
+    Flour.text = "Flour"
+    Flour.x=Flour.x+3
+    Flour.y = Flour.y + 2
+    Flour:scale(1.0015,1.0015)
+    FlourTextField.x = FlourTextField.x-2.9
+    FlourTextField.y = FlourTextField.y + 2
+    FlourTextField:scale(1.0015,1.0015)
+    FlourTextField.isVisible = false
+    Flour.alpha = Flour.alpha - 0.01
+    FlourTimer = timer.performWithDelay(20,DissapearFlour)
+end
+local function DissapearMilk( event )
+    Milk.text = "Milk"
+    Milk.x=Milk.x+3
+    Milk.y = Milk.y + 1
+    Milk:scale(1.0015,1.0015)
+    MilkTextField.x = MilkTextField.x - 1.95
+    MilkTextField.y = MilkTextField.y + 2
+    MilkTextField:scale(1.0015,1.0015)
+    MilkTextField.isVisible = false
+    Milk.alpha = Milk.alpha - 0.01
+    MilkTimer = timer.performWithDelay(20, DissapearMilk)
+end
+local function DissapearSalt( event )
+    Sugar.text = "Salt"
+    Salt.x=Salt.x+3
+    Salt.y = Salt.y + 1
+    Salt:scale(1.0015,1.0015)
+    SaltTextField.x = SaltTextField.x + 2.05
+    SaltTextField.y = SaltTextField.y + 1.5
+    SaltTextField:scale(1.0015,1.0015)
+    SaltTextField.isVisible = false
+    Salt.alpha = Salt.alpha - 0.01
+    SaltTimer = timer.performWithDelay(20, DissapearSalt)
+end
+local function DissapearSugar( event )
+    Sugar.text = "Sugar"
+    Sugar.x=Sugar.x+4
+    Sugar.y = Sugar.y+1
+    Sugar:scale(1.0015,1.0015)
+    SugarTextField.x = SugarTextField.x+2.1
+    SugarTextField.y = SugarTextField.y + 2
+    SugarTextField:scale(1.0015,1.0015)
+    SugarTextField.isVisible = false
+    Sugar.alpha = Sugar.alpha - 0.01
+    SugarTimer = timer.performWithDelay(20, DissapearSugar)
 end
 local function BakingPowder1Q( event )
     -- ask the question
@@ -310,6 +421,8 @@ local function BakingPowder2Q( event )
             BakingPowder1TextField.text = ""
             BakingPowder2TextField.text = ""
             BakingSodaV = true
+            DissapearBakingPowder()
+            BakingSoda()
         else
             if(lives==3)then
                 heart3.isVisible=false
@@ -378,6 +491,9 @@ local function BakingSoda2Q( event )
             ButterV = true
             BakingSoda1TextField.text = ""
             BakingSoda2TextField.text = ""
+            DissapearBakingSoda()
+            Butter1()
+
         else
             if(lives==3)then
                 heart3.isVisible=false
@@ -415,6 +531,7 @@ local function ButterQ( event )
             ButterV = false
             EggsV = true
             ButterTextField.text = ""
+            DissapearButter()
         else
             if(lives==3)then
                 heart3.isVisible=false
@@ -451,6 +568,7 @@ local function EggsQ( event )
             EggsV = false
             FlourV = true
             Eggs1TextField.text = ""
+            DissapearEggs()
         else
             if(lives==3)then
                 heart3.isVisible=false
@@ -487,6 +605,7 @@ local function FlourQ( event )
             FlourTextField.text = ""
             FlourV = false
             MilkV = true
+            DissapearFlour()
         else
             if(lives==3)then
                 heart3.isVisible=false
@@ -523,6 +642,7 @@ local function MilkQ( event )
             MilkTextField.text = ""
             SaltV = true
             MilkV = false
+            DissapearMilk()
         else
             if(lives==3)then
                 heart3.isVisible=false
@@ -558,7 +678,8 @@ local function SaltQ( event )
             incorrectTextObject.isVisible = false
             SaltTextField.text = ""
             SaltV = false
-            SugarV = false
+            SugarV = true
+            DissapearSalt()
         else
             if(lives==3)then
                 heart3.isVisible=false
@@ -594,6 +715,7 @@ local function SugarQ( event )
             incorrectTextObject.isVisible = false
             SugarTextField.text = ""
             SugarV = false
+            DissapearSugar()
         else
             if(lives==3)then
                 heart3.isVisible=false
@@ -767,10 +889,7 @@ function scene:show( event )
     -----------------------------------------------------------------------------------------
 
     elseif ( phase == "did" ) then
-        BakingPowder1:addEventListener("touch", BakingPowder)
-        BakingPowder2:addEventListener("touch", BakingPowder)
-        BakingSoda1:addEventListener("touch", BakingSoda)
-        BakingSoda2:addEventListener("touch", BakingSoda)
+        BakingPowder()
         Butter:addEventListener("touch", Butter1)
         Eggs1:addEventListener("touch", Eggs)
         Eggs2:addEventListener("touch", Eggs)
