@@ -84,7 +84,7 @@ end
 -- Creating Transition to Level1 Screen
 local function Level1ScreenTransition( )
     mainMenuSound = audio.stop()
-    composer.gotoScene( "level1_screen", {effect = "slideLeft", time = 1000})
+    composer.gotoScene( "level2_screen", {effect = "slideLeft", time = 1000})
 end    
 -------------------------------------------------------------------------------------------
 --creating transition to instructions screen 
@@ -107,7 +107,7 @@ function scene:create( event )
     -----------------------------------------------------------------------------------------
 
     -- Insert the background image and set it to the center of the screen
-    bkg = display.newImage("Images/MainMenuMoryah.png", 1536/2, 2048/2)
+    bkg = display.newImageRect("Images/MainMenuMoryah.png", 1536/2, 2048/2)
     bkg.x = display.contentCenterX
     bkg.y = display.contentCenterY
     bkg.width = display.contentWidth
@@ -224,7 +224,6 @@ function scene:show( event )
             volumeButton.isVisible = false
         end
     end
-
 end -- function scene:show( event )
 
 -----------------------------------------------------------------------------------------
