@@ -1,6 +1,6 @@
 -----------------------------------------------------------------------------------------
 --
--- level1_screen.lua
+-- level2_screen.lua
 -- Created by: Your Name
 -- Date: Month Day, Year
 -- Description: This is the level 1 screen of the game.
@@ -89,10 +89,10 @@ local MilkV = false
 local SaltV = false
 local SugarV = true
 -----------------------------------------------------------------------------------------
--- LOCAL SOUNDS
+-- SOUNDS
 -----------------------------------------------------------------------------------------
---local level1Sound = audio.loadSound("Sounds/level1screenmusic.mp3")
---local level1SoundChannel = audio.play(level1Sound,{loops = -1})
+level1Sound = audio.loadSound("Sounds/level1screenmusic.mp3")
+level1SoundChannel = audio.play(level1Sound,{loops = -1})
 local correctSound = audio.loadSound("Sounds/correctsound.wav")
 local correctSoundChannel
 local incorrectSound = audio.loadSound("Sounds/incorrectsound.wav")
@@ -100,6 +100,63 @@ local incorrectSoundChannel
 -----------------------------------------------------------------------------------------
 -- LOCAL FUNCTIONS
 -----------------------------------------------------------------------------------------
+local function LoseScreenTransition( )        
+    composer.gotoScene( "YouLose", {effect = "slideRight", time = 1000})
+end 
+local function WinScreenTransition( )        
+    composer.gotoScene( "YouWin", {effect = "slideRight", time = 1000})
+end 
+local function pause(  )
+    timer.pause(countDownTimer)
+    composer.showOverlay( "PauseScreen", { isModal = true, effect = "fade", time = 100})
+    BakingPowder1.isVisible = false
+    BakingPowder2.isVisible = false
+    BakingSoda1.isVisible = false
+    BakingSoda2.isVisible = false
+    Butter.isVisible = false
+    Eggs1.isVisible = false
+    Eggs2.isVisible = false
+    Flour.isVisible = false
+    Milk.isVisible = false
+    Salt.isVisible = false
+    Sugar.isVisible = false
+    BakingPowder1TextField.isVisible = false
+    BakingPowder2TextField.isVisible = false
+    BakingSoda1TextField.isVisible = false
+    BakingSoda2TextField.isVisible = false
+    ButterTextField.isVisible = false
+    Eggs1TextField.isVisible = false
+    FlourTextField.isVisible = false
+    MilkTextField.isVisible = false
+    SaltTextField.isVisible = false
+    SugarTextField.isVisible = false
+    pauseButton.isVisible = false
+end
+function resumeGamelevel2(  )
+    timer.resume(countDownTimer)
+    BakingPowder1.isVisible = true
+    BakingPowder2.isVisible = true
+    BakingSoda1.isVisible = true
+    BakingSoda2.isVisible = true
+    Butter.isVisible = true
+    Eggs1.isVisible = true
+    Eggs2.isVisible = true
+    Flour.isVisible = true
+    Milk.isVisible = true
+    Salt.isVisible = true
+    Sugar.isVisible = true
+    BakingPowder1TextField.isVisible = true
+    BakingPowder2TextField.isVisible = true
+    BakingSoda1TextField.isVisible = true
+    BakingSoda2TextField.isVisible = true
+    ButterTextField.isVisible = true
+    Eggs1TextField.isVisible = true
+    FlourTextField.isVisible = true
+    MilkTextField.isVisible = true
+    SaltTextField.isVisible = true
+    SugarTextField.isVisible = true
+    pauseButton.isVisible = true
+end
 local function BakingPowder( event )       
     BakingPowder1.x=BakingPowder1.x+3
     BakingPowder1.y = BakingPowder1.y+2.5
@@ -297,8 +354,8 @@ local function DissapearBakingSoda( event )
     BakingSodaTimer = timer.performWithDelay(20, DissapearBakingSoda) 
 end
 local function DissapearButter( event )
-    Butter.x=Butter.x+1
-    Butter.y = Butter.y + 2
+    Butter.x=Butter.x+2
+    Butter.y = Butter.y + 3
     Butter.text = "Butter"
     Butter:scale(1.005,1.005)
     ButterTextField.x = ButterTextField.x - 0.5
@@ -372,16 +429,10 @@ local function DissapearSugar( event )
     SugarTextField.isVisible = false
     Sugar.alpha = Sugar.alpha - 0.01
     SugarTimer = timer.performWithDelay(20, DissapearSugar)
+    timer.performWithDelay(2000, WinScreenTransition)
 end
 local function BakingPowder1Q( event )
-    -- ask the question
-    if (event.phase=="began") then
-
-        --clear text field 
-        BakingPowder1TextField.text=""
-    elseif(event.phase=="submitted")then
-        userAnswerBakingPowder1 = tostring(event.target.text)
-    end
+    userAnswerBakingPowder1 = tostring(event.target.text)
 end
 local function BakingPowder2Q( event )
     -- ask the question
@@ -423,14 +474,7 @@ local function BakingPowder2Q( event )
 end
 
 local function BakingSoda1Q( event )
-    -- ask the question
-    if (event.phase=="began")then
-
-        --clear text field 
-       BakingSoda1TextField.text=""
-    elseif(event.phase=="submitted")then
-        userAnswerBakingSoda1 = tostring(event.target.text)
-    end
+    userAnswerBakingSoda1 = tostring(event.target.text)
 end
 local function BakingSoda2Q( event )
     -- ask the question
@@ -702,7 +746,6 @@ end
 local function Updatetime()
     -- decrement the number of seconds
     secondsleft = secondsleft-1
-
     --display the number of seconds in a clock 
     clockText.text=secondsleft..""
     if(secondsleft==0) then
@@ -812,27 +855,39 @@ function scene:create( event )
     correctObject = display.newText("Hey dude that's correct!", display.contentCenterX,display.contentCenterY, Arial, 70)
     correctObject:setTextColor(0,0,0)
     correctObject.isVisible = false
+    sceneGroup:insert(correctObject)
     incorrectTextObject = display.newText("Sorry but that's wrong.", display.contentCenterX, display.contentCenterY, Arial, 40)
     incorrectTextObject:setTextColor(0,0,0)
     incorrectTextObject.isVisible = false
+    sceneGroup:insert(incorrectTextObject)
         --create the lives
     heart1=display.newImageRect("Images/heart1.png", 100, 100)
     heart1.x=display.contentWidth*7/11
     heart1.y=display.contentHeight*1/17
     heart1:scale(0.5,0.5)
+    sceneGroup:insert(heart1)
 
     heart2=display.newImageRect("Images/heart1.png", 100, 100)
     heart2.x=display.contentWidth*8/11
     heart2.y=display.contentHeight*1/17
     heart2:scale(0.5,0.5)
+    sceneGroup:insert(heart2)
 
     heart3=display.newImageRect("Images/heart1.png", 100, 100)
     heart3.x=display.contentWidth*9/11
     heart3.y=display.contentHeight*1/17
     heart3:scale(0.5,0.5)
+    sceneGroup:insert(heart3)
     clockText=display.newText("60", display.contentWidth/3, display.contentHeight/5, nil, 50)
     clockText:setTextColor(255/255, 2/255, 198/255)
     clockText.isVisible=true
+    sceneGroup:insert(clockText)
+
+    pauseButton = display.newImageRect("Images/pause button.png", 500,100)
+    pauseButton.width = 100
+    pauseButton.height = 100
+    pauseButton.x = 900
+    pauseButton.y = 200
 end 
  --function scene:create( event )
 
@@ -861,6 +916,7 @@ function scene:show( event )
         Milk:addEventListener("touch", Milk1)
         Salt:addEventListener("touch", Salt1)
         Sugar:addEventListener("touch", Sugar1)
+        pauseButton:addEventListener("touch", pause)
         BakingPowder1TextField:addEventListener("userInput", BakingPowder1Q)
         BakingPowder2TextField:addEventListener("userInput", BakingPowder2Q)
         BakingSoda1TextField:addEventListener("userInput", BakingSoda1Q)
@@ -871,8 +927,12 @@ function scene:show( event )
         MilkTextField:addEventListener("userInput", MilkQ)
         SaltTextField:addEventListener("userInput", SaltQ)
         SugarTextField:addEventListener("userInput", SugarQ)
+        if (soundOn == true) then     
+            audio.resume(level1SoundChannel)
+        else
+            audio.pause(level1SoundChannel)      
+        end
     end
-
 end --function scene:show( event )
 
 -----------------------------------------------------------------------------------------

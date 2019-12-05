@@ -1,28 +1,23 @@
-
 -----------------------------------------------------------------------------------------
 --
--- main_menu.lua
+-- PauseScreen.lua
 -- Created by: Your Name
 -- Date: Month Day, Year
--- Description: This is the main menu, displaying the credits, instructions & play buttons.
+-- Description: This is the level 1 screen of the game.
 -----------------------------------------------------------------------------------------
 
 -----------------------------------------------------------------------------------------
 -- INITIALIZATIONS
 -----------------------------------------------------------------------------------------
 
--- Use Composer Library
+-- Use Composer Libraries
 local composer = require( "composer" )
-
------------------------------------------------------------------------------------------
-
--- Use Widget Library
 local widget = require( "widget" )
 
 -----------------------------------------------------------------------------------------
 
 -- Naming Scene
-sceneName = "mainmenu"
+sceneName = "PauseScreen"
 
 -----------------------------------------------------------------------------------------
 
@@ -30,40 +25,23 @@ sceneName = "mainmenu"
 local scene = composer.newScene( sceneName )
 
 -----------------------------------------------------------------------------------------
--- GLOBAL VARIABLES
------------------------------------------------------------------------------------------
-soundOn = true
------------------------------------------------------------------------------------------
 -- LOCAL VARIABLES
 -----------------------------------------------------------------------------------------
-
-local bkg
-local playButton
-local creditsButton
-local instructionsButton
+local HomeButton
+local ResumeButton
+local restartButton
+local muteVollumeButton
 local volumeButton
-local muteVolumeButton
-
-----------------------------------------------------------------------------------------
---LOCAL SOUNDS
-----------------------------------------------------------------------------------------
-mainMenuSound = audio.loadSound("Sounds/bkgmusic.mp3")
-mainMenuSoundChannel = audio.play(mainMenuSound,{loops = -1})
+local bkg
+local cover
 -----------------------------------------------------------------------------------------
 -- LOCAL FUNCTIONS
 -----------------------------------------------------------------------------------------
+local function Backtolevel2(  )
+	composer.hideOverlay("crossFade", 400)
 
- local function playMusic( touch )
-    if(touch.phase == "ended") then
-        -- Play playMusic
-        audio.resume(mainMenuSoundChannel)
-        muteVolumeButton.isVisible = false
-        volumeButton.isVisible = true
-        soundOn = true
-    end
+	resumeGamelevel2()
 end
-
-
  local function pauseMusic(touch)
     if(touch.phase == "ended")then
         -- Pause the pauseMusic
@@ -73,25 +51,24 @@ end
         soundOn = false  
     end
 end
-
--- Creating Transition Function to Credits Page
-local function CreditsTransition( )   
-    composer.gotoScene( "credits_screen", {effect = "zoomOutInRotate", time = 1000})
-end 
-
------------------------------------------------------------------------------------------
-
--- Creating Transition to Level1 Screen
-local function Level1ScreenTransition( )
-    mainMenuSound = audio.stop()
+ local function playMusic( touch )
+    if(touch.phase == "ended") then
+        -- Play playMusic
+        audio.resume(mainMenuSoundChannel)
+        muteVolumeButton.isVisible = false
+        volumeButton.isVisible = true
+        soundOn = true
+    end
+end
+local function Level2ScreenTransition( )
     composer.gotoScene( "level2_screen", {effect = "slideLeft", time = 1000})
-end    
--------------------------------------------------------------------------------------------
---creating transition to instructions screen 
+end 
+local function mainmenuTransition()
+   composer.gotoScene( "mainmenu" )
+end
 local function InstructionsTransition( )
     composer.gotoScene( "instructions", {effect = "zoomOutInRotate", time = 1000})
 end
-
 -----------------------------------------------------------------------------------------
 -- GLOBAL SCENE FUNCTIONS
 -----------------------------------------------------------------------------------------
@@ -103,93 +80,97 @@ function scene:create( event )
     local sceneGroup = self.view
 
     -----------------------------------------------------------------------------------------
-    -- BACKGROUND IMAGE & STATIC OBJECTS
-    -----------------------------------------------------------------------------------------
 
-    -- Insert the background image and set it to the center of the screen
-    bkg = display.newImageRect("Images/MainMenuMoryah.png", 1536/2, 2048/2)
-    bkg.x = display.contentCenterX
-    bkg.y = display.contentCenterY
-    bkg.width = display.contentWidth
-    bkg.height = display.contentHeight
-    -- Associating display objects with this scene 
-    sceneGroup:insert( bkg )
-
+    -- Insert the background image
+    bkg = display.newRect(display.contentCenterX, display.contentCenterY, display.contentWidth, display.contentHeight)
+    --setting to a semi black colour
+    bkg:setFillColor(0,0,0,0.5) 
+    cover = display.newRoundedRect(display.contentCenterX, display.contentCenterY, display.contentWidth*0.8, display.contentHeight*0.95, 50 )
+    --setting its colour
+    cover:setFillColor(96/255, 96/255, 96/255)
+    -- insert all objects for this scene into the scene group
+    sceneGroup:insert(bkg)
+    sceneGroup:insert(cover)
     -----------------------------------------------------------------------------------------
-    -- MUTE/UNMUTE BUTTONS
-    -----------------------------------------------------------------------------------------   
-    volumeButton =  display.newImage("Images/volume button2.png", 510, 100)
+	-- MUTE/UNMUTE BUTTONS
+	-----------------------------------------------------------------------------------------   
+    volumeButton =  display.newImage("Images/volume button2.png", 780, 500)
     volumeButton.width = 200
     volumeButton.height = 200
     volumeButton.isVisible = true
 
-    muteVolumeButton = display.newImage("Images/volume button.png", 510, 100)
+    muteVolumeButton = display.newImage("Images/volume button.png", 780, 500)
     muteVolumeButton.width = 200
     muteVolumeButton.height = 200
     muteVolumeButton.isVisible = false
-
+    sceneGroup:insert( muteVolumeButton )
+    sceneGroup:insert( volumeButton )
     -----------------------------------------------------------------------------------------
     -- BUTTON WIDGETS
     -----------------------------------------------------------------------------------------   
 
     -- Creating Play Button
-    playButton = widget.newButton( 
+    resumeButton = widget.newButton( 
         {   
             -- Set its position on the screen relative to the screen size
             x = display.contentWidth/2,
-            y = display.contentHeight*7/8,
+            y = display.contentHeight*4/8,
             
 
             -- Insert the images here
-            defaultFile = "Images/PlayButtonUnPressedNicR.png",
-            overFile = "Images/PlayButtonPressedNicR.png",
+            defaultFile = "Images/playbuttonlevel2.png",
+            overFile = "Images/playbuttonlevel2.png",
 
             -- When the button is released, call the Level1 screen transition function
-            onRelease = Level1ScreenTransition          
+            onRelease = Backtolevel2         
         } )
-    playButton:scale(1.2,1.2)
-
-    -----------------------------------------------------------------------------------------
-
-    -- Creating Credits Button
-    creditsButton = widget.newButton( 
-        {
+    restartButton = widget.newButton( 
+        {   
             -- Set its position on the screen relative to the screen size
-            x = display.contentWidth*5/6,
-            y = display.contentHeight*9/10,
+            x = display.contentWidth*4/5,
+            y = display.contentHeight*3/8,
+            
 
             -- Insert the images here
-            defaultFile = "Images/CreditsButtonUnpressedMoryah.png",
-            overFile = "Images/CreditsButtonPressedMoryah.png",
+            defaultFile = "Images/redo.png",
+            overFile = "Images/redo.png",
 
-            -- When the button is released, call the Credits transition function
-            onRelease = CreditsTransition
-        } ) 
-  ----------------------------------------------------------------------------------------------  
+            -- When the button is released, call the Level1 screen transition function
+            onRelease = Level2ScreenTransition          
+        } )
+    mainmenu = widget.newButton( 
+        {   
+            -- Set its position on the screen relative to the screen size
+            x = display.contentWidth/4,
+            y = display.contentHeight*3/8,
+            
+
+            -- Insert the images here
+            defaultFile = "Images/home.png",
+            overFile = "Images/home.png",
+
+            -- When the button is released, call the Level1 screen transition function
+            onRelease = mainmenuTransition          
+        } )
     instructionsButton = widget.newButton( 
         {
             -- Set its position on the screen relative to the screen size
-            x = display.contentWidth*2/12,
-            y = display.contentHeight*9/10,
+            x = display.contentWidth*3/12,
+            y = display.contentHeight*7/10,
 
             -- Insert the images here
-            defaultFile = "Images/InstructionsButtonUnpressedMoryah.png",
-            overFile = "Images/InstructionsButtonPressedMoryah.png",
+            defaultFile = "Images/InstructionsButton.png",
+            overFile = "Images/InstructionsButton.png",
             -- When the button is released, call the Instructions transition function
             onRelease = InstructionsTransition
         } )
+    instructionsButton:scale(1,0.5)
+    sceneGroup:insert(resumeButton)
+    sceneGroup:insert(restartButton)
+    sceneGroup:insert(mainmenu)
+    sceneGroup:insert(instructionsButton)
 
-
-
-    -- Associating button widgets with this scene
-    sceneGroup:insert( playButton )
-    sceneGroup:insert( creditsButton )
-    sceneGroup:insert( instructionsButton )
-    sceneGroup:insert( muteVolumeButton )
-    sceneGroup:insert( volumeButton )    
-end -- function scene:create( event )   
-
-
+end --function scene:create( event )
 
 -----------------------------------------------------------------------------------------
 
@@ -198,33 +179,33 @@ function scene:show( event )
 
     -- Creating a group that associates objects with the scene
     local sceneGroup = self.view
-
-    -----------------------------------------------------------------------------------------
-
     local phase = event.phase
 
     -----------------------------------------------------------------------------------------
 
-    -- Called when the scene is still off screen (but is about to come on screen).   
     if ( phase == "will" ) then
-       
+
+        -- Called when the scene is still off screen (but is about to come on screen).
     -----------------------------------------------------------------------------------------
-    
-    elseif ( phase == "did" ) then 
+
+    elseif ( phase == "did" ) then
+    	muteVolumeButton:addEventListener("touch", pauseMusic)
         volumeButton:addEventListener("touch", pauseMusic ) 
         muteVolumeButton:addEventListener("touch", playMusic )
 
         if (soundOn == true) then     
-            audio.resume(mainMenuSoundChannel)
+            audio.resume(level1SoundChannel)
             muteVolumeButton.isVisible = false
             volumeButton.isVisible = true
         else
-            audio.pause(mainMenuSoundChannel)      
+            audio.pause(level1SoundChannel)      
             muteVolumeButton.isVisible = true
             volumeButton.isVisible = false
         end
     end
-end -- function scene:show( event )
+end
+
+--function scene:show( event )
 
 -----------------------------------------------------------------------------------------
 
@@ -233,9 +214,6 @@ function scene:hide( event )
 
     -- Creating a group that associates objects with the scene
     local sceneGroup = self.view
-
-    -----------------------------------------------------------------------------------------
-
     local phase = event.phase
 
     -----------------------------------------------------------------------------------------
@@ -244,17 +222,14 @@ function scene:hide( event )
         -- Called when the scene is on screen (but is about to go off screen).
         -- Insert code here to "pause" the scene.
         -- Example: stop timers, stop animation, stop audio, etc.
-        
+
     -----------------------------------------------------------------------------------------
 
     elseif ( phase == "did" ) then
         -- Called immediately after scene goes off screen.
-
-        volumeButton:removeEventListener("touch", pauseMusic ) 
-        muteVolumeButton:removeEventListener("touch", playMusic )
     end
 
-end -- function scene:hide( event )
+end --function scene:hide( event )
 
 -----------------------------------------------------------------------------------------
 
@@ -263,6 +238,8 @@ function scene:destroy( event )
 
     -- Creating a group that associates objects with the scene
     local sceneGroup = self.view
+
+    -----------------------------------------------------------------------------------------
 
     -- Called prior to the removal of scene's view ("sceneGroup").
     -- Insert code here to clean up the scene.
