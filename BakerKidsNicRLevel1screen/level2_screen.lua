@@ -350,7 +350,7 @@ local function DissapearMilk( event )
     MilkTimer = timer.performWithDelay(20, DissapearMilk)
 end
 local function DissapearSalt( event )
-    Sugar.text = "Salt"
+    Salt.text = "Salt"
     Salt.x=Salt.x+3
     Salt.y = Salt.y + 1
     Salt:scale(1.0015,1.0015)
@@ -381,28 +381,6 @@ local function BakingPowder1Q( event )
         BakingPowder1TextField.text=""
     elseif(event.phase=="submitted")then
         userAnswerBakingPowder1 = tostring(event.target.text)
-        if (userAnswerBakingPowder1 == ANSWERBAKINGPOWDER1)then
-            correctObject.isVisible = true
-            correctSoundChannel = audio.play(correctSound)
-            timer.performWithDelay(2000,incorrectcorrectObjectinvisible)
-            incorrectTextObject.isVisible = false
-        else
-            if (lives==4)then
-            heart4.isVisible=false
-            elseif(lives==3)then
-                heart3.isVisible=false
-            elseif(lives==2) then
-                heart2.isVisible=false
-            elseif(lives==1)then
-                heart1.isVisible=false
-            end
-            incorrectTextObject.isVisible = true
-            incorrectSoundChannel = audio.play(incorrectSound)
-            incorrectTextObject.text = ("That is incorrect.You Lose a life")
-            timer.performWithDelay(2000,incorrectcorrectObjectinvisible)
-            correctObject.isVisible = false
-            lives = lives-1
-        end
     end
 end
 local function BakingPowder2Q( event )
@@ -413,7 +391,7 @@ local function BakingPowder2Q( event )
        BakingPowder2TextField.text=""
     elseif(event.phase=="submitted")then
         userAnswerBakingPowder2 = tostring(event.target.text)
-        if (userAnswerBakingPowder2 == ANSWERBAKINGPOWDER2)then
+        if (userAnswerBakingPowder2 == ANSWERBAKINGPOWDER2) and (userAnswerBakingPowder1 == ANSWERBAKINGPOWDER1)then
             correctObject.isVisible = true
             correctSoundChannel = audio.play(correctSound)
             timer.performWithDelay(2000,incorrectcorrectObjectinvisible)
@@ -452,26 +430,6 @@ local function BakingSoda1Q( event )
        BakingSoda1TextField.text=""
     elseif(event.phase=="submitted")then
         userAnswerBakingSoda1 = tostring(event.target.text)
-        if (userAnswerBakingSoda1 == ANSWERBAKINGSODA1)then
-            correctObject.isVisible = true
-            correctSoundChannel = audio.play(correctSound)
-            timer.performWithDelay(2000,incorrectcorrectObjectinvisible)
-            incorrectTextObject.isVisible = false
-        else
-            if(lives==3)then
-                heart3.isVisible=false
-            elseif(lives==2) then
-                heart2.isVisible=false
-            elseif(lives==1)then
-                heart1.isVisible=false
-            end
-            incorrectTextObject.isVisible = true
-            incorrectSoundChannel = audio.play(incorrectSound)
-            incorrectTextObject.text = ("That is incorrect.You Lose a life. Try again")
-            timer.performWithDelay(2000,incorrectcorrectObjectinvisible)
-            correctObject.isVisible = false
-            lives = lives-1
-        end
     end
 end
 local function BakingSoda2Q( event )
@@ -482,7 +440,7 @@ local function BakingSoda2Q( event )
        BakingSoda2TextField.text=""
     elseif(event.phase=="submitted")then
         userAnswerBakingSoda2 = tostring(event.target.text)
-        if (userAnswerBakingSoda2 == ANSWERBAKINGSODA2)then
+        if (userAnswerBakingSoda2 == ANSWERBAKINGSODA2) and (userAnswerBakingSoda1 == ANSWERBAKINGSODA1)then
             correctObject.isVisible = true
             correctSoundChannel = audio.play(correctSound)
             timer.performWithDelay(2000,incorrectcorrectObjectinvisible)
@@ -532,6 +490,7 @@ local function ButterQ( event )
             EggsV = true
             ButterTextField.text = ""
             DissapearButter()
+            Eggs()
         else
             if(lives==3)then
                 heart3.isVisible=false
@@ -569,6 +528,7 @@ local function EggsQ( event )
             FlourV = true
             Eggs1TextField.text = ""
             DissapearEggs()
+            Flour1()
         else
             if(lives==3)then
                 heart3.isVisible=false
@@ -606,6 +566,7 @@ local function FlourQ( event )
             FlourV = false
             MilkV = true
             DissapearFlour()
+            Milk1()
         else
             if(lives==3)then
                 heart3.isVisible=false
@@ -623,6 +584,7 @@ local function FlourQ( event )
             lives = lives-1
             FlourV = false
             MilkV = true
+
         end
     end
 end
@@ -643,6 +605,7 @@ local function MilkQ( event )
             SaltV = true
             MilkV = false
             DissapearMilk()
+            Salt1()
         else
             if(lives==3)then
                 heart3.isVisible=false
@@ -680,6 +643,7 @@ local function SaltQ( event )
             SaltV = false
             SugarV = true
             DissapearSalt()
+            Sugar1()
         else
             if(lives==3)then
                 heart3.isVisible=false
