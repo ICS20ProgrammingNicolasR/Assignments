@@ -100,6 +100,12 @@ local incorrectSoundChannel
 -----------------------------------------------------------------------------------------
 -- LOCAL FUNCTIONS
 -----------------------------------------------------------------------------------------
+local function youWinTransition( )   
+    composer.gotoScene( "YouWin", {effect = "slideRight", time = 1000})
+end 
+local function youLoseTransition(  )
+    composer.gotoScene("YouLose", {effect = "slideRight", time = 1000})
+end
 local function BakingPowder( event )       
     BakingPowder1.x=BakingPowder1.x+3
     BakingPowder1.y = BakingPowder1.y+2.5
@@ -350,7 +356,7 @@ local function DissapearMilk( event )
     MilkTimer = timer.performWithDelay(20, DissapearMilk)
 end
 local function DissapearSalt( event )
-    Sugar.text = "Salt"
+    Salt.text = "Salt"
     Salt.x=Salt.x+3
     Salt.y = Salt.y + 1
     Salt:scale(1.0015,1.0015)
@@ -434,11 +440,9 @@ local function BakingPowder2Q( event )
             incorrectTextObject.isVisible = true
             incorrectSoundChannel = audio.play(incorrectSound)
             incorrectTextObject.text = ("That is incorrect.You Lose a life")
-            timer.performWithDelay(200,incorrectcorrectObjectinvisible)
+            timer.performWithDelay(2000,incorrectcorrectObjectinvisible)
             correctObject.isVisible = false
             lives = lives-1
-            BakingPowder1TextField.text = ""
-            BakingPowder2TextField.text = ""
             BakingSodaV = true
         end
     end
@@ -507,8 +511,6 @@ local function BakingSoda2Q( event )
             incorrectTextObject.text = ("That is incorrect.You Lose a life. Try again")
             timer.performWithDelay(2000,incorrectcorrectObjectinvisible)
             correctObject.isVisible = false
-            BakingSoda1TextField.text = ""
-            BakingSoda2TextField.text = ""
             lives = lives-1
             BakingSodaV = false
             ButterV = true
@@ -532,6 +534,7 @@ local function ButterQ( event )
             EggsV = true
             ButterTextField.text = ""
             DissapearButter()
+            Eggs()
         else
             if(lives==3)then
                 heart3.isVisible=false
@@ -539,6 +542,7 @@ local function ButterQ( event )
                 heart2.isVisible=false
             elseif(lives==1)then
                 heart1.isVisible=false
+                youLoseTransition()
             end
             incorrectTextObject.isVisible = true
             incorrectSoundChannel = audio.play(incorrectSound)
@@ -569,6 +573,7 @@ local function EggsQ( event )
             FlourV = true
             Eggs1TextField.text = ""
             DissapearEggs()
+            Flour1()
         else
             if(lives==3)then
                 heart3.isVisible=false
@@ -576,6 +581,7 @@ local function EggsQ( event )
                 heart2.isVisible=false
             elseif(lives==1)then
                 heart1.isVisible=false
+                youLoseTransition()
             end
             incorrectTextObject.isVisible = true
             incorrectSoundChannel = audio.play(incorrectSound)
@@ -606,6 +612,7 @@ local function FlourQ( event )
             FlourV = false
             MilkV = true
             DissapearFlour()
+            Milk1()
         else
             if(lives==3)then
                 heart3.isVisible=false
@@ -613,6 +620,7 @@ local function FlourQ( event )
                 heart2.isVisible=false
             elseif(lives==1)then
                 heart1.isVisible=false
+                youLoseTransition()
             end
             incorrectTextObject.isVisible = true
             incorrectSoundChannel = audio.play(incorrectSound)
@@ -643,6 +651,7 @@ local function MilkQ( event )
             SaltV = true
             MilkV = false
             DissapearMilk()
+            Salt1()
         else
             if(lives==3)then
                 heart3.isVisible=false
@@ -650,6 +659,7 @@ local function MilkQ( event )
                 heart2.isVisible=false
             elseif(lives==1)then
                 heart1.isVisible=false
+                youLoseTransition()
             end
             incorrectTextObject.isVisible = true
             incorrectSoundChannel = audio.play(incorrectSound)
@@ -680,6 +690,7 @@ local function SaltQ( event )
             SaltV = false
             SugarV = true
             DissapearSalt()
+            Sugar1()
         else
             if(lives==3)then
                 heart3.isVisible=false
@@ -687,6 +698,7 @@ local function SaltQ( event )
                 heart2.isVisible=false
             elseif(lives==1)then
                 heart1.isVisible=false
+                youLoseTransition()
             end
             incorrectTextObject.isVisible = true
             incorrectSoundChannel = audio.play(incorrectSound)
@@ -716,6 +728,7 @@ local function SugarQ( event )
             SugarTextField.text = ""
             SugarV = false
             DissapearSugar()
+            youWinTransition()
         else
             if(lives==3)then
                 heart3.isVisible=false
@@ -723,6 +736,7 @@ local function SugarQ( event )
                 heart2.isVisible=false
             elseif(lives==1)then
                 heart1.isVisible=false
+                youLoseTransition()
             end
             incorrectTextObject.isVisible = true
             incorrectSoundChannel = audio.play(incorrectSound)
@@ -752,13 +766,8 @@ local function Updatetime()
         elseif(lives==1) then
             heart2.isVisible=false
         else
-        --    questionObject.isVisible=false
-        --    correctObject.isVisible=false
-        --    numericField.isVisible=false
-        --    incorrectTextObject.isVisible=false
-        --    pointsText.isVisible=false
-        --    youlostImage.isVisible=true
-        --    timer.performWithDelay(1000)
+            heart1.isVisible = false
+            youLoseTransition()
         end
     end    
 end
