@@ -100,6 +100,96 @@ local incorrectSoundChannel
 -----------------------------------------------------------------------------------------
 -- LOCAL FUNCTIONS
 -----------------------------------------------------------------------------------------
+function restartscene(  )
+    if (BakingPowder1 ~= nil)then
+        BakingPowder1.x = 50
+        BakingPowder1.y = 110
+        BakingPowder1.width = 30
+        BakingPowder1TextField.x = 105
+        BakingPowder1TextField.y = 110
+        BakingPowder1TextField:scale(1,1)
+        BakingPowder2.x = 180
+        BakingPowder2.y = 110
+        BakingPowder2:scale(1,1)
+        BakingPowder2TextField.x = 400
+        BakingPowder2TextField.y = 110
+        BakingPowder2TextField:scale(1,1)
+        BakingSoda1.x = 340
+        BakingSoda1.y = 110
+        BakingSoda1:scale(1,1)
+        BakingSoda1TextField.x = 400
+        BakingSoda1TextField.y = 110
+        BakingSoda1TextField:scale(1,1)
+        BakingSoda2.x = 450
+        BakingSoda2.y = 110
+        BakingSoda2:scale(1,1)
+        BakingSoda2TextField.x = 500
+        BakingSoda2TextField.y = 110
+        BakingSoda2TextField:scale(1,1)
+        Butter.x = 580
+        Butter.y = 110
+        Butter:scale(1,1)
+        ButterTextField.x = 635
+        ButterTextField.y = 110
+        ButterTextField:scale(1,1)
+        Eggs1.x = 680
+        Eggs1.y = 110
+        Eggs1:scale(1,1)
+        Eggs1TextField.x = 720
+        Eggs1TextField.y = 110
+        Eggs1TextField:scale(1,1)
+        Eggs2.x = 750
+        Eggs2.y = 110
+        Eggs2:scale(1,1)
+        Flour.x = 850
+        Flour.y = 110
+        Flour:scale(1,1)
+        FlourTextField.x = 850
+        FlourTextField.y = 110
+        FlourTextField:scale(1,1)
+        Milk.x = 900
+        Milk.y = 110
+        Milk:scale(1,1)
+        MilkTextField.x = 940
+        MilkTextField.y = 110
+        MilkTextField:scale(1,1)
+        Salt.x = 30
+        Salt.y = 150
+        Salt:scale(1,1)
+        SaltTextField.x = 80
+        SaltTextField.y = 150
+        SaltTextField:scale(1,1)
+        Sugar.x = 140
+        Sugar.y = 150
+        Sugar:scale(1,1)
+        SugarTextField.x = 200
+        SugarTextField.y = 150
+        SugarTextField:scale(1,1)
+        BakingPowder1.isVisible = true
+        BakingPowder2.isVisible = true
+        BakingSoda1.isVisible = true
+        BakingSoda2.isVisible = true
+        Butter.isVisible = true
+        Eggs1.isVisible = true
+        Eggs2.isVisible = true
+        Flour.isVisible = true
+        Milk.isVisible = true
+        Salt.isVisible = true
+        Sugar.isVisible = true
+        BakingPowder1TextField.isVisible = true
+        BakingPowder2TextField.isVisible = true
+        BakingSoda1TextField.isVisible = true
+        BakingSoda2TextField.isVisible = true
+        ButterTextField.isVisible = true
+        Eggs1TextField.isVisible = true
+        FlourTextField.isVisible = true
+        MilkTextField.isVisible = true
+        SaltTextField.isVisible = true
+        SugarTextField.isVisible = true
+        pauseButton.isVisible = true
+        StartTimer()
+    end
+end
 local function LoseScreenTransition( )        
     composer.gotoScene( "YouLose", {effect = "slideRight", time = 1000})
 end 
@@ -771,7 +861,7 @@ local function Updatetime()
 end
 
 --call the timer
-local function StartTimer()
+ function StartTimer()
     -- create a countDown Timer that loops infinitely
     countDownTimer=timer.performWithDelay( 1000, Updatetime, 0)
 end
@@ -800,11 +890,6 @@ function scene:create( event )
 
     BakingPowder1 = display.newText("Bakin ", 50 ,110, Arial, 35)
     BakingPowder1:setTextColor(0,0,0) 
-    BakingPowder1bkg = display.newImageRect("Images/Background Image.png",50,270)
-    BakingPowder1bkg.x = BakingPowder1.x+90
-    BakingPowder1bkg.y = BakingPowder1.y
-    BakingPowder1bkg:rotate(90)
-    BakingPowder1bkg:toBack()
     BakingPowder1TextField = native.newTextField(105 , 110 , 30 , 35)
     BakingPowder1TextField.inputType = "no-emoji"
     BakingPowder1TextField:setTextColor(0,0.3,0)

@@ -42,6 +42,9 @@ local function Backtolevel2(  )
 
 	resumeGamelevel2()
 end
+local function restartLevel2(  )
+        composer.gotoScene( "level2_screen", {effect = "slideLeft", time = 1000})
+end
  local function pauseMusic(touch)
     if(touch.phase == "ended")then
         -- Pause the pauseMusic
@@ -136,7 +139,7 @@ function scene:create( event )
             overFile = "Images/redo.png",
 
             -- When the button is released, call the Level1 screen transition function
-            onRelease = Level2ScreenTransition          
+            onRelease = restartLevel2          
         } )
     mainmenu = widget.newButton( 
         {   
