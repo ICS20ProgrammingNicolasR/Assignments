@@ -43,12 +43,14 @@ local function Backtolevel2(  )
 	resumeGamelevel2()
 end
 local function restartLevel2(  )
-        composer.gotoScene( "level2_screen", {effect = "slideLeft", time = 1000})
+    audio.stop(level2SoundChannel)
+    composer.removeScene("level2_screen")
+    composer.gotoScene("level2_screen")
 end
  local function pauseMusic(touch)
     if(touch.phase == "ended")then
         -- Pause the pauseMusic
-        audio.pause(mainMenuSoundChannel)  
+        audio.pause(level2SoundChannel)  
         muteVolumeButton.isVisible = true
         volumeButton.isVisible = false
         soundOn = false  
@@ -57,20 +59,20 @@ end
  local function playMusic( touch )
     if(touch.phase == "ended") then
         -- Play playMusic
-        audio.resume(mainMenuSoundChannel)
+        audio.resume(level2SoundChannel)
         muteVolumeButton.isVisible = false
         volumeButton.isVisible = true
         soundOn = true
     end
 end
-local function Level2ScreenTransition( )
-    composer.gotoScene( "level2_screen", {effect = "slideLeft", time = 1000})
-end 
 local function mainmenuTransition()
+    audio.stop(level2SoundChannel)
+    composer.removeScene("level2_screen")
    composer.gotoScene( "mainmenu" )
 end
 local function InstructionsTransition( )
-    composer.gotoScene( "instructions", {effect = "zoomOutInRotate", time = 1000})
+    pauseinstructions = true
+    composer.gotoScene( "instructions2", {effect = "zoomOutInRotate", time = 1000})
 end
 -----------------------------------------------------------------------------------------
 -- GLOBAL SCENE FUNCTIONS
@@ -192,16 +194,15 @@ function scene:show( event )
     -----------------------------------------------------------------------------------------
 
     elseif ( phase == "did" ) then
-    	muteVolumeButton:addEventListener("touch", pauseMusic)
         volumeButton:addEventListener("touch", pauseMusic ) 
         muteVolumeButton:addEventListener("touch", playMusic )
 
         if (soundOn == true) then     
-            audio.resume(level1SoundChannel)
+            audio.resume(level2SoundChannel)
             muteVolumeButton.isVisible = false
             volumeButton.isVisible = true
         else
-            audio.pause(level1SoundChannel)      
+            audio.pause(level2SoundChannel)      
             muteVolumeButton.isVisible = true
             volumeButton.isVisible = false
         end
@@ -225,6 +226,8 @@ function scene:hide( event )
         -- Called when the scene is on screen (but is about to go off screen).
         -- Insert code here to "pause" the scene.
         -- Example: stop timers, stop animation, stop audio, etc.
+        muteVolumeButton:removeEventListener("touch", playMusic)
+        volumeButton:removeEventListener("touch", pauseMusic)
 
     -----------------------------------------------------------------------------------------
 

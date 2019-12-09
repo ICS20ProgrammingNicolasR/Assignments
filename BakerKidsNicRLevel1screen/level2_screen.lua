@@ -89,10 +89,14 @@ local MilkV = false
 local SaltV = false
 local SugarV = true
 -----------------------------------------------------------------------------------------
+--GLOBAL VARIABLES
+----------------------------------------------------------------------------------------
+pauseinstructions = false
+-----------------------------------------------------------------------------------------
 -- SOUNDS
 -----------------------------------------------------------------------------------------
-level1Sound = audio.loadSound("Sounds/level1screenmusic.mp3")
-level1SoundChannel = audio.play(level1Sound,{loops = -1})
+level2Sound = audio.loadSound("Sounds/Level2screenmusic.mp3")
+level2SoundChannel = audio.play(level2Sound,{loops = -1})
 local correctSound = audio.loadSound("Sounds/correctsound.wav")
 local correctSoundChannel
 local incorrectSound = audio.loadSound("Sounds/incorrectsound.wav")
@@ -102,9 +106,34 @@ local incorrectSoundChannel
 -----------------------------------------------------------------------------------------
 
 local function youWinTransition( )   
+    pauseButton.isVisible = false
+    timer.cancel(countDownTimer)
     composer.gotoScene( "YouWin", {effect = "slideRight", time = 1000})
 end 
 local function youLoseTransition(  )
+    timer.cancel(countDownTimer)
+    BakingPowder1.isVisible = false
+    BakingPowder2.isVisible = false
+    BakingSoda1.isVisible = false
+    BakingSoda2.isVisible = false
+    Butter.isVisible = false
+    Eggs1.isVisible = false
+    Eggs2.isVisible = false
+    Flour.isVisible = false
+    Milk.isVisible = false
+    Salt.isVisible = false
+    Sugar.isVisible = false
+    BakingPowder1TextField.isVisible = false
+    BakingPowder2TextField.isVisible = false
+    BakingSoda1TextField.isVisible = false
+    BakingSoda2TextField.isVisible = false
+    ButterTextField.isVisible = false
+    Eggs1TextField.isVisible = false
+    FlourTextField.isVisible = false
+    MilkTextField.isVisible = false
+    SaltTextField.isVisible = false
+    SugarTextField.isVisible = false
+    pauseButton.isVisible = false
     composer.gotoScene("YouLose", {effect = "slideRight", time = 1000})
 end
 local function pause(  )
@@ -461,6 +490,7 @@ local function BakingPowder2Q( event )
                 heart2.isVisible=false
             elseif(lives==1)then
                 heart1.isVisible=false
+                youLoseTransition()
             end
             incorrectTextObject.isVisible = true
             incorrectSoundChannel = audio.play(incorrectSound)
@@ -503,6 +533,7 @@ local function BakingSoda2Q( event )
                 heart2.isVisible=false
             elseif(lives==1)then
                 heart1.isVisible=false
+                youLoseTransition()
             end
             incorrectTextObject.isVisible = true
             incorrectSoundChannel = audio.play(incorrectSound)
@@ -771,11 +802,11 @@ local function Updatetime()
 end
 
 --call the timer
- function StartTimer()
+ local function StartTimerlevel2()
     -- create a countDown Timer that loops infinitely
     countDownTimer=timer.performWithDelay( 1000, Updatetime, 0)
 end
-StartTimer()
+StartTimerlevel2()
 -----------------------------------------------------------------------------------------
 -- GLOBAL SCENE FUNCTIONS
 -----------------------------------------------------------------------------------------
@@ -898,7 +929,9 @@ function scene:show( event )
     -----------------------------------------------------------------------------------------
 
     if ( phase == "will" ) then
-
+        if (pauseinstructions == true) then
+            pause()
+        end
         -- Called when the scene is still off screen (but is about to come on screen).
     -----------------------------------------------------------------------------------------
 
@@ -923,9 +956,9 @@ function scene:show( event )
         SaltTextField:addEventListener("userInput", SaltQ)
         SugarTextField:addEventListener("userInput", SugarQ)
         if (soundOn == true) then     
-            audio.resume(level1SoundChannel)
+            audio.resume(level2SoundChannel)
         else
-            audio.pause(level1SoundChannel)      
+            audio.pause(level2SoundChannel)      
         end
     end
 end --function scene:show( event )
