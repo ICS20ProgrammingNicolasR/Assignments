@@ -1,53 +1,47 @@
+  
 -----------------------------------------------------------------------------------------
--- YouWin.lua
--- Created by: Nic Riscalas
--- Date: 12,5,19
--- Description: This shows the player that they won the game and plays a booing sound.
+--
+-- instructions
+-- Created by: Nic R
+-- Date: Nov, 20, 2019
+-- Description: This is the credits page, displaying a back button to the main menu.
 -----------------------------------------------------------------------------------------
 
 -----------------------------------------------------------------------------------------
 -- INITIALIZATIONS
 -----------------------------------------------------------------------------------------
 
--- Calling Composer Library
+-- Use Composer Libraries
 local composer = require( "composer" )
-
 local widget = require( "widget" )
 
 -----------------------------------------------------------------------------------------
 
 -- Naming Scene
-sceneName = "YouWin"
-
------------------------------------------------------------------------------------------
+sceneName = "instructions2"
 
 -- Creating Scene Object
-local scene = composer.newScene( sceneName )
+scene = composer.newScene( sceneName ) -- This function doesn't accept a string, only a variable containing a string
 
 -----------------------------------------------------------------------------------------
 -- LOCAL VARIABLES
 -----------------------------------------------------------------------------------------
+local bkg_image
+local backButton
 
--- local variables for the scene
-local bkg
-local level2button
-local mainmenu
-local nextlevel
 -----------------------------------------------------------------------------------------
 -- LOCAL FUNCTIONS
 -----------------------------------------------------------------------------------------
-local function Level2ScreenTransition( )
-    composer.removeScene("level2_screen")
-    composer.gotoScene( "level2_screen", {effect = "slideLeft", time = 1000})
-end 
-local function mainmenuTransition()
-    composer.removeScene("level2_screen")
-   composer.gotoScene( "mainmenu" )
+
+-- Creating Transitioning Function back to main menu
+local function BackTransition( )
+    composer.gotoScene( "level2_screen", {effect = "fromRight", time = 500})
 end
+
+
 -----------------------------------------------------------------------------------------
 -- GLOBAL SCENE FUNCTIONS
 -----------------------------------------------------------------------------------------
-
 
 -- The function called when the screen doesn't exist
 function scene:create( event )
@@ -55,65 +49,51 @@ function scene:create( event )
     -- Creating a group that associates objects with the scene
     local sceneGroup = self.view
 
-    -- Display background
-    bkg = display.newImage("Images/you_win.png")
+    -----------------------------------------------------------------------------------------
+    -- BACKGROUND AND DISPLAY OBJECTS
+    -----------------------------------------------------------------------------------------
+
+    -- Insert the background image and set it to the center of the screen
+    bkg = display.newImageRect("Images/InstructionsScreenMoryah.png", display.contentWidth, display.contentHeight)
     bkg.x = display.contentCenterX
     bkg.y = display.contentCenterY
     bkg.width = display.contentWidth
     bkg.height = display.contentHeight
-    -----------------------------------------------------------------------------------------     
 
     -- Associating display objects with this scene 
     sceneGroup:insert( bkg )
-    ----------------------------------------------------------------------------------------
---BUTTONS AND WIDGETS
----------------------------------------------------------------------------------------
-    level2button = widget.newButton( 
-        {   
-            -- Set its position on the screen relative to the screen size
-            x = display.contentWidth/2,
-            y = display.contentHeight*7/8,
-            
 
-            -- Insert the images here
-            defaultFile = "Images/redoWon.png",
-            overFile = "Images/redoLost.png",
+    -----------------------------------------------------------------------------------------
+    -- BUTTON WIDGETS
+    -----------------------------------------------------------------------------------------
 
-            -- When the button is released, call the Level1 screen transition function
-            onRelease = Level2ScreenTransition          
-        } )
-    mainmenu = widget.newButton( 
-        {   
-            -- Set its position on the screen relative to the screen size
-            x = display.contentWidth/4,
-            y = display.contentHeight*7/8,
-            
+    -- Creating Back Button
+    backButton = widget.newButton( 
+    {
+        -- Setting Position
+        x = display.contentWidth*7/8,
+        y = display.contentHeight*15/16,
 
-            -- Insert the images here
-            defaultFile = "Images/homeWon.png",
-            overFile = "Images/homeLost.png",
+        -- Setting Dimensions
+        -- width = 1000,
+        -- height = 106,
 
-            -- When the button is released, call the Level1 screen transition function
-            onRelease = mainmenuTransition          
-        } )
-    nextlevel = widget.newButton( 
-        {   
-            -- Set its position on the screen relative to the screen size
-            x = display.contentWidth*6/8,
-            y = display.contentHeight*7/8,
-            
+        -- Setting Visual Properties
+        defaultFile = "Images/BackButtonUnPressedMoryah.png",
+        overFile = "Images/BackButtonPressedMoryah.png",
 
-            -- Insert the images here
-            defaultFile = "Images/next levelWon.png",
-            overFile = "Images/next levelLost.png",
+        -- Setting Functional Properties
+        onRelease = BackTransition
 
-            -- When the button is released, call the Level1 screen transition function
-            onRelease = mainmenuTransition          
-        } )
-    sceneGroup:insert( level2button )
-    sceneGroup:insert( mainmenu ) 
-    sceneGroup:insert( nextlevel )
-end
+    } )
+
+    -----------------------------------------------------------------------------------------
+
+    -- Associating Buttons with this scene
+    sceneGroup:insert( backButton )
+     --set the size of the button
+    backButton:scale(0.7,0.7)
+end --function scene:create( event )
 
 -----------------------------------------------------------------------------------------
 
@@ -135,13 +115,12 @@ function scene:show( event )
     -----------------------------------------------------------------------------------------
 
     elseif ( phase == "did" ) then
-
         -- Called when the scene is now on screen.
         -- Insert code here to make the scene come alive.
         -- Example: start timers, begin animation, play audio, etc.
     end
 
-end
+end -- function scene:show( event )
 
 -----------------------------------------------------------------------------------------
 
@@ -168,7 +147,7 @@ function scene:hide( event )
         -- Called immediately after scene goes off screen.
     end
 
-end
+end --function scene:hide( event )
 
 -----------------------------------------------------------------------------------------
 
@@ -184,7 +163,8 @@ function scene:destroy( event )
     -- Called prior to the removal of scene's view ("sceneGroup").
     -- Insert code here to clean up the scene.
     -- Example: remove display objects, save state, etc.
-end
+
+end --function scene:destroy( event )
 
 -----------------------------------------------------------------------------------------
 -- EVENT LISTENERS
@@ -199,4 +179,3 @@ scene:addEventListener( "destroy", scene )
 -----------------------------------------------------------------------------------------
 
 return scene
-

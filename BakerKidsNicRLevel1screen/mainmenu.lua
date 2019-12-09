@@ -106,6 +106,7 @@ function scene:create( event )
     -- BACKGROUND IMAGE & STATIC OBJECTS
     -----------------------------------------------------------------------------------------
 
+
     -- Insert the background image and set it to the center of the screen
     bkg = display.newImageRect("Images/MainMenuMoryah.png", 1536/2, 2048/2)
     bkg.x = display.contentCenterX

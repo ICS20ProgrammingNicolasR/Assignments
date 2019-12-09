@@ -89,10 +89,14 @@ local MilkV = false
 local SaltV = false
 local SugarV = true
 -----------------------------------------------------------------------------------------
+--GLOBAL VARIABLES
+----------------------------------------------------------------------------------------
+pauseinstructions = false
+-----------------------------------------------------------------------------------------
 -- SOUNDS
 -----------------------------------------------------------------------------------------
-level1Sound = audio.loadSound("Sounds/level1screenmusic.mp3")
-level1SoundChannel = audio.play(level1Sound,{loops = -1})
+level2Sound = audio.loadSound("Sounds/Level2screenmusic.mp3")
+level2SoundChannel = audio.play(level2Sound,{loops = -1})
 local correctSound = audio.loadSound("Sounds/correctsound.wav")
 local correctSoundChannel
 local incorrectSound = audio.loadSound("Sounds/incorrectsound.wav")
@@ -100,10 +104,36 @@ local incorrectSoundChannel
 -----------------------------------------------------------------------------------------
 -- LOCAL FUNCTIONS
 -----------------------------------------------------------------------------------------
+
 local function youWinTransition( )   
+    pauseButton.isVisible = false
+    timer.cancel(countDownTimer)
     composer.gotoScene( "YouWin", {effect = "slideRight", time = 1000})
 end 
 local function youLoseTransition(  )
+    timer.cancel(countDownTimer)
+    BakingPowder1.isVisible = false
+    BakingPowder2.isVisible = false
+    BakingSoda1.isVisible = false
+    BakingSoda2.isVisible = false
+    Butter.isVisible = false
+    Eggs1.isVisible = false
+    Eggs2.isVisible = false
+    Flour.isVisible = false
+    Milk.isVisible = false
+    Salt.isVisible = false
+    Sugar.isVisible = false
+    BakingPowder1TextField.isVisible = false
+    BakingPowder2TextField.isVisible = false
+    BakingSoda1TextField.isVisible = false
+    BakingSoda2TextField.isVisible = false
+    ButterTextField.isVisible = false
+    Eggs1TextField.isVisible = false
+    FlourTextField.isVisible = false
+    MilkTextField.isVisible = false
+    SaltTextField.isVisible = false
+    SugarTextField.isVisible = false
+    pauseButton.isVisible = false
     composer.gotoScene("YouLose", {effect = "slideRight", time = 1000})
 end
 local function pause(  )
@@ -460,6 +490,7 @@ local function BakingPowder2Q( event )
                 heart2.isVisible=false
             elseif(lives==1)then
                 heart1.isVisible=false
+                youLoseTransition()
             end
             incorrectTextObject.isVisible = true
             incorrectSoundChannel = audio.play(incorrectSound)
@@ -502,6 +533,7 @@ local function BakingSoda2Q( event )
                 heart2.isVisible=false
             elseif(lives==1)then
                 heart1.isVisible=false
+                youLoseTransition()
             end
             incorrectTextObject.isVisible = true
             incorrectSoundChannel = audio.play(incorrectSound)
@@ -774,6 +806,7 @@ local function StartTimer()
     secondsleft = totalseconds
     countDownTimer=timer.performWithDelay( 1000, Updatetime, 0)
 end
+StartTimer()
 -----------------------------------------------------------------------------------------
 -- GLOBAL SCENE FUNCTIONS
 -----------------------------------------------------------------------------------------
@@ -798,11 +831,6 @@ function scene:create( event )
 
     BakingPowder1 = display.newText("Bakin ", 50 ,110, Arial, 35)
     BakingPowder1:setTextColor(0,0,0) 
-    BakingPowder1bkg = display.newImageRect("Images/Background Image.png",50,270)
-    BakingPowder1bkg.x = BakingPowder1.x+90
-    BakingPowder1bkg.y = BakingPowder1.y
-    BakingPowder1bkg:rotate(90)
-    BakingPowder1bkg:toBack()
     BakingPowder1TextField = native.newTextField(105 , 110 , 30 , 35)
     BakingPowder1TextField.inputType = "no-emoji"
     BakingPowder1TextField:setTextColor(0,0.3,0)
@@ -903,10 +931,13 @@ function scene:show( event )
     if ( phase == "will" ) then
 
        
+        if (pauseinstructions == true) then
+            pause()
+        end
+        -- Called when the scene is still off screen (but is about to come on screen).
     -----------------------------------------------------------------------------------------
 
     elseif ( phase == "did" ) then
-        StartTimer()
         BakingPowder()
         Butter:addEventListener("touch", Butter1)
         Eggs1:addEventListener("touch", Eggs)
@@ -926,32 +957,10 @@ function scene:show( event )
         MilkTextField:addEventListener("userInput", MilkQ)
         SaltTextField:addEventListener("userInput", SaltQ)
         SugarTextField:addEventListener("userInput", SugarQ)
-        BakingPowder1.isVisible = true
-        BakingPowder2.isVisible = true
-        BakingSoda1.isVisible = true
-        BakingSoda2.isVisible = true
-        Butter.isVisible = true
-        Eggs1.isVisible = true
-        Eggs2.isVisible = true
-        Flour.isVisible = true
-        Milk.isVisible = true
-        Salt.isVisible = true
-        Sugar.isVisible = true
-        BakingPowder1TextField.isVisible = true
-        BakingPowder2TextField.isVisible = true
-        BakingSoda1TextField.isVisible = true
-        BakingSoda2TextField.isVisible = true
-        ButterTextField.isVisible = true
-        Eggs1TextField.isVisible = true
-        FlourTextField.isVisible = true
-        MilkTextField.isVisible = true
-        SaltTextField.isVisible = true
-        SugarTextField.isVisible = true
-        pauseButton.isVisible = true
         if (soundOn == true) then     
-            audio.resume(level1SoundChannel)
+            audio.resume(level2SoundChannel)
         else
-            audio.pause(level1SoundChannel)      
+            audio.pause(level2SoundChannel)      
         end
     end
 end --function scene:show( event )
