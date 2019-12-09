@@ -157,7 +157,7 @@ function resumeGamelevel2(  )
     SugarTextField.isVisible = true
     pauseButton.isVisible = true
 end
-local function BakingPowder( event )       
+local function BakingPowder( event )     
     BakingPowder1.x=BakingPowder1.x+3
     BakingPowder1.y = BakingPowder1.y+2.5
     BakingPowder1:scale(1.002,1.002)
@@ -771,10 +771,9 @@ end
 
 --call the timer
 local function StartTimer()
-    -- create a countDown Timer that loops infinitely
+    secondsleft = totalseconds
     countDownTimer=timer.performWithDelay( 1000, Updatetime, 0)
 end
-StartTimer()
 -----------------------------------------------------------------------------------------
 -- GLOBAL SCENE FUNCTIONS
 -----------------------------------------------------------------------------------------
@@ -903,10 +902,11 @@ function scene:show( event )
 
     if ( phase == "will" ) then
 
-        -- Called when the scene is still off screen (but is about to come on screen).
+       
     -----------------------------------------------------------------------------------------
 
     elseif ( phase == "did" ) then
+        StartTimer()
         BakingPowder()
         Butter:addEventListener("touch", Butter1)
         Eggs1:addEventListener("touch", Eggs)
@@ -926,6 +926,28 @@ function scene:show( event )
         MilkTextField:addEventListener("userInput", MilkQ)
         SaltTextField:addEventListener("userInput", SaltQ)
         SugarTextField:addEventListener("userInput", SugarQ)
+        BakingPowder1.isVisible = true
+        BakingPowder2.isVisible = true
+        BakingSoda1.isVisible = true
+        BakingSoda2.isVisible = true
+        Butter.isVisible = true
+        Eggs1.isVisible = true
+        Eggs2.isVisible = true
+        Flour.isVisible = true
+        Milk.isVisible = true
+        Salt.isVisible = true
+        Sugar.isVisible = true
+        BakingPowder1TextField.isVisible = true
+        BakingPowder2TextField.isVisible = true
+        BakingSoda1TextField.isVisible = true
+        BakingSoda2TextField.isVisible = true
+        ButterTextField.isVisible = true
+        Eggs1TextField.isVisible = true
+        FlourTextField.isVisible = true
+        MilkTextField.isVisible = true
+        SaltTextField.isVisible = true
+        SugarTextField.isVisible = true
+        pauseButton.isVisible = true
         if (soundOn == true) then     
             audio.resume(level1SoundChannel)
         else
