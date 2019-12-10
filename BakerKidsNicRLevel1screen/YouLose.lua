@@ -38,7 +38,7 @@ local nextlevel
 -----------------------------------------------------------------------------------------
 local function Level2ScreenTransition( )
     composer.removeScene("level2_screen")
-    composer.gotoScene( "level2_screen", {effect = "slideLeft", time = 1000})
+    composer.gotoScene("level2_screen")
 end 
 local function mainmenuTransition()
     composer.removeScene("level2_screen")
