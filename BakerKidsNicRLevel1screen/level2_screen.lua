@@ -82,7 +82,7 @@ local userAnswerMilk
 local userAnswerSalt
 local userAnswerSugar
 local totalseconds = 60
-local lives = 3
+local lives = 4
 local secondsleft = 60
 local BakingSodaV = false
 local ButterV = false
@@ -472,17 +472,30 @@ local function DissapearSugar( event )
     SugarTextField:scale(1.0015,1.0015)
     SugarTextField.isVisible = false
     Sugar.alpha = Sugar.alpha - 0.01
+    Sugar.isVisible = false
     SugarTimer = timer.performWithDelay(20, DissapearSugar)
     timer.performWithDelay(2000, WinScreenTransition)
 end
+local function checkAnswers(  )
+    if(lives==3)then
+        heart3.isVisible=false
+    elseif(lives==2) then
+        heart2.isVisible=false
+    elseif(lives==1)then
+        heart1.isVisible=false
+        youLoseTransition()
+    end    
+end
+
 local function BakingPowder1Q( event )
-    userAnswerBakingPowder1 = tostring(event.target.text)
+        userAnswerBakingPowder1 = tostring(event.target.text)
 end
 local function BakingPowder2Q( event )
 
     if(event.phase=="submitted")then
+        BakingPowder1TextField:removeEventListener("userInput", BakingPowder1Q)
+        BakingPowder2TextField:removeEventListener("userInput", BakingPowder2Q)
         userAnswerBakingPowder2 = tostring(event.target.text)
-        print("Value:"..userAnswerBakingPowder2)
         if (userAnswerBakingPowder2 == ANSWERBAKINGPOWDER2) and (userAnswerBakingPowder1 == ANSWERBAKINGPOWDER1)then
             correctObject.isVisible = true
             correctSoundChannel = audio.play(correctSound)
@@ -494,14 +507,7 @@ local function BakingPowder2Q( event )
             DissapearBakingPowder()
             BakingSoda()
         else
-            if(lives==3)then
-                heart3.isVisible=false
-            elseif(lives==2) then
-                heart2.isVisible=false
-            elseif(lives==1)then
-                heart1.isVisible=false
-                youLoseTransition()
-            end
+            checkAnswers()
             incorrectTextObject.isVisible = true
             incorrectSoundChannel = audio.play(incorrectSound)
             incorrectTextObject.text = ("That is incorrect.You Lose a life")
@@ -514,6 +520,7 @@ local function BakingPowder2Q( event )
 end
 
 local function BakingSoda1Q( event )
+
     userAnswerBakingSoda1 = tostring(event.target.text)
 end
 local function BakingSoda2Q( event )
@@ -524,6 +531,8 @@ local function BakingSoda2Q( event )
        BakingSoda2TextField.text=""
        
     elseif(event.phase=="submitted")then
+        BakingSoda1TextField:removeEventListener("userInput", BakingSoda1Q)
+        BakingSoda2TextField:removeEventListener("userInput", BakingSoda2Q)
         userAnswerBakingSoda2 = tostring(event.target.text)
         if (userAnswerBakingSoda2 == ANSWERBAKINGSODA2) and (userAnswerBakingSoda1 == ANSWERBAKINGSODA1)then
             correctObject.isVisible = true
@@ -538,14 +547,7 @@ local function BakingSoda2Q( event )
             Butter1()
 
         else
-            if(lives==3)then
-                heart3.isVisible=false
-            elseif(lives==2) then
-                heart2.isVisible=false
-            elseif(lives==1)then
-                heart1.isVisible=false
-                youLoseTransition()
-            end
+            checkAnswers()
             incorrectTextObject.isVisible = true
             incorrectSoundChannel = audio.play(incorrectSound)
             incorrectTextObject.text = ("That is incorrect.You Lose a life. Try again")
@@ -564,6 +566,7 @@ local function ButterQ( event )
         --clear text field 
        ButterTextField.text=""
     elseif(event.phase=="submitted")then
+        ButterTextField:removeEventListener("userInput", ButterQ)
         userAnswerButter = tostring(event.target.text)
         if (userAnswerButter == ANSWERBUTTER)then
             correctObject.isVisible = true
@@ -576,14 +579,7 @@ local function ButterQ( event )
             DissapearButter()
             Eggs()
         else
-            if(lives==3)then
-                heart3.isVisible=false
-            elseif(lives==2) then
-                heart2.isVisible=false
-            elseif(lives==1)then
-                heart1.isVisible=false
-                youLoseTransition()
-            end
+            checkAnswers()
             incorrectTextObject.isVisible = true
             incorrectSoundChannel = audio.play(incorrectSound)
             incorrectTextObject.text = ("That is incorrect.You Lose a life. Try again")
@@ -603,6 +599,7 @@ local function EggsQ( event )
         --clear text field 
        Eggs1TextField.text=""
     elseif(event.phase=="submitted")then
+        Eggs1TextField:removeEventListener("userInput", EggsQ)        
         userAnswerEggs = tostring(event.target.text)
         if (userAnswerEggs == ANSWEREGGS)then
             correctObject.isVisible = true
@@ -615,14 +612,7 @@ local function EggsQ( event )
             DissapearEggs()
             Flour1()
         else
-            if(lives==3)then
-                heart3.isVisible=false
-            elseif(lives==2) then
-                heart2.isVisible=false
-            elseif(lives==1)then
-                heart1.isVisible=false
-                youLoseTransition()
-            end
+            checkAnswers()
             incorrectTextObject.isVisible = true
             incorrectSoundChannel = audio.play(incorrectSound)
             incorrectTextObject.text = ("That is incorrect.You Lose a life. Try again")
@@ -642,6 +632,7 @@ local function FlourQ( event )
         --clear text field 
        FlourTextField.text=""
     elseif(event.phase=="submitted")then
+        FlourTextField:removeEventListener("userInput", FlourQ)
         userAnswerFlour = tostring(event.target.text)
         if (userAnswerFlour == ANSWERFLOUR)then
             correctObject.isVisible = true
@@ -654,14 +645,7 @@ local function FlourQ( event )
             DissapearFlour()
             Milk1()
         else
-            if(lives==3)then
-                heart3.isVisible=false
-            elseif(lives==2) then
-                heart2.isVisible=false
-            elseif(lives==1)then
-                heart1.isVisible=false
-                youLoseTransition()
-            end
+            checkAnswers()
             incorrectTextObject.isVisible = true
             incorrectSoundChannel = audio.play(incorrectSound)
             incorrectTextObject.text = ("That is incorrect.You Lose a life. Try again")
@@ -683,6 +667,7 @@ local function MilkQ( event )
        MilkTextField.text=""
     elseif(event.phase=="submitted")then
         userAnswerMilk = tostring(event.target.text)
+        MilkTextField:removeEventListener("userInput", MilkQ)
         if (userAnswerMilk == ANSWERMILK)then
             correctObject.isVisible = true
             correctSoundChannel = audio.play(correctSound)
@@ -694,14 +679,7 @@ local function MilkQ( event )
             DissapearMilk()
             Salt1()
         else
-            if(lives==3)then
-                heart3.isVisible=false
-            elseif(lives==2) then
-                heart2.isVisible=false
-            elseif(lives==1)then
-                heart1.isVisible=false
-                youLoseTransition()
-            end
+            checkAnswers()
             incorrectTextObject.isVisible = true
             incorrectSoundChannel = audio.play(incorrectSound)
             incorrectTextObject.text = ("That is incorrect.You Lose a life. Try again")
@@ -721,6 +699,7 @@ local function SaltQ( event )
         --clear text field 
        SaltTextField.text=""
     elseif(event.phase=="submitted")then
+        SaltTextField:removeEventListener("userInput", SaltQ)
         userAnswerSalt = tostring(event.target.text)
         if (userAnswerSalt == ANSWERSALT)then
             correctObject.isVisible = true
@@ -733,14 +712,7 @@ local function SaltQ( event )
             DissapearSalt()
             Sugar1()
         else
-            if(lives==3)then
-                heart3.isVisible=false
-            elseif(lives==2) then
-                heart2.isVisible=false
-            elseif(lives==1)then
-                heart1.isVisible=false
-                youLoseTransition()
-            end
+            checkAnswers()
             incorrectTextObject.isVisible = true
             incorrectSoundChannel = audio.play(incorrectSound)
             incorrectTextObject.text = ("That is incorrect.You Lose a life. Try again")
@@ -760,6 +732,7 @@ local function SugarQ( event )
         --clear text field 
        SugarTextField.text=""
     elseif(event.phase=="submitted")then
+        SugarTextField:removeEventListener("userInput", SugarQ)
         userAnswerSugar = tostring(event.target.text)
         if (userAnswerSugar == ANSWERSUGAR)then
             correctObject.isVisible = true
@@ -771,14 +744,7 @@ local function SugarQ( event )
             DissapearSugar()
             youWinTransition()
         else
-            if(lives==3)then
-                heart3.isVisible=false
-            elseif(lives==2) then
-                heart2.isVisible=false
-            elseif(lives==1)then
-                heart1.isVisible=false
-                youLoseTransition()
-            end
+            checkAnswers()
             incorrectTextObject.isVisible = true
             incorrectSoundChannel = audio.play(incorrectSound)
             incorrectTextObject.text = ("That is incorrect.You Lose a life. Try again")
@@ -801,14 +767,7 @@ local function Updatetime()
         incorrectTextObject.text=("You ran out of time :(.You lose a life")
         lives=lives-1
         timer.performWithDelay(5000, incorrectcorrectObjectinvisible)
-        if(lives==2)then
-            heart3.isVisible=false
-        elseif(lives==1) then
-            heart2.isVisible=false
-        else
-            heart1.isVisible = false
-            youLoseTransition()
-        end
+        checkAnswers()
     end    
 end
 
@@ -989,7 +948,7 @@ function scene:hide( event )
     -----------------------------------------------------------------------------------------
 
     elseif ( phase == "did" ) then
-        -- Called immediately after scene goes off screen.
+
     end
 
 end --function scene:hide( event )
