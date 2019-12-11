@@ -105,12 +105,14 @@ local incorrectSoundChannel
 -- LOCAL FUNCTIONS
 -----------------------------------------------------------------------------------------
 
-local function youWinTransition( )   
+local function youWinTransition( )
+    audio.stop(level2SoundChannel)   
     pauseButton.isVisible = false
     timer.cancel(countDownTimer)
     composer.gotoScene( "YouWin", {effect = "slideRight", time = 1000})
 end 
 local function youLoseTransition(  )
+    audio.stop(level2SoundChannel)
     timer.cancel(countDownTimer)
     BakingPowder1.isVisible = false
     BakingPowder2.isVisible = false
@@ -929,7 +931,12 @@ function scene:show( event )
     -----------------------------------------------------------------------------------------
 
     if ( phase == "will" ) then
-
+        composer.removeScene("mainmenu")
+        if (soundOn == true) then     
+            audio.resume(level2SoundChannel)
+        else
+            audio.pause(level2SoundChannel)      
+        end
        
         if (pauseinstructions == true) then
             pause()
@@ -957,11 +964,7 @@ function scene:show( event )
         MilkTextField:addEventListener("userInput", MilkQ)
         SaltTextField:addEventListener("userInput", SaltQ)
         SugarTextField:addEventListener("userInput", SugarQ)
-        if (soundOn == true) then     
-            audio.resume(level2SoundChannel)
-        else
-            audio.pause(level2SoundChannel)      
-        end
+
     end
 end --function scene:show( event )
 

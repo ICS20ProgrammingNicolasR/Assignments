@@ -82,7 +82,7 @@ end
 -----------------------------------------------------------------------------------------
 
 -- Creating Transition to Level1 Screen
-local function Level1ScreenTransition( )
+local function Level2screenTransition( )
     mainMenuSound = audio.stop()
     composer.gotoScene( "level2_screen", {effect = "slideLeft", time = 1000})
 end    
@@ -146,7 +146,7 @@ function scene:create( event )
             overFile = "Images/PlayButtonPressedNicR.png",
 
             -- When the button is released, call the Level1 screen transition function
-            onRelease = Level1ScreenTransition          
+            onRelease = Level2screenTransition          
         } )
     playButton:scale(1.2,1.2)
 
