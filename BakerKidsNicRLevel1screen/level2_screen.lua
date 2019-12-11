@@ -25,6 +25,17 @@ sceneName = "level2_screen"
 local scene = composer.newScene( sceneName )
 
 -----------------------------------------------------------------------------------------
+--GLOBAL VARIABLES
+----------------------------------------------------------------------------------------
+pauseinstructions = false
+
+-----------------------------------------------------------------------------------------
+-- GLOBAL SOUNDS
+-----------------------------------------------------------------------------------------
+level2Sound = audio.loadSound("Sounds/Level2screenmusic.mp3")
+level2SoundChannel = audio.play(level2Sound,{loops = -1})
+
+-----------------------------------------------------------------------------------------
 -- LOCAL VARIABLES
 -----------------------------------------------------------------------------------------
 
@@ -51,6 +62,7 @@ local Salt
 local SaltTextField
 local Sugar
 local SugarTextField
+
 local bakingpowdertimer
 local BakingSodaTimer
 local ButterTimer
@@ -58,6 +70,7 @@ local EggsTimer
 local MilkTimer
 local SaltTimer
 local SugarTimer
+
 local ANSWERBAKINGPOWDER1 = "g"
 local ANSWERBAKINGPOWDER2 = "r"
 local ANSWERBAKINGSODA1 = "g"
@@ -68,6 +81,7 @@ local ANSWERFLOUR = "r"
 local ANSWERMILK = "k"
 local ANSWERSALT = "t"
 local ANSWERSUGAR = "r"
+
 local userAnswerBakingPowder1
 local userAnswerBakingPowder2
 local userAnswerBakingSoda1
@@ -78,9 +92,11 @@ local userAnswerFlour
 local userAnswerMilk
 local userAnswerSalt
 local userAnswerSugar
+
 local totalseconds = 60
 local lives = 3
 local secondsleft = 60
+
 local BakingSodaV = false
 local ButterV = false
 local EggsV = false
@@ -88,23 +104,20 @@ local FlourV = false
 local MilkV = false
 local SaltV = false
 local SugarV = true
+
+
 -----------------------------------------------------------------------------------------
---GLOBAL VARIABLES
-----------------------------------------------------------------------------------------
-pauseinstructions = false
+-- LOCAL SOUNDS
 -----------------------------------------------------------------------------------------
--- SOUNDS
------------------------------------------------------------------------------------------
-level2Sound = audio.loadSound("Sounds/Level2screenmusic.mp3")
-level2SoundChannel = audio.play(level2Sound,{loops = -1})
+
 local correctSound = audio.loadSound("Sounds/correctsound.wav")
 local correctSoundChannel
 local incorrectSound = audio.loadSound("Sounds/incorrectsound.wav")
 local incorrectSoundChannel
+
 -----------------------------------------------------------------------------------------
 -- LOCAL FUNCTIONS
 -----------------------------------------------------------------------------------------
-
 local function youWinTransition( )
     audio.stop(level2SoundChannel)   
     pauseButton.isVisible = false
@@ -114,58 +127,7 @@ end
 local function youLoseTransition(  )
     audio.stop(level2SoundChannel)
     timer.cancel(countDownTimer)
-    BakingPowder1.isVisible = false
-    BakingPowder2.isVisible = false
-    BakingSoda1.isVisible = false
-    BakingSoda2.isVisible = false
-    Butter.isVisible = false
-    Eggs1.isVisible = false
-    Eggs2.isVisible = false
-    Flour.isVisible = false
-    Milk.isVisible = false
-    Salt.isVisible = false
-    Sugar.isVisible = false
-    BakingPowder1TextField.isVisible = false
-    BakingPowder2TextField.isVisible = false
-    BakingSoda1TextField.isVisible = false
-    BakingSoda2TextField.isVisible = false
-    ButterTextField.isVisible = false
-    Eggs1TextField.isVisible = false
-    FlourTextField.isVisible = false
-    MilkTextField.isVisible = false
-    SaltTextField.isVisible = false
-    SugarTextField.isVisible = false
-    pauseButton.isVisible = false
-    composer.gotoScene("YouLose", {effect = "slideRight", time = 1000})
-end
-local function pause(  )
-    timer.pause(countDownTimer)
-    composer.showOverlay( "PauseScreen", { isModal = true, effect = "fade", time = 100})
-    BakingPowder1.isVisible = false
-    BakingPowder2.isVisible = false
-    BakingSoda1.isVisible = false
-    BakingSoda2.isVisible = false
-    Butter.isVisible = false
-    Eggs1.isVisible = false
-    Eggs2.isVisible = false
-    Flour.isVisible = false
-    Milk.isVisible = false
-    Salt.isVisible = false
-    Sugar.isVisible = false
-    BakingPowder1TextField.isVisible = false
-    BakingPowder2TextField.isVisible = false
-    BakingSoda1TextField.isVisible = false
-    BakingSoda2TextField.isVisible = false
-    ButterTextField.isVisible = false
-    Eggs1TextField.isVisible = false
-    FlourTextField.isVisible = false
-    MilkTextField.isVisible = false
-    SaltTextField.isVisible = false
-    SugarTextField.isVisible = false
-    pauseButton.isVisible = false
-end
-function resumeGamelevel2(  )
-    timer.resume(countDownTimer)
+local function ShowImages()
     BakingPowder1.isVisible = true
     BakingPowder2.isVisible = true
     BakingSoda1.isVisible = true
@@ -189,19 +151,60 @@ function resumeGamelevel2(  )
     SugarTextField.isVisible = true
     pauseButton.isVisible = true
 end
+
+local function HideImages()
+    BakingPowder1.isVisible = false
+    BakingPowder2.isVisible = false
+    BakingSoda1.isVisible = false
+    BakingSoda2.isVisible = false
+    Butter.isVisible = false
+    Eggs1.isVisible = false
+    Eggs2.isVisible = false
+    Flour.isVisible = false
+    Milk.isVisible = false
+    Salt.isVisible = false
+    Sugar.isVisible = false
+    BakingPowder1TextField.isVisible = false
+    BakingPowder2TextField.isVisible = false
+    BakingSoda1TextField.isVisible = false
+    BakingSoda2TextField.isVisible = false
+    ButterTextField.isVisible = false
+    Eggs1TextField.isVisible = false
+    FlourTextField.isVisible = false
+    MilkTextField.isVisible = false
+    SaltTextField.isVisible = false
+    SugarTextField.isVisible = false
+    pauseButton.isVisible = false
+end
+
+local function youLoseTransition(  )
+    composer.gotoScene("YouLose", {effect = "slideRight", time = 1000})
+end
+
+local function pause(  )
+    timer.pause(countDownTimer)
+    HideImages()
+    composer.showOverlay( "PauseScreen", { isModal = true, effect = "fade", time = 100})
+end
+
+
 local function BakingPowder( event )     
     BakingPowder1.x=BakingPowder1.x+3
     BakingPowder1.y = BakingPowder1.y+2.5
     BakingPowder1:scale(1.002,1.002)
+
     BakingPowder1TextField.x = BakingPowder1TextField.x + 3.15
     BakingPowder1TextField.y = BakingPowder1TextField.y + 2.5
     BakingPowder1TextField:scale(1.002,1.002)
+
     BakingPowder2.x=BakingPowder2.x+3.27
     BakingPowder2.y = BakingPowder2.y + 2.5
     BakingPowder2:scale(1.002,1.002)
+
     BakingPowder2TextField.x = BakingPowder2TextField.x + 3.4
     BakingPowder2TextField.y = BakingPowder2TextField.y + 2.5
     BakingPowder2TextField:scale(1.002,1.002)
+
     if (BakingPowder1.x >= display.contentCenterX) then
        BakingPowder1TextField:resizeFontToFitHeight()
        BakingPowder2TextField:resizeFontToFitHeight()
@@ -211,19 +214,24 @@ local function BakingPowder( event )
     end
 end
 
+
 local function BakingSoda( event )
     BakingSoda1.x = BakingSoda1.x+3
     BakingSoda1.y = BakingSoda1.y+3
     BakingSoda1:scale(1.002,1.002)
+
     BakingSoda1TextField.x = BakingSoda1TextField.x +3.06
     BakingSoda1TextField.y = BakingSoda1TextField.y + 3
+
     BakingSoda2.x = BakingSoda2.x+3.1
     BakingSoda2.y = BakingSoda2.y + 3
     BakingSoda2:scale(1.002,1.002)
+
     BakingSoda2TextField.x = BakingSoda2TextField.x + 3.15
     BakingSoda2TextField.y = BakingSoda2TextField.y + 3
     BakingSoda2TextField:scale(1.0015,1.0015)
     BakingSoda1TextField:scale(1.0015,1.0015)
+
     if (BakingSoda1.x >= display.contentCenterX)then
         BakingSoda1TextField:resizeFontToFitHeight()
         BakingSoda2TextField:resizeFontToFitHeight()
@@ -340,20 +348,22 @@ local function Sugar1( touch )
         end
     end
 end
+
 local function incorrectcorrectObjectinvisible(  )
     -- hide the correct and incorrect objects
     incorrectTextObject.isVisible = false
     correctObject.isVisible = false
 end
+
 local function DissapearBakingPowder( event )
     BakingPowder1.text = "Baking   Powder"      
-    BakingPowder1.x=BakingPowder1.x+3
+    BakingPowder1.x = BakingPowder1.x+3
     BakingPowder1.y = BakingPowder1.y+2.5
     BakingPowder1:scale(1.002,1.002)
     BakingPowder1TextField.x = BakingPowder1TextField.x + 3.15
     BakingPowder1TextField.y = BakingPowder1TextField.y + 2.5
     BakingPowder1TextField:scale(1.002,1.002)
-    BakingPowder2.x=BakingPowder2.x+3.27
+    BakingPowder2.x=BakingPowder2.x + 3.27
     BakingPowder2.y = BakingPowder2.y + 2.5
     BakingPowder2:scale(1.002,1.002)
     BakingPowder2TextField.x = BakingPowder2TextField.x + 3.4
@@ -466,7 +476,20 @@ local function DissapearSugar( event )
 end
 local function BakingPowder1Q( event )
     userAnswerBakingPowder1 = tostring(event.target.text)
+    print ("***userAnswerBakingPowder1 = " .. userAnswerBakingPowder1)
 end
+
+local function UpdateLives()
+    if(lives==3)then
+        heart3.isVisible=false
+    elseif(lives==2) then
+        heart2.isVisible=false
+    elseif(lives==1)then
+        heart1.isVisible=false
+        youLoseTransition()
+    end
+end
+
 local function BakingPowder2Q( event )
     -- ask the question
     if (event.phase=="began")then
@@ -475,6 +498,8 @@ local function BakingPowder2Q( event )
        BakingPowder2TextField.text=""
     elseif(event.phase=="submitted")then
         userAnswerBakingPowder2 = tostring(event.target.text)
+        print ("***userAnswerBakingPowder2 = " .. userAnswerBakingPowder2)
+
         if (userAnswerBakingPowder2 == ANSWERBAKINGPOWDER2) and (userAnswerBakingPowder1 == ANSWERBAKINGPOWDER1)then
             correctObject.isVisible = true
             correctSoundChannel = audio.play(correctSound)
@@ -486,14 +511,6 @@ local function BakingPowder2Q( event )
             DissapearBakingPowder()
             BakingSoda()
         else
-            if(lives==3)then
-                heart3.isVisible=false
-            elseif(lives==2) then
-                heart2.isVisible=false
-            elseif(lives==1)then
-                heart1.isVisible=false
-                youLoseTransition()
-            end
             incorrectTextObject.isVisible = true
             incorrectSoundChannel = audio.play(incorrectSound)
             incorrectTextObject.text = ("That is incorrect.You Lose a life")
@@ -501,21 +518,28 @@ local function BakingPowder2Q( event )
             correctObject.isVisible = false
             lives = lives-1
             BakingSodaV = true
+
+            UpdateLives()
+            
         end
     end
 end
 
 local function BakingSoda1Q( event )
     userAnswerBakingSoda1 = tostring(event.target.text)
+    print ("***userAnswerBakingSoda1 = " .. userAnswerBakingSoda1)
 end
+
 local function BakingSoda2Q( event )
     -- ask the question
     if (event.phase=="began")then
 
         --clear text field 
        BakingSoda2TextField.text=""
+
     elseif(event.phase=="submitted")then
         userAnswerBakingSoda2 = tostring(event.target.text)
+
         if (userAnswerBakingSoda2 == ANSWERBAKINGSODA2) and (userAnswerBakingSoda1 == ANSWERBAKINGSODA1)then
             correctObject.isVisible = true
             correctSoundChannel = audio.play(correctSound)
@@ -529,14 +553,7 @@ local function BakingSoda2Q( event )
             Butter1()
 
         else
-            if(lives==3)then
-                heart3.isVisible=false
-            elseif(lives==2) then
-                heart2.isVisible=false
-            elseif(lives==1)then
-                heart1.isVisible=false
-                youLoseTransition()
-            end
+
             incorrectTextObject.isVisible = true
             incorrectSoundChannel = audio.play(incorrectSound)
             incorrectTextObject.text = ("That is incorrect.You Lose a life. Try again")
@@ -545,9 +562,12 @@ local function BakingSoda2Q( event )
             lives = lives-1
             BakingSodaV = false
             ButterV = true
+
+            UpdateLives()
         end
     end
 end
+
 local function ButterQ( event )
     -- ask the question
     if (event.phase=="began")then
@@ -567,14 +587,7 @@ local function ButterQ( event )
             DissapearButter()
             Eggs()
         else
-            if(lives==3)then
-                heart3.isVisible=false
-            elseif(lives==2) then
-                heart2.isVisible=false
-            elseif(lives==1)then
-                heart1.isVisible=false
-                youLoseTransition()
-            end
+
             incorrectTextObject.isVisible = true
             incorrectSoundChannel = audio.play(incorrectSound)
             incorrectTextObject.text = ("That is incorrect.You Lose a life. Try again")
@@ -584,9 +597,12 @@ local function ButterQ( event )
             ButterV = false
             EggsV = true
             ButterTextField.text = ""
+
+            UpdateLives()
         end
     end
 end
+
 local function EggsQ( event )
     -- ask the question
     if (event.phase=="began")then
@@ -606,14 +622,7 @@ local function EggsQ( event )
             DissapearEggs()
             Flour1()
         else
-            if(lives==3)then
-                heart3.isVisible=false
-            elseif(lives==2) then
-                heart2.isVisible=false
-            elseif(lives==1)then
-                heart1.isVisible=false
-                youLoseTransition()
-            end
+
             incorrectTextObject.isVisible = true
             incorrectSoundChannel = audio.play(incorrectSound)
             incorrectTextObject.text = ("That is incorrect.You Lose a life. Try again")
@@ -623,6 +632,8 @@ local function EggsQ( event )
             lives = lives-1
             EggsV = false
             FlourV = true
+
+            UpdateLives()
         end
     end
 end
@@ -645,14 +656,7 @@ local function FlourQ( event )
             DissapearFlour()
             Milk1()
         else
-            if(lives==3)then
-                heart3.isVisible=false
-            elseif(lives==2) then
-                heart2.isVisible=false
-            elseif(lives==1)then
-                heart1.isVisible=false
-                youLoseTransition()
-            end
+
             incorrectTextObject.isVisible = true
             incorrectSoundChannel = audio.play(incorrectSound)
             incorrectTextObject.text = ("That is incorrect.You Lose a life. Try again")
@@ -662,7 +666,7 @@ local function FlourQ( event )
             lives = lives-1
             FlourV = false
             MilkV = true
-
+            UpdateLives()
         end
     end
 end
@@ -685,14 +689,7 @@ local function MilkQ( event )
             DissapearMilk()
             Salt1()
         else
-            if(lives==3)then
-                heart3.isVisible=false
-            elseif(lives==2) then
-                heart2.isVisible=false
-            elseif(lives==1)then
-                heart1.isVisible=false
-                youLoseTransition()
-            end
+
             incorrectTextObject.isVisible = true
             incorrectSoundChannel = audio.play(incorrectSound)
             incorrectTextObject.text = ("That is incorrect.You Lose a life. Try again")
@@ -702,6 +699,7 @@ local function MilkQ( event )
             lives = lives-1
             MilkV = false
             SaltV = true
+            UpdateLives()
         end
     end
 end
@@ -724,14 +722,7 @@ local function SaltQ( event )
             DissapearSalt()
             Sugar1()
         else
-            if(lives==3)then
-                heart3.isVisible=false
-            elseif(lives==2) then
-                heart2.isVisible=false
-            elseif(lives==1)then
-                heart1.isVisible=false
-                youLoseTransition()
-            end
+
             incorrectTextObject.isVisible = true
             incorrectSoundChannel = audio.play(incorrectSound)
             incorrectTextObject.text = ("That is incorrect.You Lose a life. Try again")
@@ -741,6 +732,7 @@ local function SaltQ( event )
             lives = lives-1
             SaltV = false
             SugarV = true
+            UpdateLives()
         end
     end
 end
@@ -762,14 +754,7 @@ local function SugarQ( event )
             DissapearSugar()
             youWinTransition()
         else
-            if(lives==3)then
-                heart3.isVisible=false
-            elseif(lives==2) then
-                heart2.isVisible=false
-            elseif(lives==1)then
-                heart1.isVisible=false
-                youLoseTransition()
-            end
+
             incorrectTextObject.isVisible = true
             incorrectSoundChannel = audio.play(incorrectSound)
             incorrectTextObject.text = ("That is incorrect.You Lose a life. Try again")
@@ -778,6 +763,7 @@ local function SugarQ( event )
             SugarTextField.text = ""
             lives = lives-1
             SugarV = false
+            UpdateLives()
         end
     end
 end
@@ -792,14 +778,7 @@ local function Updatetime()
         incorrectTextObject.text=("You ran out of time :(.You lose a life")
         lives=lives-1
         timer.performWithDelay(5000, incorrectcorrectObjectinvisible)
-        if(lives==2)then
-            heart3.isVisible=false
-        elseif(lives==1) then
-            heart2.isVisible=false
-        else
-            heart1.isVisible = false
-            youLoseTransition()
-        end
+        UpdateLives()
     end    
 end
 
@@ -808,7 +787,84 @@ local function StartTimer()
     secondsleft = totalseconds
     countDownTimer=timer.performWithDelay( 1000, Updatetime, 0)
 end
-StartTimer()
+
+local function AddAllListeners(  )
+    Butter:addEventListener("touch", Butter1)
+    Eggs1:addEventListener("touch", Eggs)
+    Eggs2:addEventListener("touch", Eggs)
+    Flour:addEventListener("touch", Flour1)
+    Milk:addEventListener("touch", Milk1)
+    Salt:addEventListener("touch", Salt1)
+    Sugar:addEventListener("touch", Sugar1)
+    pauseButton:addEventListener("touch", pause)
+    BakingPowder1TextField:addEventListener("userInput", BakingPowder1Q)
+    BakingPowder2TextField:addEventListener("userInput", BakingPowder2Q)
+    BakingSoda1TextField:addEventListener("userInput", BakingSoda1Q)
+    BakingSoda2TextField:addEventListener("userInput", BakingSoda2Q)
+    ButterTextField:addEventListener("userInput", ButterQ)
+    Eggs1TextField:addEventListener("userInput", EggsQ)
+    FlourTextField:addEventListener("userInput", FlourQ)
+    MilkTextField:addEventListener("userInput", MilkQ)
+    SaltTextField:addEventListener("userInput", SaltQ)
+    SugarTextField:addEventListener("userInput", SugarQ)
+end
+
+local function RemoveAllListeners(  )
+    Butter:removeEventListener("touch", Butter1)
+    Eggs1:removeEventListener("touch", Eggs)
+    Eggs2:removeEventListener("touch", Eggs)
+    Flour:removeEventListener("touch", Flour1)
+    Milk:removeEventListener("touch", Milk1)
+    Salt:removeEventListener("touch", Salt1)
+    Sugar:removeEventListener("touch", Sugar1)
+    pauseButton:removeEventListener("touch", pause)
+    BakingPowder1TextField:removeEventListener("userInput", BakingPowder1Q)
+    BakingPowder2TextField:removeEventListener("userInput", BakingPowder2Q)
+    BakingSoda1TextField:removeEventListener("userInput", BakingSoda1Q)
+    BakingSoda2TextField:removeEventListener("userInput", BakingSoda2Q)
+    ButterTextField:removeEventListener("userInput", ButterQ)
+    Eggs1TextField:removeEventListener("userInput", EggsQ)
+    FlourTextField:removeEventListener("userInput", FlourQ)
+    MilkTextField:removeEventListener("userInput", MilkQ)
+    SaltTextField:removeEventListener("userInput", SaltQ)
+    SugarTextField:removeEventListener("userInput", SugarQ)
+end
+
+local function CancelAllTimers()
+    if (bakingpowdertimer ~= nil) then
+        timer.cancel (bakingpowdertimer)
+    end
+    if (BakingSodaTimer ~= nil) then
+        timer.cancel (BakingSodaTimer)
+    end
+end
+
+local function ResetTextPositions()
+    print ("***ResetTextPositions called")
+    BakingPowder1.x = 50
+    BakingPowder1.y = 110
+    BakingPowder1:scale(0.7,0.7)
+
+    BakingPowder1TextField.x = 105
+    BakingPowder1TextField.y = 110
+
+    BakingPowder2.x = 180
+    BakingPowder2.y = 110    
+    BakingPowder2:scale(0.7,0.7)
+
+    BakingPowder2TextField.x = 250
+    BakingPowder2TextField.y = 110
+end
+
+-----------------------------------------------------------------------------------------
+-- GLOBAL FUNCTIONS
+-----------------------------------------------------------------------------------------
+
+
+function resumeGamelevel2(  )
+    timer.resume(countDownTimer)
+    ShowImages()
+end
 -----------------------------------------------------------------------------------------
 -- GLOBAL SCENE FUNCTIONS
 -----------------------------------------------------------------------------------------
@@ -833,53 +889,75 @@ function scene:create( event )
 
     BakingPowder1 = display.newText("Bakin ", 50 ,110, Arial, 35)
     BakingPowder1:setTextColor(0,0,0) 
+    sceneGroup:insert(BakingPowder1)
+    BakingPowder1.isVisible = true
     BakingPowder1TextField = native.newTextField(105 , 110 , 30 , 35)
     BakingPowder1TextField.inputType = "no-emoji"
+    sceneGroup:insert(BakingPowder1TextField)
     BakingPowder1TextField:setTextColor(0,0.3,0)
     BakingPowder2 = display.newText("Powde", 180 , 110 , Arial , 35)
+    sceneGroup:insert(BakingPowder2)
     BakingPowder2:setTextColor(0,0,0)
     BakingPowder2TextField = native.newTextField(250, 110 , 30 , 35)
+    sceneGroup:insert(BakingPowder2TextField)
     BakingPowder2TextField:setTextColor(0,0.3,0)
     BakingPowder2TextField.inputType = "no-emoji"
     BakingSoda1 = display.newText("Bakin", 340 , 110 , Arial , 35)
+    sceneGroup:insert(BakingSoda1)
     BakingSoda1:setTextColor(0,0,0)
     BakingSoda1TextField = native.newTextField(400 , 110 , 30 , 35)
+    sceneGroup:insert(BakingSoda1TextField)
     BakingSoda1TextField:setTextColor(0,0.3,0)
     BakingSoda1TextField.inputType = "no-emoji"
     BakingSoda2 = display.newText("sod", 450 , 110, Arial, 35)
+    sceneGroup:insert(BakingSoda2)
     BakingSoda2:setTextColor(0,0,0)
     BakingSoda2TextField = native.newTextField(500 , 110 , 30 , 35)
+    sceneGroup:insert(BakingSoda2TextField)
     BakingSoda2TextField:setTextColor(0,0.3,0)
     BakingSoda1TextField.inputType = "no-emoji"
     Butter = display.newText("Butte", 580, 110, Arial , 35)
     Butter:setTextColor(0,0,0)
+    sceneGroup:insert(Butter)
     ButterTextField = native.newTextField(635 , 110, 30 , 35)
     ButterTextField:setTextColor(0,0.3,0)
+    sceneGroup:insert(ButterTextField)
     ButterTextField.inputType = "no-emoji"
     Eggs1 = display.newText("Eg", 680, 110, Arial, 35)
+    sceneGroup:insert(Eggs1)
     Eggs1:setTextColor(0,0,0)
     Eggs1TextField = native.newTextField(720, 110, 30, 35)
+    sceneGroup:insert(Eggs1TextField)
     Eggs1TextField:setTextColor(0,0.3,0)
     Eggs1TextField.inputType = "no-emoji"
     Eggs2 = display.newText("s", 750, 110, Arial ,35)
+    sceneGroup:insert(Eggs2)
     Eggs2:setTextColor(0,0,0)
     Flour = display.newText("Flou", 800, 110, Arial, 35)
+    sceneGroup:insert(Flour)
     Flour:setTextColor(0,0,0)
     FlourTextField = native.newTextField(850, 110, 30, 35)
+    sceneGroup:insert(FlourTextField)
     FlourTextField:setTextColor(0,0.3,0)
     FlourTextField.inputType = "no-emoji"
     Milk = display.newText("Mil",900, 110, Arial, 35)
+    sceneGroup:insert(Milk)
     Milk:setTextColor(0,0,0)
     MilkTextField = native.newTextField(940, 110, 30, 35)
     MilkTextField:setTextColor(0,0.3,0)
+    sceneGroup:insert(MilkTextField)
     Salt = display.newText("Sal", 30, 150, Arial, 35)
     Salt:setTextColor(0,0,0)
+    sceneGroup:insert(Salt)
     SaltTextField = native.newTextField(80, 150, 30, 35)
     SaltTextField:setTextColor(0,0.3,0)
+    sceneGroup:insert(SaltTextField)
     SaltTextField.inputType = "no-emoji"
     Sugar = display.newText("Suga", 140, 150, Arial, 35)
+    sceneGroup:insert(Sugar)
     Sugar:setTextColor(0,0,0)
     SugarTextField = native.newTextField(200, 150, 30, 35)
+    sceneGroup:insert(SugarTextField)
     correctObject = display.newText("Hey dude that's correct!", display.contentCenterX,display.contentCenterY, Arial, 70)
     correctObject:setTextColor(0,0,0)
     correctObject.isVisible = false
@@ -937,7 +1015,6 @@ function scene:show( event )
         else
             audio.pause(level2SoundChannel)      
         end
-       
         if (pauseinstructions == true) then
             pause()
         end
@@ -964,7 +1041,6 @@ function scene:show( event )
         MilkTextField:addEventListener("userInput", MilkQ)
         SaltTextField:addEventListener("userInput", SaltQ)
         SugarTextField:addEventListener("userInput", SugarQ)
-
     end
 end --function scene:show( event )
 
@@ -988,6 +1064,9 @@ function scene:hide( event )
 
     elseif ( phase == "did" ) then
         -- Called immediately after scene goes off screen.
+        timer.cancel(countDownTimer)
+        CancelAllTimers()
+        RemoveAllListeners()
     end
 
 end --function scene:hide( event )
@@ -1006,7 +1085,7 @@ function scene:destroy( event )
     -- Insert code here to clean up the scene.
     -- Example: remove display objects, save state, etc.
 
-end -- function scene:destroy( event )
+end
 
 -----------------------------------------------------------------------------------------
 -- EVENT LISTENERS

@@ -42,11 +42,15 @@ local function Backtolevel2(  )
 
 	resumeGamelevel2()
 end
+
 local function restartLevel2(  )
-    audio.stop(level2SoundChannel)
+    --audio.stop(level2SoundChannel)
     composer.removeScene("level2_screen")
     composer.gotoScene("level2_screen")
+    composer.hideOverlay("crossFade", 400)
+    restartGameLevel2()
 end
+
  local function pauseMusic(touch)
     if(touch.phase == "ended")then
         -- Pause the pauseMusic
@@ -68,7 +72,7 @@ end
 local function mainmenuTransition()
     audio.stop(level2SoundChannel)
     composer.removeScene("level2_screen")
-   composer.gotoScene( "mainmenu" )
+    composer.gotoScene( "mainmenu" )
 end
 local function InstructionsTransition( )
     pauseinstructions = true
@@ -189,13 +193,13 @@ function scene:show( event )
     -----------------------------------------------------------------------------------------
 
     if ( phase == "will" ) then
-
+        volumeButton:addEventListener("touch", pauseMusic ) 
+        muteVolumeButton:addEventListener("touch", playMusic )
         -- Called when the scene is still off screen (but is about to come on screen).
     -----------------------------------------------------------------------------------------
 
     elseif ( phase == "did" ) then
-        volumeButton:addEventListener("touch", pauseMusic ) 
-        muteVolumeButton:addEventListener("touch", playMusic )
+
 
         if (soundOn == true) then     
             audio.resume(level2SoundChannel)
@@ -226,8 +230,8 @@ function scene:hide( event )
         -- Called when the scene is on screen (but is about to go off screen).
         -- Insert code here to "pause" the scene.
         -- Example: stop timers, stop animation, stop audio, etc.
-        muteVolumeButton:removeEventListener("touch", playMusic)
-        volumeButton:removeEventListener("touch", pauseMusic)
+        volumeButton:removeEventListener("touch", pauseMusic ) 
+        muteVolumeButton:removeEventListener("touch", playMusic )
 
     -----------------------------------------------------------------------------------------
 
