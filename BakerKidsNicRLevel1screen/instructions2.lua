@@ -35,6 +35,7 @@ local backButton
 
 -- Creating Transitioning Function back to main menu
 local function BackTransition( )
+    pauseinstructions = true
     composer.gotoScene( "level2_screen", {effect = "fromRight", time = 500})
 end
 
