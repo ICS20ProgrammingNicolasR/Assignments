@@ -477,6 +477,7 @@ local function DissapearSugar( event )
     timer.performWithDelay(2000, WinScreenTransition)
 end
 local function checkAnswers(  )
+    lives = lives-1
     if(lives==3)then
         heart3.isVisible=false
     elseif(lives==2) then
@@ -493,10 +494,14 @@ end
 local function BakingPowder2Q( event )
 
     if(event.phase=="submitted")then
-        BakingPowder1TextField:removeEventListener("userInput", BakingPowder1Q)
-        BakingPowder2TextField:removeEventListener("userInput", BakingPowder2Q)
         userAnswerBakingPowder2 = tostring(event.target.text)
         if (userAnswerBakingPowder2 == ANSWERBAKINGPOWDER2) and (userAnswerBakingPowder1 == ANSWERBAKINGPOWDER1)then
+        BakingPowder1TextField:removeEventListener("userInput", BakingPowder1Q)
+        BakingPowder2TextField:removeEventListener("userInput", BakingPowder2Q)
+            print("Value:"..ANSWERBAKINGPOWDER2)
+            print("Value:"..ANSWERBAKINGPOWDER1)
+            print("Value:"..userAnswerBakingPowder2)
+            print("Value:"..userAnswerBakingPowder1)
             correctObject.isVisible = true
             correctSoundChannel = audio.play(correctSound)
             timer.performWithDelay(2000,incorrectcorrectObjectinvisible)
@@ -513,7 +518,6 @@ local function BakingPowder2Q( event )
             incorrectTextObject.text = ("That is incorrect.You Lose a life")
             timer.performWithDelay(2000,incorrectcorrectObjectinvisible)
             correctObject.isVisible = false
-            lives = lives-1
             BakingSodaV = true
         end
     end
@@ -531,10 +535,10 @@ local function BakingSoda2Q( event )
        BakingSoda2TextField.text=""
        
     elseif(event.phase=="submitted")then
-        BakingSoda1TextField:removeEventListener("userInput", BakingSoda1Q)
-        BakingSoda2TextField:removeEventListener("userInput", BakingSoda2Q)
         userAnswerBakingSoda2 = tostring(event.target.text)
         if (userAnswerBakingSoda2 == ANSWERBAKINGSODA2) and (userAnswerBakingSoda1 == ANSWERBAKINGSODA1)then
+            BakingSoda1TextField:removeEventListener("userInput", BakingSoda1Q)
+            BakingSoda2TextField:removeEventListener("userInput", BakingSoda2Q)
             correctObject.isVisible = true
             correctSoundChannel = audio.play(correctSound)
             timer.performWithDelay(2000,incorrectcorrectObjectinvisible)
@@ -553,7 +557,6 @@ local function BakingSoda2Q( event )
             incorrectTextObject.text = ("That is incorrect.You Lose a life. Try again")
             timer.performWithDelay(2000,incorrectcorrectObjectinvisible)
             correctObject.isVisible = false
-            lives = lives-1
             BakingSodaV = false
             ButterV = true
         end
@@ -566,9 +569,9 @@ local function ButterQ( event )
         --clear text field 
        ButterTextField.text=""
     elseif(event.phase=="submitted")then
-        ButterTextField:removeEventListener("userInput", ButterQ)
         userAnswerButter = tostring(event.target.text)
         if (userAnswerButter == ANSWERBUTTER)then
+            ButterTextField:removeEventListener("userInput", ButterQ)
             correctObject.isVisible = true
             correctSoundChannel = audio.play(correctSound)
             timer.performWithDelay(2000,incorrectcorrectObjectinvisible)
@@ -585,7 +588,6 @@ local function ButterQ( event )
             incorrectTextObject.text = ("That is incorrect.You Lose a life. Try again")
             timer.performWithDelay(2000,incorrectcorrectObjectinvisible)
             correctObject.isVisible = false
-            lives = lives-1
             ButterV = false
             EggsV = true
             ButterTextField.text = ""
@@ -599,9 +601,9 @@ local function EggsQ( event )
         --clear text field 
        Eggs1TextField.text=""
     elseif(event.phase=="submitted")then
-        Eggs1TextField:removeEventListener("userInput", EggsQ)        
         userAnswerEggs = tostring(event.target.text)
         if (userAnswerEggs == ANSWEREGGS)then
+            Eggs1TextField:removeEventListener("userInput", EggsQ)        
             correctObject.isVisible = true
             correctSoundChannel = audio.play(correctSound)
             timer.performWithDelay(2000,incorrectcorrectObjectinvisible)
@@ -619,7 +621,6 @@ local function EggsQ( event )
             timer.performWithDelay(2000,incorrectcorrectObjectinvisible)
             correctObject.isVisible = false
             Eggs1TextField.text = ""
-            lives = lives-1
             EggsV = false
             FlourV = true
         end
@@ -632,9 +633,9 @@ local function FlourQ( event )
         --clear text field 
        FlourTextField.text=""
     elseif(event.phase=="submitted")then
-        FlourTextField:removeEventListener("userInput", FlourQ)
         userAnswerFlour = tostring(event.target.text)
         if (userAnswerFlour == ANSWERFLOUR)then
+            FlourTextField:removeEventListener("userInput", FlourQ)
             correctObject.isVisible = true
             correctSoundChannel = audio.play(correctSound)
             timer.performWithDelay(2000,incorrectcorrectObjectinvisible)
@@ -652,7 +653,6 @@ local function FlourQ( event )
             timer.performWithDelay(2000,incorrectcorrectObjectinvisible)
             correctObject.isVisible = false
             FlourTextField.text = ""
-            lives = lives-1
             FlourV = false
             MilkV = true
 
@@ -667,8 +667,8 @@ local function MilkQ( event )
        MilkTextField.text=""
     elseif(event.phase=="submitted")then
         userAnswerMilk = tostring(event.target.text)
-        MilkTextField:removeEventListener("userInput", MilkQ)
         if (userAnswerMilk == ANSWERMILK)then
+            MilkTextField:removeEventListener("userInput", MilkQ)
             correctObject.isVisible = true
             correctSoundChannel = audio.play(correctSound)
             timer.performWithDelay(2000,incorrectcorrectObjectinvisible)
@@ -686,7 +686,6 @@ local function MilkQ( event )
             timer.performWithDelay(2000,incorrectcorrectObjectinvisible)
             correctObject.isVisible = false
             MilkTextField.text = ""
-            lives = lives-1
             MilkV = false
             SaltV = true
         end
@@ -699,9 +698,9 @@ local function SaltQ( event )
         --clear text field 
        SaltTextField.text=""
     elseif(event.phase=="submitted")then
-        SaltTextField:removeEventListener("userInput", SaltQ)
         userAnswerSalt = tostring(event.target.text)
         if (userAnswerSalt == ANSWERSALT)then
+            SaltTextField:removeEventListener("userInput", SaltQ)
             correctObject.isVisible = true
             correctSoundChannel = audio.play(correctSound)
             timer.performWithDelay(2000,incorrectcorrectObjectinvisible)
@@ -719,7 +718,6 @@ local function SaltQ( event )
             timer.performWithDelay(2000,incorrectcorrectObjectinvisible)
             correctObject.isVisible = false
             SaltTextField.text = ""
-            lives = lives-1
             SaltV = false
             SugarV = true
         end
@@ -732,9 +730,9 @@ local function SugarQ( event )
         --clear text field 
        SugarTextField.text=""
     elseif(event.phase=="submitted")then
-        SugarTextField:removeEventListener("userInput", SugarQ)
         userAnswerSugar = tostring(event.target.text)
         if (userAnswerSugar == ANSWERSUGAR)then
+            SugarTextField:removeEventListener("userInput", SugarQ)
             correctObject.isVisible = true
             correctSoundChannel = audio.play(correctSound)
             timer.performWithDelay(2000,incorrectcorrectObjectinvisible)
@@ -751,7 +749,6 @@ local function SugarQ( event )
             timer.performWithDelay(2000,incorrectcorrectObjectinvisible)
             correctObject.isVisible = false
             SugarTextField.text = ""
-            lives = lives-1
             SugarV = false
         end
     end
@@ -765,7 +762,6 @@ local function Updatetime()
         secondsleft=totalseconds
         incorrectTextObject.isVisible=true
         incorrectTextObject.text=("You ran out of time :(.You lose a life")
-        lives=lives-1
         timer.performWithDelay(5000, incorrectcorrectObjectinvisible)
         checkAnswers()
     end    
