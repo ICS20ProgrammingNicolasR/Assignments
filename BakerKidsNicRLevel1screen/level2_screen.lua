@@ -201,18 +201,18 @@ function resumeGamelevel2(  )
     pauseButton.isVisible = true
 end
 local function BakingPowder( event )     
-    BakingPowder1.x=BakingPowder1.x+3
+    BakingPowder1.x=BakingPowder1.x+6
     BakingPowder1.y = BakingPowder1.y+2.5
-    BakingPowder1:scale(1.002,1.002)
-    BakingPowder1TextField.x = BakingPowder1TextField.x + 3.15
+    BakingPowder1:scale(1.006,1.006)
+    BakingPowder1TextField.x = BakingPowder1TextField.x + 6.45
     BakingPowder1TextField.y = BakingPowder1TextField.y + 2.5
-    BakingPowder1TextField:scale(1.002,1.002)
-    BakingPowder2.x=BakingPowder2.x+3.27
+    BakingPowder1TextField:scale(1.006,1.006)
+    BakingPowder2.x=BakingPowder2.x+6.87
     BakingPowder2.y = BakingPowder2.y + 2.5
-    BakingPowder2:scale(1.002,1.002)
-    BakingPowder2TextField.x = BakingPowder2TextField.x + 3.4
+    BakingPowder2:scale(1.006,1.006)
+    BakingPowder2TextField.x = BakingPowder2TextField.x + 7.3
     BakingPowder2TextField.y = BakingPowder2TextField.y + 2.5
-    BakingPowder2TextField:scale(1.002,1.002)
+    BakingPowder2TextField:scale(1.006,1.006)
     if (BakingPowder1.x >= display.contentCenterX) then
        BakingPowder1TextField:resizeFontToFitHeight()
        BakingPowder2TextField:resizeFontToFitHeight()
@@ -225,16 +225,16 @@ end
 local function BakingSoda( event )
     BakingSoda1.x = BakingSoda1.x+3
     BakingSoda1.y = BakingSoda1.y+3
-    BakingSoda1:scale(1.002,1.002)
-    BakingSoda1TextField.x = BakingSoda1TextField.x +3.06
+    BakingSoda1:scale(1.007,1.007)
+    BakingSoda1TextField.x = BakingSoda1TextField.x +3.5
     BakingSoda1TextField.y = BakingSoda1TextField.y + 3
-    BakingSoda2.x = BakingSoda2.x+3.1
+    BakingSoda2.x = BakingSoda2.x+4
     BakingSoda2.y = BakingSoda2.y + 3
-    BakingSoda2:scale(1.002,1.002)
-    BakingSoda2TextField.x = BakingSoda2TextField.x + 3.15
+    BakingSoda2:scale(1.007,1.007)
+    BakingSoda2TextField.x = BakingSoda2TextField.x + 4.5
     BakingSoda2TextField.y = BakingSoda2TextField.y + 3
-    BakingSoda2TextField:scale(1.0015,1.0015)
-    BakingSoda1TextField:scale(1.0015,1.0015)
+    BakingSoda2TextField:scale(1.005,1.007)
+    BakingSoda1TextField:scale(1.007,1.007)
     if (BakingSoda1.x >= display.contentCenterX)then
         BakingSoda1TextField:resizeFontToFitHeight()
         BakingSoda2TextField:resizeFontToFitHeight()
@@ -286,10 +286,10 @@ local function Flour1( touch )
         Flour:removeEventListener("touch", Flour1)
         Flour.x=Flour.x-3
         Flour.y = Flour.y + 2
-        Flour:scale(1.0015,1.0015)
-        FlourTextField.x = FlourTextField.x-2.9
+        Flour:scale(1.005,1.005)
+        FlourTextField.x = FlourTextField.x-2.6
         FlourTextField.y = FlourTextField.y + 2
-        FlourTextField:scale(1.0015,1.0015)
+        FlourTextField:scale(1.005,1.005)
         if(Flour.x == display.contentCenterX)then
             timer.cancel(FlourTimer)
             FlourTextField:resizeFontToFitHeight()
@@ -300,16 +300,17 @@ local function Flour1( touch )
     end
 
 end
+
 local function Milk1( touch )
     if (MilkV == true) then
         Milk:removeEventListener("touch", Milk1)
-        Milk.x=Milk.x-2
+        Milk.x=Milk.x-4.5
         Milk.y = Milk.y + 2
-        Milk:scale(1.0015,1.0015)
-        MilkTextField.x = MilkTextField.x - 1.95
+        Milk:scale(1.005,1.005)
+        MilkTextField.x = MilkTextField.x - 4
         MilkTextField.y = MilkTextField.y + 2
-        MilkTextField:scale(1.0015,1.0015)
-        if(Milk.x == display.contentCenterX)then
+        MilkTextField:scale(1.005,1.005)
+        if(Milk.x <= display.contentCenterX)then
             timer.cancel(MilkTimer)
             MilkTextField:resizeFontToFitHeight()
         else
@@ -320,13 +321,13 @@ end
 local function Salt1( touch )
     if (SaltV == true)then
         Salt:removeEventListener("touch", Salt1)
-        Salt.x=Salt.x+2
+        Salt.x=Salt.x+4
         Salt.y = Salt.y + 1.5
         Salt:scale(1.0015,1.0015)
-        SaltTextField.x = SaltTextField.x + 2.05
+        SaltTextField.x = SaltTextField.x + 4.10
         SaltTextField.y = SaltTextField.y + 1.5
         SaltTextField:scale(1.0015,1.0015)
-        if(Salt.x == display.contentCenterX)then
+        if(Salt.x >= display.contentCenterX)then
             timer.cancel(SaltTimer)
             SaltTextField:resizeFontToFitHeight()
         else
@@ -489,19 +490,28 @@ local function checkAnswers(  )
 end
 
 local function BakingPowder1Q( event )
-        userAnswerBakingPowder1 = tostring(event.target.text)
+
+        userAnswerBakingPowder1 = tostring(event.target.text)        
+
 end
+
 local function BakingPowder2Q( event )
 
     if(event.phase=="submitted")then
+        print ("***Submitted:")
+        print ("***userAnswerBakingPowder1 = " .. userAnswerBakingPowder1)
+
         userAnswerBakingPowder2 = tostring(event.target.text)
+
+        print ("***userAnswerBakingPowder2 = " .. userAnswerBakingPowder2)
+        print("***ANSWERBAKINGPOWDER1 = "..ANSWERBAKINGPOWDER1)
+        print("***ANSWERBAKINGPOWDER2 = "..ANSWERBAKINGPOWDER2)
+        
         if (userAnswerBakingPowder2 == ANSWERBAKINGPOWDER2) and (userAnswerBakingPowder1 == ANSWERBAKINGPOWDER1)then
         BakingPowder1TextField:removeEventListener("userInput", BakingPowder1Q)
         BakingPowder2TextField:removeEventListener("userInput", BakingPowder2Q)
-            print("Value:"..ANSWERBAKINGPOWDER2)
-            print("Value:"..ANSWERBAKINGPOWDER1)
-            print("Value:"..userAnswerBakingPowder2)
-            print("Value:"..userAnswerBakingPowder1)
+        
+            print ("***Answer is correct")
             correctObject.isVisible = true
             correctSoundChannel = audio.play(correctSound)
             timer.performWithDelay(2000,incorrectcorrectObjectinvisible)
@@ -512,6 +522,7 @@ local function BakingPowder2Q( event )
             DissapearBakingPowder()
             BakingSoda()
         else
+            print ("***Answer is incorrect")
             checkAnswers()
             incorrectTextObject.isVisible = true
             incorrectSoundChannel = audio.play(incorrectSound)
@@ -753,12 +764,13 @@ local function SugarQ( event )
         end
     end
 end
+
 local function Updatetime()
     -- decrement the number of seconds
     secondsleft = secondsleft-1
     --display the number of seconds in a clock 
     clockText.text=secondsleft..""
-    if(secondsleft==0) then
+    if (secondsleft == 0) then
         secondsleft=totalseconds
         incorrectTextObject.isVisible=true
         incorrectTextObject.text=("You ran out of time :(.You lose a life")
@@ -772,7 +784,35 @@ local function StartTimer()
     secondsleft = totalseconds
     countDownTimer=timer.performWithDelay( 1000, Updatetime, 0)
 end
-StartTimer()
+
+local function AddEventListeners()
+    pauseButton:addEventListener("touch", pause)
+    BakingPowder1TextField:addEventListener("userInput", BakingPowder1Q)
+    BakingPowder2TextField:addEventListener("userInput", BakingPowder2Q)
+    BakingSoda1TextField:addEventListener("userInput", BakingSoda1Q)
+    BakingSoda2TextField:addEventListener("userInput", BakingSoda2Q)
+    ButterTextField:addEventListener("userInput", ButterQ)
+    Eggs1TextField:addEventListener("userInput", EggsQ)
+    FlourTextField:addEventListener("userInput", FlourQ)
+    MilkTextField:addEventListener("userInput", MilkQ)
+    SaltTextField:addEventListener("userInput", SaltQ)
+    SugarTextField:addEventListener("userInput", SugarQ)
+end
+
+local function RemoveEventListeners()
+    pauseButton:removeEventListener("touch", pause)
+    BakingPowder1TextField:removeEventListener("userInput", BakingPowder1Q)
+    BakingPowder2TextField:removeEventListener("userInput", BakingPowder2Q)
+    BakingSoda1TextField:removeEventListener("userInput", BakingSoda1Q)
+    BakingSoda2TextField:removeEventListener("userInput", BakingSoda2Q)
+    ButterTextField:removeEventListener("userInput", ButterQ)
+    Eggs1TextField:removeEventListener("userInput", EggsQ)
+    FlourTextField:removeEventListener("userInput", FlourQ)
+    MilkTextField:removeEventListener("userInput", MilkQ)
+    SaltTextField:removeEventListener("userInput", SaltQ)
+    SugarTextField:removeEventListener("userInput", SugarQ)
+end
+
 -----------------------------------------------------------------------------------------
 -- GLOBAL SCENE FUNCTIONS
 -----------------------------------------------------------------------------------------
@@ -797,61 +837,108 @@ function scene:create( event )
 
     BakingPowder1 = display.newText("Bakin ", 50 ,110, Arial, 35)
     BakingPowder1:setTextColor(0,0,0) 
+    sceneGroup:insert( BakingPowder1 )  
+
     BakingPowder1TextField = native.newTextField(105 , 110 , 30 , 35)
     BakingPowder1TextField.inputType = "no-emoji"
     BakingPowder1TextField:setTextColor(0,0.3,0)
+    sceneGroup:insert( BakingPowder1TextField )  
+    
     BakingPowder2 = display.newText("Powde", 180 , 110 , Arial , 35)
     BakingPowder2:setTextColor(0,0,0)
+    sceneGroup:insert( BakingPowder2 )  
+
     BakingPowder2TextField = native.newTextField(250, 110 , 30 , 35)
     BakingPowder2TextField:setTextColor(0,0.3,0)
     BakingPowder2TextField.inputType = "no-emoji"
+    sceneGroup:insert( BakingPowder2TextField )  
+
     BakingSoda1 = display.newText("Bakin", 340 , 110 , Arial , 35)
     BakingSoda1:setTextColor(0,0,0)
+    sceneGroup:insert( BakingSoda1 )  
+
     BakingSoda1TextField = native.newTextField(400 , 110 , 30 , 35)
     BakingSoda1TextField:setTextColor(0,0.3,0)
     BakingSoda1TextField.inputType = "no-emoji"
+    sceneGroup:insert( BakingSoda1TextField )  
+
     BakingSoda2 = display.newText("sod", 450 , 110, Arial, 35)
     BakingSoda2:setTextColor(0,0,0)
+    sceneGroup:insert( BakingSoda2 )  
+
     BakingSoda2TextField = native.newTextField(500 , 110 , 30 , 35)
     BakingSoda2TextField:setTextColor(0,0.3,0)
-    BakingSoda1TextField.inputType = "no-emoji"
+    BakingSoda2TextField.inputType = "no-emoji"
+    sceneGroup:insert( BakingSoda2TextField )  
+
     Butter = display.newText("Butte", 580, 110, Arial , 35)
     Butter:setTextColor(0,0,0)
+    sceneGroup:insert( Butter )  
+
     ButterTextField = native.newTextField(635 , 110, 30 , 35)
     ButterTextField:setTextColor(0,0.3,0)
     ButterTextField.inputType = "no-emoji"
+    sceneGroup:insert( ButterTextField )  
+
     Eggs1 = display.newText("Eg", 680, 110, Arial, 35)
     Eggs1:setTextColor(0,0,0)
+    sceneGroup:insert( Eggs1 )  
+
     Eggs1TextField = native.newTextField(720, 110, 30, 35)
     Eggs1TextField:setTextColor(0,0.3,0)
     Eggs1TextField.inputType = "no-emoji"
+    sceneGroup:insert( Eggs1TextField )  
+
     Eggs2 = display.newText("s", 750, 110, Arial ,35)
     Eggs2:setTextColor(0,0,0)
+    sceneGroup:insert( Eggs2 )  
+
     Flour = display.newText("Flou", 800, 110, Arial, 35)
     Flour:setTextColor(0,0,0)
+    sceneGroup:insert( Flour )  
+
     FlourTextField = native.newTextField(850, 110, 30, 35)
     FlourTextField:setTextColor(0,0.3,0)
     FlourTextField.inputType = "no-emoji"
+    sceneGroup:insert( FlourTextField )
+
     Milk = display.newText("Mil",900, 110, Arial, 35)
     Milk:setTextColor(0,0,0)
+    sceneGroup:insert( Milk )
+
     MilkTextField = native.newTextField(940, 110, 30, 35)
     MilkTextField:setTextColor(0,0.3,0)
+    MilkTextField.inputType = "no-emoji"
+    sceneGroup:insert( MilkTextField )  
+
     Salt = display.newText("Sal", 30, 150, Arial, 35)
     Salt:setTextColor(0,0,0)
+    sceneGroup:insert( Salt )
+
     SaltTextField = native.newTextField(80, 150, 30, 35)
     SaltTextField:setTextColor(0,0.3,0)
     SaltTextField.inputType = "no-emoji"
+    sceneGroup:insert( SaltTextField )
+
     Sugar = display.newText("Suga", 140, 150, Arial, 35)
     Sugar:setTextColor(0,0,0)
+    sceneGroup:insert( Sugar )
+
     SugarTextField = native.newTextField(200, 150, 30, 35)
+    SugarTextField:setTextColor(0,0.3,0)
+    SugarTextField.inputType = "no-emoji"
+    sceneGroup:insert( SugarTextField )
+
     correctObject = display.newText("Hey dude that's correct!", display.contentCenterX,display.contentCenterY, Arial, 70)
     correctObject:setTextColor(0,0,0)
     correctObject.isVisible = false
     sceneGroup:insert(correctObject)
+
     incorrectTextObject = display.newText("Sorry but that's wrong.", display.contentCenterX, display.contentCenterY, Arial, 40)
     incorrectTextObject:setTextColor(0,0,0)
     incorrectTextObject.isVisible = false
     sceneGroup:insert(incorrectTextObject)
+
         --create the lives
     heart1=display.newImageRect("Images/heart1.png", 100, 100)
     heart1.x=display.contentWidth*7/11
@@ -870,6 +957,7 @@ function scene:create( event )
     heart3.y=display.contentHeight*1/17
     heart3:scale(0.5,0.5)
     sceneGroup:insert(heart3)
+
     clockText=display.newText("60", display.contentWidth/3, display.contentHeight/5, nil, 50)
     clockText:setTextColor(255/255, 2/255, 198/255)
     clockText.isVisible=true
@@ -880,6 +968,8 @@ function scene:create( event )
     pauseButton.height = 100
     pauseButton.x = 900
     pauseButton.y = 200
+    sceneGroup:insert( pauseButton )
+
 end 
  --function scene:create( event )
 
@@ -895,7 +985,7 @@ function scene:show( event )
     -----------------------------------------------------------------------------------------
 
     if ( phase == "will" ) then
-        composer.removeScene("mainmenu")
+        --composer.removeScene("mainmenu")
         if (soundOn == true) then     
             audio.resume(level2SoundChannel)
         else
@@ -909,18 +999,9 @@ function scene:show( event )
     -----------------------------------------------------------------------------------------
 
     elseif ( phase == "did" ) then
+        StartTimer()
         BakingPowder()
-        pauseButton:addEventListener("touch", pause)
-        BakingPowder1TextField:addEventListener("userInput", BakingPowder1Q)
-        BakingPowder2TextField:addEventListener("userInput", BakingPowder2Q)
-        BakingSoda1TextField:addEventListener("userInput", BakingSoda1Q)
-        BakingSoda2TextField:addEventListener("userInput", BakingSoda2Q)
-        ButterTextField:addEventListener("userInput", ButterQ)
-        Eggs1TextField:addEventListener("userInput", EggsQ)
-        FlourTextField:addEventListener("userInput", FlourQ)
-        MilkTextField:addEventListener("userInput", MilkQ)
-        SaltTextField:addEventListener("userInput", SaltQ)
-        SugarTextField:addEventListener("userInput", SugarQ)
+        AddEventListeners() 
 
     end
 end --function scene:show( event )
@@ -944,7 +1025,7 @@ function scene:hide( event )
     -----------------------------------------------------------------------------------------
 
     elseif ( phase == "did" ) then
-
+        RemoveEventListeners()
     end
 
 end --function scene:hide( event )
