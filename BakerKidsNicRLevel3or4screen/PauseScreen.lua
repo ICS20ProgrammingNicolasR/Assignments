@@ -43,8 +43,8 @@ local function Backtolevel2(  )
 end
 
 local function restartLevel2(  )
-    composer.hideOverlay("crossFade", 400)
-    restartGameLevel2()
+    composer.removeScene("level2_screen")
+    composer.gotoScene("level2_screen")
 end
 
  local function pauseMusic(touch)
