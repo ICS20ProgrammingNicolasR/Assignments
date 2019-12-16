@@ -929,12 +929,12 @@ function scene:create( event )
     SugarTextField.inputType = "no-emoji"
     sceneGroup:insert( SugarTextField )
 
-    correctObject = display.newText("Hey dude that's correct!", display.contentCenterX,display.contentCenterY, Arial, 70)
+    correctObject = display.newText("Hey dude that's correct!", display.contentCenterX,display.contentCenterY*6/10, Arial, 60)
     correctObject:setTextColor(0,0,0)
     correctObject.isVisible = false
     sceneGroup:insert(correctObject)
 
-    incorrectTextObject = display.newText("Sorry but that's wrong.", display.contentCenterX, display.contentCenterY, Arial, 40)
+    incorrectTextObject = display.newText("Sorry but that's wrong.", display.contentCenterX, display.contentCenterY*6/10, Arial, 40)
     incorrectTextObject:setTextColor(0,0,0)
     incorrectTextObject.isVisible = false
     sceneGroup:insert(incorrectTextObject)
