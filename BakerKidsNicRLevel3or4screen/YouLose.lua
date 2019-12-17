@@ -37,8 +37,8 @@ local nextlevel
 -- LOCAL FUNCTIONS
 -----------------------------------------------------------------------------------------
 local function Level2ScreenTransition( )
+    composer.removeScene("level2_screen")
     composer.gotoScene("level2_screen")
-   restartGameLevel2()
 end 
 local function mainmenuTransition()
     composer.removeScene("level2_screen")
