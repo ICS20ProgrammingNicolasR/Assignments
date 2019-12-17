@@ -38,17 +38,13 @@ local cover
 -- LOCAL FUNCTIONS
 -----------------------------------------------------------------------------------------
 local function Backtolevel2(  )
-	composer.hideOverlay("crossFade", 400)
-
-	resumeGamelevel2()
+    composer.hideOverlay("crossFade", 400)
+    resumeGamelevel2()
 end
 
 local function restartLevel2(  )
-    --audio.stop(level2SoundChannel)
-    --composer.removeScene("level2_screen")
-    --composer.gotoScene("level2_screen")
-    composer.hideOverlay("crossFade", 400)
-    restartGameLevel2()
+    composer.removeScene("level2_screen")
+    composer.gotoScene("level2_screen")
 end
 
  local function pauseMusic(touch)
@@ -101,8 +97,8 @@ function scene:create( event )
     sceneGroup:insert(bkg)
     sceneGroup:insert(cover)
     -----------------------------------------------------------------------------------------
-	-- MUTE/UNMUTE BUTTONS
-	-----------------------------------------------------------------------------------------   
+    -- MUTE/UNMUTE BUTTONS
+    -----------------------------------------------------------------------------------------   
     volumeButton =  display.newImage("Images/volume button2.png", 780, 500)
     volumeButton.width = 200
     volumeButton.height = 200
