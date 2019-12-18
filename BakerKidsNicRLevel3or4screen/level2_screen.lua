@@ -55,6 +55,16 @@ local Salt
 local SaltTextField
 local Sugar
 local SugarTextField
+local Bowl
+local BakingPowderImage
+local BakingSodaImage
+local ButterImage
+local EggsImage 
+local FlourImage
+local MilkImage 
+local SaltImage 
+local SugarImage
+
 local bakingpowdertimer
 local BakingSodaTimer
 local ButterTimer
@@ -62,6 +72,7 @@ local EggsTimer
 local MilkTimer
 local SaltTimer
 local SugarTimer
+
 local ANSWERBAKINGPOWDER1 = "g"
 local ANSWERBAKINGPOWDER2 = "r"
 local ANSWERBAKINGSODA1 = "g"
@@ -72,6 +83,18 @@ local ANSWERFLOUR = "r"
 local ANSWERMILK = "k"
 local ANSWERSALT = "t"
 local ANSWERSUGAR = "r"
+
+local CAPITALANSWERBAKINGPOWDER1 = "G"
+local CAPITOLANSWERBAKINGPOWDER2 = "R"
+local CAPITOLANSWERBAKINGSODA1 = "G" 
+local CAPITOLANSWERBAKINGSODA2 = "A"
+local CAPITOLANSWERBUTTER = "R"
+local CAPITOLANSWEREGGS = "G"
+local CAPITOLANSWERFLOUR = "R"
+local CAPITOLANSWERMILK = "K"
+local CAPITOLANSWERSALT = "T"
+local CAPITOLANSWERSUGAR = "R"
+
 local userAnswerBakingPowder1
 local userAnswerBakingPowder2
 local userAnswerBakingSoda1
@@ -82,18 +105,20 @@ local userAnswerFlour
 local userAnswerMilk
 local userAnswerSalt
 local userAnswerSugar
+
 local pauseButton
-local Bowl
+
 local totalseconds = 60
 local lives = 4
 local secondsleft = 60
+
 local BakingSodaV = false
 local ButterV = false
 local EggsV = false
 local FlourV = false
 local MilkV = false
 local SaltV = false
-local SugarV = true
+local SugarV = false
 -----------------------------------------------------------------------------------------
 -- SOUNDS
 -----------------------------------------------------------------------------------------
@@ -357,7 +382,7 @@ local function Sugar1( touch )
     end
 end
 local function DissapearBakingPowder(  )
-    if (touch.phase == "began") then
+
 end
 local function incorrectcorrectObjectinvisible(  )
     -- hide the correct and incorrect objects
@@ -378,41 +403,38 @@ local function checkAnswers(  )
 end
 
 local function BakingPowder1Q( event )
-
-        userAnswerBakingPowder1 = tostring(event.target.text)
-    if(saycorrect == true) then
-        if(event.phase=="submitted")then
-            if (userAnswerBakingPowder2 == ANSWERBAKINGPOWDER2) and (userAnswerBakingPowder1 == ANSWERBAKINGPOWDER1)then
-                native.setKeyboardFocus( nil )
-                correctObject.isVisible = true
-                correctSoundChannel = audio.play(correctSound)
-                timer.performWithDelay(2000,incorrectcorrectObjectinvisible)
-                incorrectTextObject.isVisible = false
-                BakingPowder1TextField.text = ""
-                BakingPowder2TextField.text = ""
-                BakingSodaV = true
-                DissapearBakingPowder()
-                BakingSoda()
-            else
-                checkAnswers()
-                native.setKeyboardFocus( nil )
-                incorrectTextObject.isVisible = true
-                incorrectSoundChannel = audio.play(incorrectSound)
-                incorrectTextObject.text = ("That is incorrect.You Lose a life")
-                timer.performWithDelay(2000,incorrectcorrectObjectinvisible)
-                correctObject.isVisible = false
-                BakingSodaV = true
-            end
+    userAnswerBakingPowder1 = tostring(event.target.text)
+    if(event.phase=="submitted")then
+        if (userAnswerBakingPowder2 == ANSWERBAKINGPOWDER2) or (userAnswerBakingPowder2 == CAPITOLANSWERBAKINGPOWDER2) and (userAnswerBakingPowder1 == ANSWERBAKINGPOWDER1)  or (CAPITALANSWERBAKINGPOWDER1)then
+            BakingPowder1TextField:removeEventListener("userInput", BakingPowder1Q)
+            BakingPowder2TextField:removeEventListener("userInput", BakingPowder2Q)
+            native.setKeyboardFocus( nil )
+            correctObject.isVisible = true
+            correctSoundChannel = audio.play(correctSound)
+            timer.performWithDelay(2000,incorrectcorrectObjectinvisible)
+            incorrectTextObject.isVisible = false
+            BakingPowder1TextField.text = ""
+            BakingPowder2TextField.text = ""
+            BakingSodaV = true
+            BakingSodaImage:addEventListener("touch", DissapearBakingPowder)
+            BakingSoda()
+        else
+            checkAnswers()
+            native.setKeyboardFocus( nil )
+            incorrectTextObject.isVisible = true
+            incorrectSoundChannel = audio.play(incorrectSound)
+            incorrectTextObject.text = ("That is incorrect.You Lose a life")
+            timer.performWithDelay(2000,incorrectcorrectObjectinvisible)
+            correctObject.isVisible = false
+            BakingSodaV = true
         end
     end
-
 end
 
 local function BakingPowder2Q( event )
         userAnswerBakingPowder2 = tostring(event.target.text)
-        saycorrect = true
     if(event.phase=="submitted")then
-        if (userAnswerBakingPowder2 == ANSWERBAKINGPOWDER2) and (userAnswerBakingPowder1 == ANSWERBAKINGPOWDER1)then
+        if (userAnswerBakingPowder2 == ANSWERBAKINGPOWDER2) or (userAnswerBakingPowder2 == CAPITOLANSWERBAKINGPOWDER2) and (userAnswerBakingPowder1 == ANSWERBAKINGPOWDER1) or (userAnswerBakingPowder1 == CAPITALANSWERBAKINGPOWDER1)then
             native.setKeyboardFocus( nil )
             BakingPowder1TextField:removeEventListener("userInput", BakingPowder1Q)
             BakingPowder2TextField:removeEventListener("userInput", BakingPowder2Q)
@@ -440,7 +462,36 @@ end
 
 local function BakingSoda1Q( event )
 
-    userAnswerBakingSoda1 = tostring(event.target.text)
+    userAnswerBakingSoda1 = tostring(event.target.text)     
+    if(event.phase=="submitted")then
+        userAnswerBakingSoda2 = tostring(event.target.text)
+        if (userAnswerBakingSoda1 == ANSWERBAKINGSODA1) or (userAnswerBakingSoda1 == CAPITOLANSWERBAKINGSODA1)and (userAnswerBakingSoda2 == ANSWERBAKINGSODA2) or (userAnswerBakingSoda2 == CAPITOLANSWERBAKINGSODA2)then
+            native.setKeyboardFocus( nil )
+            BakingSoda1TextField:removeEventListener("userInput", BakingSoda1Q)
+            BakingSoda2TextField:removeEventListener("userInput", BakingSoda2Q)
+            correctObject.isVisible = true
+            correctSoundChannel = audio.play(correctSound)
+            timer.performWithDelay(2000,incorrectcorrectObjectinvisible)
+            incorrectTextObject.isVisible = false
+            BakingSodaV = false
+            ButterV = true
+            BakingSoda1TextField.text = ""
+            BakingSoda2TextField.text = ""
+            DissapearBakingSoda()
+            Butter1()
+
+        else
+            native.setKeyboardFocus( nil )
+            checkAnswers()
+            incorrectTextObject.isVisible = true
+            incorrectSoundChannel = audio.play(incorrectSound)
+            incorrectTextObject.text = ("That is incorrect.You Lose a life. Try again")
+            timer.performWithDelay(2000,incorrectcorrectObjectinvisible)
+            correctObject.isVisible = false
+            BakingSodaV = false
+            ButterV = true
+        end
+    end
 end
 local function BakingSoda2Q( event )
     -- ask the question
@@ -451,7 +502,7 @@ local function BakingSoda2Q( event )
        
     elseif(event.phase=="submitted")then
         userAnswerBakingSoda2 = tostring(event.target.text)
-        if (userAnswerBakingSoda2 == ANSWERBAKINGSODA2) and (userAnswerBakingSoda1 == ANSWERBAKINGSODA1)then
+        if (userAnswerBakingSoda1 == ANSWERBAKINGSODA1) or (userAnswerBakingSoda1 == CAPITOLANSWERBAKINGSODA1)and (userAnswerBakingSoda2 == ANSWERBAKINGSODA2) or (userAnswerBakingSoda2 == CAPITOLANSWERBAKINGSODA2)then
             native.setKeyboardFocus( nil )
             BakingSoda1TextField:removeEventListener("userInput", BakingSoda1Q)
             BakingSoda2TextField:removeEventListener("userInput", BakingSoda2Q)
@@ -487,7 +538,7 @@ local function ButterQ( event )
        ButterTextField.text=""
     elseif(event.phase=="submitted")then
         userAnswerButter = tostring(event.target.text)
-        if (userAnswerButter == ANSWERBUTTER)then
+        if (userAnswerButter == ANSWERBUTTER) or (userAnswerButter == CAPITOLANSWERBUTTER)then
             native.setKeyboardFocus( nil )
             ButterTextField:removeEventListener("userInput", ButterQ)
             correctObject.isVisible = true
@@ -894,6 +945,7 @@ function scene:create( event )
     Bowl.x = 500
     Bowl.y = 525
 
+
 end 
  --function scene:create( event )
 
@@ -910,7 +962,7 @@ function scene:show( event )
 
     if ( phase == "will" ) then
         --composer.removeScene("mainmenu")
-        RemoveEventListeners()
+        AddEventListeners() 
         if (soundOn == true) then     
             audio.resume(level2SoundChannel)
         else
@@ -926,7 +978,7 @@ function scene:show( event )
     elseif ( phase == "did" ) then
         StartTimer()
         BakingPowder()
-        AddEventListeners() 
+        
 
     end
 end --function scene:show( event )
@@ -946,7 +998,7 @@ function scene:hide( event )
         -- Called when the scene is on screen (but is about to go off screen).
         -- Insert code here to "pause" the scene.
         -- Example: stop timers, stop animation, stop audio, etc.
-
+        RemoveEventListeners()
     -----------------------------------------------------------------------------------------
 
     elseif ( phase == "did" ) then
