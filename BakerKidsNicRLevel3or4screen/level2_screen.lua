@@ -410,7 +410,9 @@ local function BakingPowder1Q( event )
             BakingPowder2TextField:removeEventListener("userInput", BakingPowder2Q)
             native.setKeyboardFocus( nil )
             correctObject.isVisible = true
-            correctSoundChannel = audio.play(correctSound)
+            if (soundOn == true) then
+                incorrectSoundChannel = audio.play(correctsound)
+            end
             timer.performWithDelay(2000,incorrectcorrectObjectinvisible)
             incorrectTextObject.isVisible = false
             BakingPowder1TextField.text = ""
@@ -422,7 +424,9 @@ local function BakingPowder1Q( event )
             checkAnswers()
             native.setKeyboardFocus( nil )
             incorrectTextObject.isVisible = true
-            incorrectSoundChannel = audio.play(incorrectSound)
+            if (soundOn == true) then
+                incorrectSoundChannel = audio.play(incorrectSound)
+            end
             incorrectTextObject.text = ("That is incorrect.You Lose a life")
             timer.performWithDelay(2000,incorrectcorrectObjectinvisible)
             correctObject.isVisible = false
@@ -451,7 +455,9 @@ local function BakingPowder2Q( event )
             checkAnswers()
             native.setKeyboardFocus( nil )
             incorrectTextObject.isVisible = true
-            incorrectSoundChannel = audio.play(incorrectSound)
+            if (soundOn == true) then
+                incorrectSoundChannel = audio.play(incorrectSound)
+            end
             incorrectTextObject.text = ("That is incorrect.You Lose a life")
             timer.performWithDelay(2000,incorrectcorrectObjectinvisible)
             correctObject.isVisible = false
@@ -484,7 +490,9 @@ local function BakingSoda1Q( event )
             native.setKeyboardFocus( nil )
             checkAnswers()
             incorrectTextObject.isVisible = true
-            incorrectSoundChannel = audio.play(incorrectSound)
+            if (soundOn == true) then
+                incorrectSoundChannel = audio.play(incorrectSound)
+            end
             incorrectTextObject.text = ("That is incorrect.You Lose a life. Try again")
             timer.performWithDelay(2000,incorrectcorrectObjectinvisible)
             correctObject.isVisible = false
@@ -944,8 +952,49 @@ function scene:create( event )
     Bowl.height = 100
     Bowl.x = 500
     Bowl.y = 525
+    sceneGroup:insert(Bowl)
 
+    BakingPowderImage = display.newImageRect("Images/bakingpowder.png", 200 , 200)
+    BakingPowderImage.x = 500
+    BakingPowderImage.y = 300
+    BakingPowderImage.isVisible = false
+    sceneGroup:insert(BakingPowderImage)
 
+    BakingSodaImage = display.newImageRect("Images/bakingsoda.png", 100,100)
+    BakingSodaImage.x = 500
+    BakingSodaImage.y = 300
+    BakingSodaImage.isVisible = false
+    sceneGroup:insert(BakingSodaImage)
+
+    ButterImage = display.newImageRect("Images/butter.png", 200, 200)
+    ButterImage.x = 500
+    ButterImage.y = 300
+    ButterImage.isVisible = false
+    sceneGroup:insert(ButterImage)
+
+    EggsImage = display.newImageRect("Images/eggs.png", 200, 200)
+    EggsImage.x = 500
+    EggsImage.y = 300
+    EggsImage.isVisible = false
+    sceneGroup:insert(EggsImage)
+
+    FlourImage = display.newImageRect("Images/flour.png", 200, 200)
+    FlourImage.x = 500
+    FlourImage.y = 300
+    FlourImage.isVisible = false
+    sceneGroup:insert(FlourImage)
+
+    MilkImage = display.newImageRect("Images/milk.png", 200, 200)
+    MilkImage.x = 500
+    MilkImage.y = 300
+    MilkImage.isVisible = false
+    sceneGroup:insert(MilkImage)
+
+    SaltImage = display.newImageRect("Images/Salt.png", 200, 200)
+    SaltImage.x = 500
+    SaltImage.y = 300
+    SaltImage.isVisible = false
+    sceneGroup:insert(SaltImage)
 end 
  --function scene:create( event )
 
