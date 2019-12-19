@@ -28,6 +28,7 @@ local scene = composer.newScene( sceneName )
 -----------------------------------------------------------------------------------------
 pauseinstructions = false
 saycorrect = false
+
 -----------------------------------------------------------------------------------------
 -- LOCAL VARIABLES
 -----------------------------------------------------------------------------------------
@@ -119,6 +120,16 @@ local FlourV = false
 local MilkV = false
 local SaltV = false
 local SugarV = false
+
+local BakingPowerComplete = false
+local BakingSodaComplete = false
+local ButterComplete = false
+local EggsComplete
+local FlourComplete
+local MilkComplete
+local SaltComplete
+local SugarComplete
+
 -----------------------------------------------------------------------------------------
 -- SOUNDS
 -----------------------------------------------------------------------------------------
@@ -131,6 +142,76 @@ local incorrectSoundChannel
 -----------------------------------------------------------------------------------------
 -- LOCAL FUNCTIONS
 -----------------------------------------------------------------------------------------
+local function HideNumTextfields()
+    BakingPowder1TextField.isVisible = false
+    BakingPowder2TextField.isVisible = false 
+    BakingSoda1TextField.isVisible = false
+    BakingSoda2TextField.isVisible = false
+    ButterTextField.isVisible = false
+    Eggs1TextField.isVisible = false
+    FlourTextField.isVisible = false
+    MilkTextField.isVisible = false
+    SaltTextField.isVisible = false
+    SugarTextField.isVisible = false
+
+end
+
+local function ShowNumTextfields()
+
+    if (BakingPowerComplete == true) then
+        BakingPowder1TextField.isVisible = false
+        BakingPowder2TextField.isVisible = false
+    else 
+        BakingPowder1TextField.isVisible = true
+        BakingPowder2TextField.isVisible = true
+    end
+
+    if (BakingSodaComplete == true) then
+        BakingSoda1TextField.isVisible = false
+        BakingSoda2TextField.isVisible = false
+    else
+        BakingSoda1TextField.isVisible = true
+        BakingSoda2TextField.isVisible = true
+    end
+
+    if (ButterComplete == true) then
+        ButterTextField.isVisible = false
+    else
+        ButterTextField.isVisible = true
+    end
+
+    if (EggsComplete == true) then
+        EggsTextField.isVisible = false
+    else
+        Eggs1TextField.isVisible = true
+    end
+
+    if (FlourComplete == true) then
+        FlourTextField.isVisible = false
+    else
+        FlourTextField.isVisible = true
+    end
+
+    if (MilkComplete == true) then
+        MilkTextField.isVisible = false
+    else
+        MilkTextField.isVisible = true
+    end
+
+    if (SaltComplete == true) then
+        SaltTextField.isVisible = false
+    else
+        SaltTextField.isVisible = true
+    end
+
+    if (SugarComplete == true) then
+        SugarTextField.isVisible = false
+    else
+        SugarTextField.isVisible = true
+    end
+
+end
+
 local function setAnswers(  )
     ANSWERBAKINGPOWDER1 = "g"
     ANSWERBAKINGPOWDER2 = "r"
@@ -177,57 +258,11 @@ local function youLoseTransition(  )
     composer.gotoScene("YouLose", {effect = "slideRight", time = 1000})
 end
 local function pause(  )
+    HideNumTextfields()
     timer.pause(countDownTimer)
     composer.showOverlay( "PauseScreen", { isModal = true, effect = "fade", time = 100})
-    BakingPowder1.isVisible = false
-    BakingPowder2.isVisible = false
-    BakingSoda1.isVisible = false
-    BakingSoda2.isVisible = false
-    Butter.isVisible = false
-    Eggs1.isVisible = false
-    Eggs2.isVisible = false
-    Flour.isVisible = false
-    Milk.isVisible = false
-    Salt.isVisible = false
-    Sugar.isVisible = false
-    BakingPowder1TextField.isVisible = false
-    BakingPowder2TextField.isVisible = false
-    BakingSoda1TextField.isVisible = false
-    BakingSoda2TextField.isVisible = false
-    ButterTextField.isVisible = false
-    Eggs1TextField.isVisible = false
-    FlourTextField.isVisible = false
-    MilkTextField.isVisible = false
-    SaltTextField.isVisible = false
-    SugarTextField.isVisible = false
-    pauseButton.isVisible = false
 end
-function resumeGamelevel2(  )
-    setAnswers()
-    timer.resume(countDownTimer)
-    BakingPowder1.isVisible = true
-    BakingPowder2.isVisible = true
-    BakingSoda1.isVisible = true
-    BakingSoda2.isVisible = true
-    Butter.isVisible = true
-    Eggs1.isVisible = true
-    Eggs2.isVisible = true
-    Flour.isVisible = true
-    Milk.isVisible = true
-    Salt.isVisible = true
-    Sugar.isVisible = true
-    BakingPowder1TextField.isVisible = true
-    BakingPowder2TextField.isVisible = true
-    BakingSoda1TextField.isVisible = true
-    BakingSoda2TextField.isVisible = true
-    ButterTextField.isVisible = true
-    Eggs1TextField.isVisible = true
-    FlourTextField.isVisible = true
-    MilkTextField.isVisible = true
-    SaltTextField.isVisible = true
-    SugarTextField.isVisible = true
-    pauseButton.isVisible = true
-end
+
 local function BakingPowder( event )     
     BakingPowder1.x=BakingPowder1.x+6
     BakingPowder1.y = BakingPowder1.y+2.5
@@ -381,8 +416,124 @@ local function Sugar1( touch )
         end
     end
 end
-local function DissapearBakingPowder(  )
+local function DissapearBakingPowder( touch )
+    if (touch.phase == "moved") then
+        
+        BakingPowderImage.x = touch.x
+        BakingPowderImage.y = touch.y
+    -- this occurs when they release the mouse
+    elseif (touch.phase == "ended") then
+          -- if the number is dragged into the userAnswerBox, place it in the center of it
+        if (((Bowl.x - Bowl.width/2) < BakingPowderImage.x ) and
+            ((Bowl.x + Bowl.width/2) > BakingPowderImage.x ) and 
+            ((Bowl.y - Bowl.height/2) < BakingPowderImage.y ) and 
+            ((Bowl.y + Bowl.height/2) > BakingPowderImage.y ) ) then
+            BakingPowderImage.x = Bowl.x 
+            BakingPowderImage.y = Bowl.y
+            BakingPowderImage.isVisible = false
+            BakingSoda()
+        end
+    end
+end
 
+local function DissapearBakingSoda( touch )
+    if (touch.phase == "moved") then
+        
+        BakingSodaImage.x = touch.x
+        BakingSodaImage.y = touch.y
+    -- this occurs when they release the mouse
+    elseif (touch.phase == "ended") then
+          -- if the number is dragged into the userAnswerBox, place it in the center of it
+        if (((Bowl.x - Bowl.width/2) < BakingSodaImage.x ) and
+            ((Bowl.x + Bowl.width/2) > BakingSodaImage.x ) and 
+            ((Bowl.y - Bowl.height/2) < BakingSodaImage.y ) and 
+            ((Bowl.y + Bowl.height/2) > BakingSodaImage.y ) ) then
+            BakingSodaImage.x = Bowl.x 
+            BakingSodaImage.y = Bowl.y
+            BakingSodaImage.isVisible = false
+            Butter1()
+        end
+    end
+end
+
+local function DissapearButter( touch )
+    if (touch.phase == "moved") then
+        
+        ButterImage.x = touch.x
+        ButterImage.y = touch.y
+    -- this occurs when they release the mouse
+    elseif (touch.phase == "ended") then
+          -- if the number is dragged into the userAnswerBox, place it in the center of it
+        if (((Bowl.x - Bowl.width/2) < ButterImage.x ) and
+            ((Bowl.x + Bowl.width/2) > ButterImage.x ) and 
+            ((Bowl.y - Bowl.height/2) < ButterImage.y ) and 
+            ((Bowl.y + Bowl.height/2) > ButterImage.y ) ) then
+            ButterImage.x = Bowl.x 
+            ButterImage.y = Bowl.y
+            ButterImage.isVisible = false
+            Eggs()
+        end
+    end
+end
+
+local function DissapearEggs( touch )
+    if (touch.phase == "moved") then
+        
+        EggsImage.x = touch.x
+        EggsImage.y = touch.y
+    -- this occurs when they release the mouse
+    elseif (touch.phase == "ended") then
+          -- if the number is dragged into the userAnswerBox, place it in the center of it
+        if (((Bowl.x - Bowl.width/2) < EggsImage.x ) and
+            ((Bowl.x + Bowl.width/2) > EggsImage.x ) and 
+            ((Bowl.y - Bowl.height/2) < EggsImage.y ) and 
+            ((Bowl.y + Bowl.height/2) > EggsImage.y ) ) then
+            EggsImage.x = Bowl.x 
+            EggsImage.y = Bowl.y
+            EggsImage.isVisible = false
+            Flour1()
+        end
+    end
+end
+
+local function DissapearFlour( touch )
+    if (touch.phase == "moved") then
+        
+        FlourImage.x = touch.x
+        FlourImage.y = touch.y
+    -- this occurs when they release the mouse
+    elseif (touch.phase == "ended") then
+          -- if the number is dragged into the userAnswerBox, place it in the center of it
+        if (((Bowl.x - Bowl.width/2) < FlourImage.x ) and
+            ((Bowl.x + Bowl.width/2) > FlourImage.x ) and 
+            ((Bowl.y - Bowl.height/2) < FlourImage.y ) and 
+            ((Bowl.y + Bowl.height/2) > FlourImage.y ) ) then
+            FlourImage.x = Bowl.x 
+            FlourImage.y = Bowl.y
+            FlourImage.isVisible = false
+            Milk1()
+        end
+    end
+end
+
+local function DissapearMilk( touch )
+    if (touch.phase == "moved") then
+        
+        MilkImage.x = touch.x
+        MilkImage.y = touch.y
+    -- this occurs when they release the mouse
+    elseif (touch.phase == "ended") then
+          -- if the number is dragged into the userAnswerBox, place it in the center of it
+        if (((Bowl.x - Bowl.width/2) < MilkImage.x ) and
+            ((Bowl.x + Bowl.width/2) > MilkImage.x ) and 
+            ((Bowl.y - Bowl.height/2) < MilkImage.y ) and 
+            ((Bowl.y + Bowl.height/2) > MilkImage.y ) ) then
+            MilkImage.x = Bowl.x 
+            MilkImage.y = Bowl.y
+            MilkImage.isVisible = false
+            Salt1()
+        end
+    end
 end
 local function incorrectcorrectObjectinvisible(  )
     -- hide the correct and incorrect objects
@@ -402,6 +553,16 @@ local function checkAnswers(  )
     end    
 end
 
+local function PlaceBakingPowder()
+    BakingPowderComplete = true
+    BakingPowderImage.x = math.random(100, display.contentWidth)
+    BakingPowderImage.y = math.random(160, display.contentHeight*330/512)
+    while (BakingPowderImage.x == pauseButton.x ) do
+        BakingPowderImage.x = math.random(100, display.contentWidth)
+    end
+    BakingPowderImage.isVisible = true
+end
+
 local function BakingPowder1Q( event )
     userAnswerBakingPowder1 = tostring(event.target.text)
     if(event.phase=="submitted")then
@@ -418,8 +579,12 @@ local function BakingPowder1Q( event )
             BakingPowder1TextField.text = ""
             BakingPowder2TextField.text = ""
             BakingSodaV = true
-            BakingSodaImage:addEventListener("touch", DissapearBakingPowder)
-            BakingSoda()
+            BakingPowder1.isVisible = false
+            BakingPowder1TextField.isVisible = false
+            BakingPowder2.isVisible = false
+            BakingPowder2TextField.isVisible = false
+            PlaceBakingPowder()
+            BakingPowderImage:addEventListener("touch", DissapearBakingPowder)
         else
             checkAnswers()
             native.setKeyboardFocus( nil )
@@ -449,8 +614,12 @@ local function BakingPowder2Q( event )
             BakingPowder1TextField.text = ""
             BakingPowder2TextField.text = ""
             BakingSodaV = true
-            DissapearBakingPowder()
-            BakingSoda()
+            BakingPowder1.isVisible = false
+            BakingPowder1TextField.isVisible = false
+            BakingPowder2.isVisible = false
+            BakingPowder2TextField.isVisible = false
+            PlaceBakingPowder()
+            BakingPowderImage:addEventListener("touch", DissapearBakingPowder)
         else
             checkAnswers()
             native.setKeyboardFocus( nil )
@@ -464,6 +633,16 @@ local function BakingPowder2Q( event )
             BakingSodaV = true
         end
     end
+end
+
+local function PlaceBakingSoda()
+    BakingSodaComplete = true
+    BakingSodaImage.x = math.random(100, display.contentWidth)
+    BakingSodaImage.y = math.random(160, display.contentHeight*330/512)
+    while (BakingSodaImage.x == pauseButton.x ) do
+        BakingSodaImage.x = math.random(100, display.contentWidth)
+    end
+    BakingSodaImage.isVisible = true
 end
 
 local function BakingSoda1Q( event )
@@ -483,8 +662,12 @@ local function BakingSoda1Q( event )
             ButterV = true
             BakingSoda1TextField.text = ""
             BakingSoda2TextField.text = ""
-            DissapearBakingSoda()
-            Butter1()
+            BakingSoda1.isVisible = false
+            BakingSoda1TextField.isVisible = false
+            BakingSoda2.isVisible = false
+            BakingSoda2TextField.isVisible = false
+            PlaceBakingSoda()
+            BakingSodaImage:addEventListener("touch", DissapearBakingSoda)
 
         else
             native.setKeyboardFocus( nil )
@@ -501,6 +684,7 @@ local function BakingSoda1Q( event )
         end
     end
 end
+
 local function BakingSoda2Q( event )
     -- ask the question
     if (event.phase=="began")then
@@ -522,8 +706,12 @@ local function BakingSoda2Q( event )
             ButterV = true
             BakingSoda1TextField.text = ""
             BakingSoda2TextField.text = ""
-            DissapearBakingSoda()
-            Butter1()
+            BakingSoda1.isVisible = false
+            BakingSoda1TextField.isVisible = false
+            BakingSoda2.isVisible = false
+            BakingSoda2TextField.isVisible = false
+            PlaceBakingSoda()
+            BakingSodaImage:addEventListener("touch", DissapearBakingSoda)
 
         else
             native.setKeyboardFocus( nil )
@@ -538,6 +726,17 @@ local function BakingSoda2Q( event )
         end
     end
 end
+
+local function PlaceButter()
+    ButterComplete = true
+    ButterImage.x = math.random(100, display.contentWidth)
+    ButterImage.y = math.random(160, display.contentHeight*330/512)
+    while (ButterImage.x == pauseButton.x ) do
+        ButterImage.x = math.random(100, display.contentWidth)
+    end
+    ButterImage.isVisible = true
+end
+
 local function ButterQ( event )
     -- ask the question
     if (event.phase=="began")then
@@ -556,8 +755,11 @@ local function ButterQ( event )
             ButterV = false
             EggsV = true
             ButterTextField.text = ""
-            DissapearButter()
-            Eggs()
+            Butter.isVisible = false
+            ButterTextField.isVisible = false
+            PlaceButter()
+            ButterImage:addEventListener("touch", DissapearButter)
+            
         else
             native.setKeyboardFocus( nil )
             checkAnswers()
@@ -572,6 +774,17 @@ local function ButterQ( event )
         end
     end
 end
+
+local function PlaceEggs()
+    EggsComplete = true
+    EggsImage.x = math.random(100, display.contentWidth)
+    EggsImage.y = math.random(160, display.contentHeight*330/512)
+    while (EggsImage.x == pauseButton.x ) do
+        EggsImage.x = math.random(100, display.contentWidth)
+    end
+    EggsImage.isVisible = true
+end
+
 local function EggsQ( event )
     -- ask the question
     if (event.phase=="began")then
@@ -589,9 +802,11 @@ local function EggsQ( event )
             incorrectTextObject.isVisible = false
             EggsV = false
             FlourV = true
-            Eggs1TextField.text = ""
-            DissapearEggs()
-            Flour1()
+            Eggs1TextField.isVisible = false
+            Eggs1.isVisible = false
+            Eggs2.isVisible = false
+            PlaceEggs()
+            EggsImage:addEventListener("touch", DissapearEggs)
         else
             native.setKeyboardFocus( nil )
             checkAnswers()
@@ -606,6 +821,17 @@ local function EggsQ( event )
         end
     end
 end
+
+local function PlaceFlour()
+    FlourComplete = true
+    FlourImage.x = math.random(100, display.contentWidth)
+    FlourImage.y = math.random(160, display.contentHeight*330/512)
+    while (FlourImage.x == pauseButton.x ) do
+        FlourImage.x = math.random(100, display.contentWidth)
+    end
+    FlourImage.isVisible = true
+end
+
 local function FlourQ( event )
     -- ask the question
     if (event.phase=="began")then
@@ -624,8 +850,10 @@ local function FlourQ( event )
             FlourTextField.text = ""
             FlourV = false
             MilkV = true
-            DissapearFlour()
-            Milk1()
+            Flour.isVisible = false
+            FlourTextField.isVisible = false
+            PlaceFlour()
+            FlourImage:addEventListener("touch", DissapearFlour)
         else
             native.setKeyboardFocus( nil )
             checkAnswers()
@@ -641,6 +869,17 @@ local function FlourQ( event )
         end
     end
 end
+
+local function PlaceMilk()
+    MilkComplete = true
+    MilkImage.x = math.random(100, display.contentWidth)
+    MilkImage.y = math.random(160, display.contentHeight*330/512)
+    while (MilkImage.x == pauseButton.x ) do
+        MilkImage.x = math.random(100, display.contentWidth)
+    end
+    MilkImage.isVisible = true
+end
+
 local function MilkQ( event )
     -- ask the question
     if (event.phase=="began")then
@@ -656,11 +895,13 @@ local function MilkQ( event )
             correctSoundChannel = audio.play(correctSound)
             timer.performWithDelay(2000,incorrectcorrectObjectinvisible)
             incorrectTextObject.isVisible = false
-            MilkTextField.text = ""
+            MilkTextField.isVisible = false
+            Milk.isVisible = false
             SaltV = true
             MilkV = false
-            DissapearMilk()
-            Salt1()
+            PlaceMilk()
+            MilkImage:addEventListener("touch", DissapearMilk)
+            
         else
             native.setKeyboardFocus( nil )
             checkAnswers()
@@ -675,6 +916,17 @@ local function MilkQ( event )
         end
     end
 end
+
+local function PlaceSalt()
+    SaltComplete = true
+    SaltImage.x = math.random(100, display.contentWidth)
+    SaltImage.y = math.random(160, display.contentHeight*330/512)
+    while (SaltImage.x == pauseButton.x ) do
+        SaltImage.x = math.random(100, display.contentWidth)
+    end
+    SaltImage.isVisible = true
+end
+
 local function SaltQ( event )
     -- ask the question
     if (event.phase=="began")then
@@ -709,6 +961,17 @@ local function SaltQ( event )
         end
     end
 end
+
+local function PlaceSugar()
+    SugarComplete = true
+    SugarImage.x = math.random(100, display.contentWidth)
+    SugarImage.y = math.random(160, display.contentHeight*330/512)
+    while (SugarImage.x == pauseButton.x ) do
+        SugarImage.x = math.random(100, display.contentWidth)
+    end
+    SugarImage.isVisible = true
+end
+
 local function SugarQ( event )
     -- ask the question
     if (event.phase=="began")then
@@ -790,6 +1053,18 @@ local function RemoveEventListeners()
     SugarTextField:removeEventListener("userInput", SugarQ)
 end
 
+
+-----------------------------------------------------------------------------------------
+-- GLOBAL FUNCTIONS
+-----------------------------------------------------------------------------------------
+
+
+function resumeGamelevel2(  )
+    setAnswers()
+    ShowNumTextfields()
+    timer.resume(countDownTimer)
+end
+
 -----------------------------------------------------------------------------------------
 -- GLOBAL SCENE FUNCTIONS
 -----------------------------------------------------------------------------------------
@@ -811,6 +1086,7 @@ function scene:create( event )
         -- Insert background image into the scene group in order to ONLY be associated with this scene
     sceneGroup:insert( bkg )  
     -- insert first ingredient 
+
 
     BakingPowder1 = display.newText("Bakin ", 50 ,110, Arial, 35)
     BakingPowder1:setTextColor(0,0,0) 
@@ -954,47 +1230,51 @@ function scene:create( event )
     Bowl.y = 525
     sceneGroup:insert(Bowl)
 
-    BakingPowderImage = display.newImageRect("Images/bakingpowder.png", 200 , 200)
-    BakingPowderImage.x = 500
-    BakingPowderImage.y = 300
+    BakingPowderImage = display.newImageRect("Images/bakingpowder.png", 100 , 100)
+    BakingPowderImage.x = math.random(50, display.contentWidth)
+    BakingPowderImage.y = math.random(160, display.contentHeight*330/512)
     BakingPowderImage.isVisible = false
     sceneGroup:insert(BakingPowderImage)
 
     BakingSodaImage = display.newImageRect("Images/bakingsoda.png", 100,100)
-    BakingSodaImage.x = 500
-    BakingSodaImage.y = 300
+    BakingSodaImage.x = math.random(50, display.contentWidth)
+    BakingSodaImage.y = math.random(160, display.contentHeight*330/512)
     BakingSodaImage.isVisible = false
     sceneGroup:insert(BakingSodaImage)
 
     ButterImage = display.newImageRect("Images/butter.png", 200, 200)
-    ButterImage.x = 500
-    ButterImage.y = 300
+    ButterImage.x = math.random(50, display.contentWidth)
+    ButterImage.y = math.random(160, display.contentHeight*330/512)
     ButterImage.isVisible = false
     sceneGroup:insert(ButterImage)
 
-    EggsImage = display.newImageRect("Images/eggs.png", 200, 200)
-    EggsImage.x = 500
-    EggsImage.y = 300
+    EggsImage = display.newImageRect("Images/eggs.png", 150, 150)
+    EggsImage.x = math.random(50, display.contentWidth)
+    EggsImage.y = math.random(160, display.contentHeight*330/512)
     EggsImage.isVisible = false
     sceneGroup:insert(EggsImage)
 
-    FlourImage = display.newImageRect("Images/flour.png", 200, 200)
-    FlourImage.x = 500
-    FlourImage.y = 300
+    FlourImage = display.newImageRect("Images/flour.png", 150, 150)
     FlourImage.isVisible = false
     sceneGroup:insert(FlourImage)
 
-    MilkImage = display.newImageRect("Images/milk.png", 200, 200)
-    MilkImage.x = 500
-    MilkImage.y = 300
+    MilkImage = display.newImageRect("Images/milk.png", 150, 150)
+    MilkImage.x = math.random(50, display.contentWidth)
+    MilkImage.y = math.random(160, display.contentHeight*330/512)
     MilkImage.isVisible = false
     sceneGroup:insert(MilkImage)
 
     SaltImage = display.newImageRect("Images/Salt.png", 200, 200)
-    SaltImage.x = 500
-    SaltImage.y = 300
+    SaltImage.x = math.random(50, display.contentWidth)
+    SaltImage.y = math.random(250, display.contentHeight*330/512)
     SaltImage.isVisible = false
     sceneGroup:insert(SaltImage)
+
+    SugarImage = display.newImageRect("Images/sugar.png", 200, 200)
+    SugarImage.x = math.random(50, display.contentWidth)
+    SugarImage.y = math.random(160, display.contentHeight*330/512)
+    SugarImage.isVisible = false
+    sceneGroup:insert(SugarImage)
 end 
  --function scene:create( event )
 
