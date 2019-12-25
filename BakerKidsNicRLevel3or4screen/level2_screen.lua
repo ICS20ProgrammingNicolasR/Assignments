@@ -113,14 +113,6 @@ local totalseconds = 60
 local lives = 4
 local secondsleft = 60
 
-local BakingSodaV = false
-local ButterV = false
-local EggsV = false
-local FlourV = false
-local MilkV = false
-local SaltV = false
-local SugarV = false
-
 local BakingPowerComplete = false
 local BakingSodaComplete = false
 local ButterComplete = false
@@ -263,7 +255,7 @@ local function pause(  )
     composer.showOverlay( "PauseScreen", { isModal = true, effect = "fade", time = 100})
 end
 
-local function BakingPowder( event )     
+local function BakingPowder( )     
     BakingPowder1.x=BakingPowder1.x+6
     BakingPowder1.y = BakingPowder1.y+2.5
     BakingPowder1:scale(1.006,1.006)
@@ -285,7 +277,7 @@ local function BakingPowder( event )
     end
 end
 
-local function BakingSoda( event )
+local function BakingSoda( )
     BakingSoda1.x = BakingSoda1.x+3
     BakingSoda1.y = BakingSoda1.y+3
     BakingSoda1:scale(1.007,1.007)
@@ -306,116 +298,153 @@ local function BakingSoda( event )
         BakingSodaTimer = timer.performWithDelay(-0.01, BakingSoda)        
     end
 end
-local function Butter1( touch )
-    if (ButterV == true)then
-        Butter:removeEventListener("touch", Butter1)
-        Butter.x=Butter.x-1
-        Butter.y = Butter.y + 2
-        Butter:scale(1.005,1.005)
-        ButterTextField.x = ButterTextField.x - 0.5
-        ButterTextField.y = ButterTextField.y + 2
-        ButterTextField:scale(1.005,1.005)
-        if(Butter.x == display.contentCenterX)then
-            timer.cancel(ButterTimer)
-            ButterTextField:resizeFontToFitHeight() 
-        else
-            ButterTimer = timer.performWithDelay(-0.1, Butter1)
-        end
-    end
-
-end
-local function Eggs( touch )
-    if (EggsV == true) then
-        Eggs1:removeEventListener("touch", Eggs)
-        Eggs2:removeEventListener("touch", Eggs)
-        Eggs1.x=Eggs1.x-1
-        Eggs1.y = Eggs1.y+1
-        Eggs1:scale(1.002,1.002)
-        Eggs1TextField.x = Eggs1TextField.x - 0.9
-        Eggs1TextField.y = Eggs1TextField.y +1
-        Eggs1TextField:scale(1.002,1.002)
-        Eggs2.x = Eggs2.x-0.9
-        Eggs2.y = Eggs2.y + 1
-        Eggs2:scale(1.002,1.002)
-        if(Eggs1.x == display.contentCenterX)then
-            timer.cancel(EggsTimer)
-            Eggs1TextField:resizeFontToFitHeight()
-        else
-            EggsTimer = timer.performWithDelay(-0.3,Eggs)
-        end
+local function Butter1( )
+    Butter:removeEventListener("touch", Butter1)
+    Butter.x=Butter.x-1
+    Butter.y = Butter.y + 2
+    Butter:scale(1.005,1.005)
+    ButterTextField.x = ButterTextField.x - 0.5
+    ButterTextField.y = ButterTextField.y + 2
+    ButterTextField:scale(1.005,1.005)
+    if(Butter.x == display.contentCenterX)then
+        timer.cancel(ButterTimer)
+        ButterTextField:resizeFontToFitHeight() 
+    else
+        ButterTimer = timer.performWithDelay(-0.1, Butter1)
     end
 end
-local function Flour1( touch )
-    if (FlourV == true)then
-        Flour:removeEventListener("touch", Flour1)
-        Flour.x=Flour.x-3
-        Flour.y = Flour.y + 2
-        Flour:scale(1.005,1.005)
-        FlourTextField.x = FlourTextField.x-2.6
-        FlourTextField.y = FlourTextField.y + 2
-        FlourTextField:scale(1.005,1.005)
-        if(Flour.x == display.contentCenterX)then
-            timer.cancel(FlourTimer)
-            FlourTextField:resizeFontToFitHeight()
 
-        else
-            FlourTimer = timer.performWithDelay(-0.1,Flour1)
-        end
-    end
-
-end
-
-local function Milk1( touch )
-    if (MilkV == true) then
-        Milk:removeEventListener("touch", Milk1)
-        Milk.x=Milk.x-4.5
-        Milk.y = Milk.y + 2
-        Milk:scale(1.005,1.005)
-        MilkTextField.x = MilkTextField.x - 4
-        MilkTextField.y = MilkTextField.y + 2
-        MilkTextField:scale(1.005,1.005)
-        if(Milk.x <= display.contentCenterX)then
-            timer.cancel(MilkTimer)
-            MilkTextField:resizeFontToFitHeight()
-        else
-            MilkTimer = timer.performWithDelay(-0.23, Milk1)
-        end
+local function Eggs( )
+    Eggs1:removeEventListener("touch", Eggs)
+    Eggs2:removeEventListener("touch", Eggs)
+    Eggs1.x=Eggs1.x-1
+    Eggs1.y = Eggs1.y+1
+    Eggs1:scale(1.002,1.002)
+    Eggs1TextField.x = Eggs1TextField.x - 0.9
+    Eggs1TextField.y = Eggs1TextField.y +1
+    Eggs1TextField:scale(1.002,1.002)
+    Eggs2.x = Eggs2.x-0.9
+    Eggs2.y = Eggs2.y + 1
+    Eggs2:scale(1.002,1.002)
+    if(Eggs1.x == display.contentCenterX)then
+        timer.cancel(EggsTimer)
+        Eggs1TextField:resizeFontToFitHeight()
+    else
+        EggsTimer = timer.performWithDelay(-0.3,Eggs)
     end
 end
-local function Salt1( touch )
-    if (SaltV == true)then
-        Salt:removeEventListener("touch", Salt1)
-        Salt.x=Salt.x+4
-        Salt.y = Salt.y + 1.5
-        Salt:scale(1.0015,1.0015)
-        SaltTextField.x = SaltTextField.x + 4.10
-        SaltTextField.y = SaltTextField.y + 1.5
-        SaltTextField:scale(1.0015,1.0015)
-        if(Salt.x >= display.contentCenterX)then
-            timer.cancel(SaltTimer)
-            SaltTextField:resizeFontToFitHeight()
-        else
-            SaltTimer = timer.performWithDelay(-0.3, Salt1)
-        end
+local function Flour1( )
+    Flour:removeEventListener("touch", Flour1)
+    Flour.x=Flour.x-3
+    Flour.y = Flour.y + 2
+    Flour:scale(1.005,1.005)
+    FlourTextField.x = FlourTextField.x-2.6
+    FlourTextField.y = FlourTextField.y + 2
+    FlourTextField:scale(1.005,1.005)
+    if(Flour.x == display.contentCenterX)then
+        timer.cancel(FlourTimer)
+        FlourTextField:resizeFontToFitHeight()
+    else
+        FlourTimer = timer.performWithDelay(-0.1,Flour1)
+    end
+end
+
+local function Milk1( )
+    Milk:removeEventListener("touch", Milk1)
+    Milk.x=Milk.x-4.5
+    Milk.y = Milk.y + 2
+    Milk:scale(1.005,1.005)
+    MilkTextField.x = MilkTextField.x - 4
+    MilkTextField.y = MilkTextField.y + 2
+    MilkTextField:scale(1.005,1.005)
+    if(Milk.x <= display.contentCenterX)then
+        timer.cancel(MilkTimer)
+        MilkTextField:resizeFontToFitHeight()
+    else
+        MilkTimer = timer.performWithDelay(-0.23, Milk1)
+    end
+end
+local function Salt1( )
+    Salt:removeEventListener("touch", Salt1)
+    Salt.x=Salt.x+4
+    Salt.y = Salt.y + 1.5
+    Salt:scale(1.0015,1.0015)
+    SaltTextField.x = SaltTextField.x + 4.10
+    SaltTextField.y = SaltTextField.y + 1.5
+    SaltTextField:scale(1.0015,1.0015)
+    if(Salt.x >= display.contentCenterX)then
+        timer.cancel(SaltTimer)
+        SaltTextField:resizeFontToFitHeight()
+    else
+        SaltTimer = timer.performWithDelay(-0.3, Salt1)
     end
 end
 local function Sugar1( touch )
-    if (SugarV == true) then
-        Sugar:removeEventListener("touch", Sugar1)
-        Sugar.x=Sugar.x+2
-        Sugar.y = Sugar.y+2
-        Sugar:scale(1.0015,1.0015)
-        SugarTextField.x = SugarTextField.x+2.1
-        SugarTextField.y = SugarTextField.y + 2
-        SugarTextField:scale(1.0015,1.0015)
-        if(Sugar.x == display.contentCenterX)then
-            timer.cancel(SugarTimer)
-            SugarTextField:resizeFontToFitHeight()
+    Sugar:removeEventListener("touch", Sugar1)
+    Sugar.x=Sugar.x+2
+    Sugar.y = Sugar.y+2
+    Sugar:scale(1.0015,1.0015)
+    SugarTextField.x = SugarTextField.x+2.1
+    SugarTextField.y = SugarTextField.y + 2
+    SugarTextField:scale(1.0015,1.0015)
+    if(Sugar.x == display.contentCenterX)then
+        timer.cancel(SugarTimer)
+        SugarTextField:resizeFontToFitHeight()
+    else
+        SugarTimer = timer.performWithDelay(-0.3, Sugar1)
+    end
+end
+
+local function chooseRandomIng(  )
+    
+    randomIng = math.random(1,4)
+    if (randomIng == 1) then
+        if (BakingPowderComplete == true) then 
+            while (randomIng == 1) do
+                randomIng = math.random( 1,10 )
+            end
+            if (randomIng ~= 1) then
+                chooseRandomIng()
+            end
         else
-            SugarTimer = timer.performWithDelay(-0.3, Sugar1)
+            BakingPowder()
+        end
+    elseif (randomIng == 2) then
+        if (BakingSodaComplete == true) then
+            while (randomIng == 2) do
+                randomIng = math.random( 1,10 )
+            end
+            if (randomIng ~= 2) then
+                chooseRandomIng()
+            end
+        else
+            BakingSoda()
+        end
+    elseif (randomIng == 3 ) then
+        if (ButterComplete == true) then
+            while (randomIng == 3) do
+                randomIng = math.random( 1,10 )
+            end
+            if (randomIng ~= 3) then
+                chooseRandomIng()
+            end
+        else
+            Butter1()
+        end
+    elseif (randomIng == 4) then
+        if (EggsComplete == true) then
+            while (randomIng == 3) do
+                randomIng = math.random( 1,10 )
+            end
+            if (randomIng ~= 4) then
+                chooseRandomIng()
+            end
+        else
+            Eggs()
         end
     end
 end
+
 local function DissapearBakingPowder( touch )
     if (touch.phase == "moved") then
         
@@ -431,7 +460,7 @@ local function DissapearBakingPowder( touch )
             BakingPowderImage.x = Bowl.x 
             BakingPowderImage.y = Bowl.y
             BakingPowderImage.isVisible = false
-            BakingSoda()
+            chooseRandomIng()
         end
     end
 end
@@ -451,7 +480,7 @@ local function DissapearBakingSoda( touch )
             BakingSodaImage.x = Bowl.x 
             BakingSodaImage.y = Bowl.y
             BakingSodaImage.isVisible = false
-            Butter1()
+            chooseRandomIng()
         end
     end
 end
@@ -471,7 +500,7 @@ local function DissapearButter( touch )
             ButterImage.x = Bowl.x 
             ButterImage.y = Bowl.y
             ButterImage.isVisible = false
-            Eggs()
+            chooseRandomIng()
         end
     end
 end
@@ -491,7 +520,7 @@ local function DissapearEggs( touch )
             EggsImage.x = Bowl.x 
             EggsImage.y = Bowl.y
             EggsImage.isVisible = false
-            Flour1()
+            chooseRandomIng()
         end
     end
 end
@@ -1306,7 +1335,7 @@ function scene:show( event )
 
     elseif ( phase == "did" ) then
         StartTimer()
-        BakingPowder()
+        chooseRandomIng()
         
 
     end
