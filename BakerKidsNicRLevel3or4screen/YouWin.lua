@@ -44,6 +44,9 @@ local function mainmenuTransition()
     composer.removeScene("level2_screen")
    composer.gotoScene( "mainmenu" )
 end
+local function level3_screentransition( )
+    composer.gotoScene( "level3_screen", {effect = "slideLeft", time = 1000})
+end
 -----------------------------------------------------------------------------------------
 -- GLOBAL SCENE FUNCTIONS
 -----------------------------------------------------------------------------------------
@@ -108,7 +111,7 @@ function scene:create( event )
             overFile = "Images/next levelLost.png",
 
             -- When the button is released, call the Level1 screen transition function
-            onRelease = mainmenuTransition          
+            onRelease = level3_screentransition          
         } )
     sceneGroup:insert( level2button )
     sceneGroup:insert( mainmenu ) 

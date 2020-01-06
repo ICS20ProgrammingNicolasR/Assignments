@@ -47,7 +47,7 @@ local function restartLevel2(  )
     composer.gotoScene("level2_screen")
 end
 
- local function pauseMusic(touch)
+local function pauseMusic(touch)
     if(touch.phase == "ended")then
         -- Pause the pauseMusic
         audio.pause(level2SoundChannel)  
@@ -56,7 +56,8 @@ end
         soundOn = false  
     end
 end
- local function playMusic( touch )
+
+local function playMusic( touch )
     if(touch.phase == "ended") then
         -- Play playMusic
         audio.resume(level2SoundChannel)
@@ -65,15 +66,18 @@ end
         soundOn = true
     end
 end
+
 local function mainmenuTransition()
     audio.stop(level2SoundChannel)
     composer.removeScene("level2_screen")
     composer.gotoScene( "mainmenu" )
 end
+
 local function InstructionsTransition( )
     pauseinstructions = true
-    composer.gotoScene( "instructions2", {effect = "zoomOutInRotate", time = 1000})
+    composer.showOverlay( "instructions2", { isModal = true, effect = "fade", time = 100})
 end
+
 -----------------------------------------------------------------------------------------
 -- GLOBAL SCENE FUNCTIONS
 -----------------------------------------------------------------------------------------
